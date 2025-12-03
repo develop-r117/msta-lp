@@ -13,11 +13,11 @@ interface ScrollRevealProps {
   once?: boolean;
 }
 
-const directions = {
-  up: { y: 1 },
-  down: { y: -1 },
-  left: { x: 1 },
-  right: { x: -1 },
+const directions: Record<string, { x: number; y: number }> = {
+  up: { x: 0, y: 1 },
+  down: { x: 0, y: -1 },
+  left: { x: 1, y: 0 },
+  right: { x: -1, y: 0 },
   none: { x: 0, y: 0 },
 };
 
@@ -38,8 +38,8 @@ export default function ScrollReveal({
   const variants: Variants = {
     hidden: {
       opacity: 0,
-      x: (dir.x || 0) * distance,
-      y: (dir.y || 0) * distance,
+      x: dir.x * distance,
+      y: dir.y * distance,
     },
     visible: {
       opacity: 1,
