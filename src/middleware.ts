@@ -53,8 +53,11 @@ export function middleware(request: NextRequest) {
 
   const [username, password] = parts;
 
-  // 認証情報の検証
-  if (username === "r117" && password === "r1172025") {
+  // 認証情報の検証（環境変数を使用、なければデフォルト値）
+  const validUsername = process.env.BASIC_AUTH_USER || "r117";
+  const validPassword = process.env.BASIC_AUTH_PASSWORD || "r1172025";
+
+  if (username === validUsername && password === validPassword) {
     return NextResponse.next();
   }
 
