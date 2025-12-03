@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView, Variants } from "framer-motion";
-import { useRef, ReactNode } from "react";
+import { useRef, useState, useEffect, ReactNode } from "react";
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -187,6 +187,31 @@ export function Counter({
 }: CounterProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [count, setCount] = useState(from);
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    let startTime: number | null = null;
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const elapsed = (currentTime - startTime) / 1000; // Convert to seconds
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Ease out function
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const currentCount = Math.round(from + (to - from) * easeOut);
+      setCount(currentCount);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setCount(to);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [isInView, from, to, duration]);
 
   return (
     <motion.span
@@ -201,15 +226,7 @@ export function Counter({
         animate={isInView ? { opacity: 1 } : {}}
         transition={{ duration: 0.3 }}
       >
-        {isInView && (
-          <motion.span
-            initial={{ count: from }}
-            animate={{ count: to }}
-            transition={{ duration, ease: "easeOut" }}
-          >
-            {to}
-          </motion.span>
-        )}
+        {count}
       </motion.span>
       {suffix}
     </motion.span>
