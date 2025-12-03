@@ -91,6 +91,39 @@ npm start
 9. **お問い合わせフォーム** - 7項目のフォーム
 10. **フッター** - リンク、SNS、CTA
 
+## ☁️ Cloudflare Pages デプロイ
+
+このプロジェクトはCloudflare Pagesにデプロイできます。
+
+### デプロイ手順
+
+1. **GitHubリポジトリを接続**
+   - Cloudflare Pagesのダッシュボードで新しいプロジェクトを作成
+   - GitHubリポジトリ `develop-r117/msta-lp` を接続
+
+2. **ビルド設定**
+   - **フレームワークプリセット**: Next.js
+   - **ビルドコマンド**: `npx @cloudflare/next-on-pages@1`
+   - **ビルド出力ディレクトリ**: `.vercel/output/static` (自動設定)
+
+3. **Node.js互換性フラグの設定（重要）**
+   
+   Cloudflare Pagesダッシュボードで以下の設定を行ってください：
+   
+   - プロジェクトの **Settings** → **Functions** → **Compatibility Flags** に移動
+   - **Compatibility Flags** セクションで以下を追加：
+     - `nodejs_compat`
+   - **Production** と **Preview** の両方の環境に適用
+
+   または、`wrangler.toml` ファイル（プロジェクトルートに含まれています）が自動的に読み込まれます。
+
+### トラブルシューティング
+
+**Node.js互換性エラーが発生する場合:**
+- Cloudflare Pagesダッシュボードで Compatibility Flags を確認
+- `nodejs_compat` フラグが Production と Preview の両方で有効になっているか確認
+- 再デプロイを実行
+
 ## 📄 ライセンス
 
 Private
