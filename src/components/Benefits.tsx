@@ -7,11 +7,11 @@ const benefits = [
   {
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
       </svg>
     ),
-    title: "開発費用ゼロ。月額料金のみ",
-    description: "アプリ開発に数百万円かかることもあります。エムスタなら初期費用無料で、月額料金のみで運用できます。",
+    title: "直感的な操作でだれでも運用可能",
+    description: "シンプルな操作でアプリの運用が簡易化。プッシュ通知やコンテンツ編集もセルフで更新操作が可能。運用に際しての学習コストを最小限に。",
     color: "from-emerald-400 to-teal-500",
     bgColor: "bg-emerald-50",
     iconBg: "bg-emerald-100",
@@ -20,11 +20,11 @@ const benefits = [
   {
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
       </svg>
     ),
-    title: "専門知識不要。管理画面で完結",
-    description: "プログラミングの知識は一切不要です。管理画面から直感的に操作し、アプリの内容を更新できます。",
+    title: "多彩な標準機能を搭載",
+    description: "標準搭載機能で様々な業種や用途にご利用可能。店舗アプリから地域アプリ、社内アプリ、ファンアプリ、コミュニティアプリなどの開発に対応。",
     color: "from-violet-400 to-purple-500",
     bgColor: "bg-violet-50",
     iconBg: "bg-violet-100",
@@ -33,11 +33,11 @@ const benefits = [
   {
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
       </svg>
     ),
-    title: "最短3日で公開可能",
-    description: "複雑な審査や長い開発期間は必要ありません。最短3日でApp Store・Google Playに公開できます。",
+    title: "用途に合わせた公開環境",
+    description: "ネイティブアプリからWebアプリまで、最適な公開環境を選択可能。App Store/Google Play公開、社内向けプライベートアプリにも対応。",
     color: "from-amber-400 to-orange-500",
     bgColor: "bg-amber-50",
     iconBg: "bg-amber-100",
@@ -71,13 +71,13 @@ export default function Benefits() {
             transition={{ duration: 0.5 }}
             className="inline-block px-4 py-2 rounded-full bg-primary-100 text-primary-700 text-sm font-semibold mb-4"
           >
-            WHY CHOOSE US
+            3 FEATURES
           </motion.span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-900 mb-4">
-            なぜ<span className="text-gradient">エムスタ</span>を選ぶのか
+            <span className="text-gradient">エムスタ</span>の3つの特徴
           </h2>
           <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-            店舗やコミュニティのデジタル化を、最も簡単に実現する3つの理由
+            誰でも、直感的に、あらゆる用途に対応するアプリプラットフォーム
           </p>
         </motion.div>
 

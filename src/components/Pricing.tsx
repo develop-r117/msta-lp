@@ -7,29 +7,44 @@ const plans = [
   {
     name: "スタンダード",
     price: "9,800",
-    description: "小規模事業者向け",
+    description: "小規模事業者・個人向け",
     features: [
-      { text: "全21機能利用可能", included: true },
-      { text: "会員数: 1,000人まで", included: true },
-      { text: "ストレージ: 10GB", included: true },
+      { text: "標準機能利用可能", included: true },
+      { text: "iOS / Android対応", included: true },
+      { text: "プッシュ通知", included: true },
       { text: "メールサポート", included: true },
       { text: "電話サポート", included: false },
-      { text: "優先対応", included: false },
+      { text: "ストア公開サポート", included: false },
     ],
     popular: false,
     color: "neutral",
   },
   {
-    name: "プロ",
-    price: "19,800",
+    name: "プレミアム",
+    price: "16,800",
+    description: "店舗・チーム向け",
+    features: [
+      { text: "標準機能利用可能", included: true },
+      { text: "iOS / Android対応", included: true },
+      { text: "プッシュ通知", included: true },
+      { text: "メール+電話サポート", included: true },
+      { text: "ストア公開サポート", included: true },
+      { text: "カスタマイズ対応", included: false },
+    ],
+    popular: false,
+    color: "neutral",
+  },
+  {
+    name: "ビジネス",
+    price: "26,800",
     description: "中規模事業者向け",
     features: [
-      { text: "全21機能利用可能", included: true },
-      { text: "会員数: 5,000人まで", included: true },
-      { text: "ストレージ: 50GB", included: true },
-      { text: "メール+電話サポート", included: true },
-      { text: "優先対応", included: true },
-      { text: "カスタマイズ対応", included: false },
+      { text: "全機能利用可能", included: true },
+      { text: "iOS / Android対応", included: true },
+      { text: "プッシュ通知", included: true },
+      { text: "専任サポート", included: true },
+      { text: "ストア公開サポート", included: true },
+      { text: "カスタマイズ対応", included: true },
     ],
     popular: true,
     color: "primary",
@@ -39,12 +54,12 @@ const plans = [
     price: "要問い合わせ",
     description: "大規模事業者向け",
     features: [
-      { text: "全21機能利用可能", included: true },
-      { text: "会員数: 無制限", included: true },
-      { text: "ストレージ: 無制限", included: true },
+      { text: "全機能利用可能", included: true },
+      { text: "専用環境構築", included: true },
+      { text: "SLA対応", included: true },
       { text: "専任サポート", included: true },
-      { text: "優先対応", included: true },
-      { text: "カスタマイズ対応", included: true },
+      { text: "保守契約対応", included: true },
+      { text: "フルカスタマイズ対応", included: true },
     ],
     popular: false,
     color: "neutral",
@@ -117,7 +132,7 @@ export default function Pricing() {
         </motion.div>
 
         {/* Pricing cards */}
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}

@@ -4,15 +4,15 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const badges = [
-  { icon: "✓", text: "初期費用無料" },
-  { icon: "✓", text: "専門知識不要" },
-  { icon: "✓", text: "最短3日で公開" },
+  { icon: "✓", text: "低価格リリース" },
+  { icon: "✓", text: "プログラミング不要" },
+  { icon: "✓", text: "最短2週間で公開" },
 ];
 
 const stats = [
-  { value: "500+", label: "導入店舗数" },
-  { value: "3日", label: "平均構築期間" },
-  { value: "95%", label: "顧客満足度" },
+  { value: "iOS/Android", label: "両OS対応" },
+  { value: "2週間", label: "最短リリース期間" },
+  { value: "専任", label: "サポートチーム" },
 ];
 
 export default function Hero() {
@@ -100,7 +100,7 @@ export default function Hero() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500" />
               </span>
               <span className="text-sm font-medium text-neutral-700">
-                14日間の無料トライアル実施中
+                事業者のためのアプリ開発プラットフォーム
               </span>
             </motion.div>
 
@@ -111,11 +111,11 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-900 tracking-tight"
             >
-              <span className="block">あなたの店舗・</span>
-              <span className="block">コミュニティ専用アプリを、</span>
-              <span className="block mt-2">
-                <span className="text-gradient">まるごと自動生成。</span>
+              <span className="block">あなたのビジョンを</span>
+              <span className="block">
+                <span className="text-gradient">価値へと昇華</span>する
               </span>
+              <span className="block mt-2">アプリ開発CMS</span>
             </motion.h1>
 
             {/* Subheading */}
@@ -125,9 +125,9 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="mt-6 text-lg sm:text-xl text-neutral-600 max-w-xl mx-auto lg:mx-0"
             >
-              プログラミング不要。数時間で立ち上げられる
+              クリエイターのためではなく、事業者（運営者）のために創られた
               <br className="hidden sm:block" />
-              SaaSプラットフォーム
+              アプリ開発プラットフォーム＆運用管理CMS
             </motion.p>
 
             {/* Badges */}
@@ -169,7 +169,7 @@ export default function Hero() {
                 whileTap={{ scale: 0.98 }}
                 className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-2xl shadow-xl shadow-primary-500/30 overflow-hidden"
               >
-                <span className="relative z-10">無料で始める</span>
+                <span className="relative z-10">お問い合わせ</span>
                 <svg
                   className="relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform"
                   fill="none"

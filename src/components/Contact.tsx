@@ -4,13 +4,14 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 
 const industries = [
-  "飲食店",
-  "美容院・サロン",
-  "病院・クリニック",
-  "スポーツジム・フィットネス",
-  "スクール・教室",
-  "コミュニティ・サークル",
-  "小規模小売店",
+  "店舗（飲食・美容・小売など）",
+  "医療・クリニック",
+  "教室・スクール",
+  "フィットネス・ジム",
+  "医師会・協会・団体",
+  "社内アプリ・企業DX",
+  "コミュニティ・ファンクラブ",
+  "地域・自治体",
   "その他",
 ];
 
@@ -102,23 +103,23 @@ export default function Contact() {
             </motion.span>
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              まずは<span className="text-accent-300">無料</span>で
+              ご利用方法や<span className="text-accent-300">詳細</span>を
               <br />
-              お試しください
+              ご説明いたします
             </h2>
 
             <p className="text-lg text-white/80 mb-8 max-w-md mx-auto lg:mx-0">
-              14日間の無料トライアル実施中。
+              導入のご相談、デモのご依頼など
               <br />
-              今すぐ始めましょう。
+              お気軽にお問い合わせください。
             </p>
 
             {/* Features */}
             <div className="space-y-4">
               {[
-                "クレジットカード不要",
-                "14日間全機能利用可能",
-                "専任スタッフがサポート",
+                "導入から運用まで専任サポート",
+                "お客様の業種に合わせたご提案",
+                "最短2週間でリリース可能",
               ].map((feature, index) => (
                 <motion.div
                   key={feature}
@@ -330,7 +331,7 @@ export default function Contact() {
                         送信中...
                       </span>
                     ) : (
-                      "無料トライアルを始める"
+                      "お問い合わせを送信"
                     )}
                   </motion.button>
                 </div>

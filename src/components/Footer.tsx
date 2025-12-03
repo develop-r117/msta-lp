@@ -73,11 +73,17 @@ export default function Footer() {
               >
                 <span className="text-white font-bold text-xl">M</span>
               </motion.div>
-              <span className="text-2xl font-bold">エムスタ</span>
+              <span className="text-2xl font-bold">MS Studio</span>
             </Link>
-            <p className="text-neutral-400 mb-6 max-w-sm">
-              プログラミング不要で店舗やコミュニティのオリジナルモバイルアプリを数時間で立ち上げられるSaaSプラットフォーム
+            <p className="text-neutral-400 mb-4 max-w-sm">
+              クリエイターのためではなく事業者（運営者）のために創られた「アプリ開発プラットフォーム」＆「アプリ運用管理CMS」サービス
             </p>
+            <div className="text-neutral-500 text-sm space-y-1 mb-6">
+              <p className="font-semibold text-neutral-400">運営: 株式会社R117</p>
+              <p>〒450-0002</p>
+              <p>愛知県名古屋市中村区名駅5-2-17</p>
+              <p>フロンティア名駅13F</p>
+            </div>
 
             {/* Social links */}
             <div className="flex gap-4">
@@ -149,8 +155,8 @@ export default function Footer() {
         <div className="py-8 border-t border-neutral-800">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
-              <h3 className="text-lg font-semibold mb-1">今すぐ始めましょう</h3>
-              <p className="text-neutral-400 text-sm">14日間の無料トライアルで、すべての機能をお試しいただけます</p>
+              <h3 className="text-lg font-semibold mb-1">ご利用方法や詳細の説明をお聞きになりたい方</h3>
+              <p className="text-neutral-400 text-sm">お問い合わせ: info@msta-app.com</p>
             </div>
             <motion.a
               href="#contact"
@@ -158,7 +164,7 @@ export default function Footer() {
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-xl shadow-lg shadow-primary-500/25 hover:shadow-xl hover:shadow-primary-500/30 transition-all"
             >
-              <span>無料で始める</span>
+              <span>お問い合わせ</span>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
@@ -169,7 +175,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="py-6 border-t border-neutral-800 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-neutral-500 text-sm">
-            © 2025 エムスタ. All rights reserved.
+            © 2025 株式会社R117 - MS Studio. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-sm text-neutral-500">
             <a href="#" className="hover:text-white transition-colors">利用規約</a>

@@ -49,7 +49,7 @@ export default function Header() {
                 </span>
               </motion.div>
               <span className="text-xl font-bold text-neutral-800 group-hover:text-primary-600 transition-colors">
-                エムスタ
+                MS Studio
               </span>
             </Link>
 
@@ -84,7 +84,7 @@ export default function Header() {
                 whileTap={{ scale: 0.95 }}
                 className="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-medium rounded-full shadow-lg shadow-primary-500/25 hover:shadow-xl hover:shadow-primary-500/30 transition-all duration-300"
               >
-                <span>無料で始める</span>
+                <span>お問い合わせ</span>
                 <svg
                   className="w-4 h-4"
                   fill="none"
@@ -191,7 +191,7 @@ export default function Header() {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center justify-center gap-2 w-full px-6 py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-medium rounded-xl shadow-lg"
                   >
-                    <span>無料で始める</span>
+                    <span>お問い合わせ</span>
                     <svg
                       className="w-4 h-4"
                       fill="none"
