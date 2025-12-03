@@ -117,6 +117,21 @@ npm start
 
    または、`wrangler.toml` ファイル（プロジェクトルートに含まれています）が自動的に読み込まれます。
 
+4. **BASIC認証の設定（オプション）**
+   
+   デフォルトでBASIC認証が有効になっています：
+   - **ID**: `r117`
+   - **パスワード**: `r1172025`
+   
+   認証情報を変更する場合は、Cloudflare Pagesダッシュボードで環境変数を設定：
+   - **Settings** → **Environment variables** に移動
+   - 以下を追加：
+     - `BASIC_AUTH_USER`: ユーザー名
+     - `BASIC_AUTH_PASSWORD`: パスワード
+   - **Production** と **Preview** の両方の環境に適用
+   
+   **注意**: 環境変数を設定しない場合、デフォルト値が使用されます。
+
 ### トラブルシューティング
 
 **Node.js互換性エラーが発生する場合:**
