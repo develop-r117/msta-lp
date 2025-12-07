@@ -8,16 +8,17 @@ const footerLinks = {
     { label: "機能一覧", href: "#features" },
     { label: "導入事例", href: "#cases" },
     { label: "料金", href: "#pricing" },
+    { label: "運用モード", href: "#modes" },
   ],
   support: [
     { label: "よくある質問", href: "#faq" },
     { label: "お問い合わせ", href: "#contact" },
-    { label: "ヘルプセンター", href: "#" },
+    { label: "サポート体制", href: "#support" },
   ],
   company: [
-    { label: "会社概要", href: "#" },
-    { label: "利用規約", href: "#" },
-    { label: "プライバシーポリシー", href: "#" },
+    { label: "会社概要", href: "/company" },
+    { label: "利用規約", href: "https://drive.google.com/file/d/13v45l5iRCDji_vIPB1381q1rOx-JRpTZ/view", external: true },
+    { label: "プライバシーポリシー", href: "/privacy" },
   ],
 };
 
@@ -139,12 +140,26 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-neutral-400 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </Link>
+                  {"external" in link && link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-neutral-400 hover:text-white transition-colors inline-flex items-center gap-1"
+                    >
+                      {link.label}
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-neutral-400 hover:text-white transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -178,9 +193,16 @@ export default function Footer() {
             © 2025 株式会社R117 - MS Studio. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-sm text-neutral-500">
-            <a href="#" className="hover:text-white transition-colors">利用規約</a>
-            <a href="#" className="hover:text-white transition-colors">プライバシーポリシー</a>
-            <a href="#" className="hover:text-white transition-colors">特定商取引法に基づく表記</a>
+            <a 
+              href="https://drive.google.com/file/d/13v45l5iRCDji_vIPB1381q1rOx-JRpTZ/view" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              利用規約
+            </a>
+            <Link href="/privacy" className="hover:text-white transition-colors">プライバシーポリシー</Link>
+            <Link href="/company" className="hover:text-white transition-colors">会社概要</Link>
           </div>
         </div>
       </div>

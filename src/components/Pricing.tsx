@@ -6,69 +6,61 @@ import { useRef } from "react";
 const plans = [
   {
     name: "スタータープラン",
-    devPrice: "140,000",
-    devPriceNote: "~",
     monthlyPrice: "10,000",
     monthlyNote: "かんたんモード",
     monthlyPriceAlt: "15,000",
     monthlyNoteAlt: "プロモード",
     description: "最短14日〜で開発",
     features: [
-      { text: "標準搭載機能にて開発", included: true },
-      { text: "ヒアリングベースで企画", included: true },
-      { text: "デフォルト素材の提供あり", included: true },
-      { text: "デベロッパー登録（有償代行可）", included: true },
+      { text: "標準搭載機能にて開発" },
+      { text: "ヒアリングベースで企画" },
+      { text: "デフォルト素材の提供あり" },
+      { text: "制作期間: 14日〜" },
     ],
     popular: false,
   },
   {
     name: "スタンダードプラン",
-    devPrice: "270,000",
-    devPriceNote: "",
     monthlyPrice: "10,000",
     monthlyNote: "かんたんモード",
     monthlyPriceAlt: "15,000",
     monthlyNoteAlt: "プロモード",
     description: "30日〜で開発",
     features: [
-      { text: "標準搭載機能にて開発", included: true },
-      { text: "ヒアリングベースで企画", included: true },
-      { text: "テンプレート素材使用", included: true },
-      { text: "アプリアイコン等オリジナル制作", included: true },
+      { text: "標準搭載機能にて開発" },
+      { text: "テンプレート素材使用" },
+      { text: "アプリアイコン等オリジナル制作" },
+      { text: "制作期間: 30日〜" },
     ],
     popular: true,
   },
   {
     name: "カスタマイズプラン",
-    devPrice: "270,000",
-    devPriceNote: "+α",
     monthlyPrice: "15,000",
     monthlyNote: "プロモード",
     monthlyPriceAlt: "",
     monthlyNoteAlt: "内容により変動",
     description: "60日〜で開発",
     features: [
-      { text: "標準機能の拡張実装", included: true },
-      { text: "API連携対応", included: true },
-      { text: "企画フルサポート", included: true },
-      { text: "ご予算に応じたカスタマイズ", included: true },
+      { text: "標準機能の拡張実装" },
+      { text: "API連携対応" },
+      { text: "企画フルサポート" },
+      { text: "制作期間: 60日〜" },
     ],
     popular: false,
   },
   {
     name: "エムスタFull",
-    devPrice: "応相談",
-    devPriceNote: "",
     monthlyPrice: "15,000",
     monthlyNote: "プロモード",
     monthlyPriceAlt: "",
     monthlyNoteAlt: "内容により変動",
-    description: "スクラッチ開発・60日〜",
+    description: "スクラッチ開発",
     features: [
-      { text: "機能単体開発対応", included: true },
-      { text: "オリジナルUI実装", included: true },
-      { text: "デベロッパー登録代行（無償）", included: true },
-      { text: "フルサポート対応", included: true },
+      { text: "機能単体開発対応" },
+      { text: "オリジナルUI実装" },
+      { text: "デベロッパー登録代行（無償）" },
+      { text: "制作期間: 60日〜" },
     ],
     popular: false,
   },
@@ -109,10 +101,12 @@ export default function Pricing() {
             PRICING
           </motion.span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-900 mb-4">
-            開発プラン<span className="text-gradient">一覧表</span>
+            <span className="text-gradient">料金</span>プラン
           </h2>
           <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
             お客様のニーズに合わせた最適なプランをご提案いたします
+            <br />
+            <span className="text-sm text-neutral-500">※ 開発費用についてはお問い合わせください</span>
           </p>
         </motion.div>
 
@@ -170,45 +164,31 @@ export default function Pricing() {
                 plan.popular ? "bg-white" : "bg-white border-2 border-neutral-200"
               }`}>
                 {/* Plan name */}
-                <div className="text-center mb-4">
+                <div className="text-center mb-6">
                   <h3 className="text-lg font-bold text-neutral-900 mb-1">{plan.name}</h3>
                   <p className="text-xs text-neutral-500">{plan.description}</p>
                 </div>
 
-                {/* Development Price */}
-                <div className="text-center mb-4 pb-4 border-b border-neutral-100">
-                  <div className="text-xs text-neutral-500 mb-1">開発プラン料金</div>
-                  {plan.devPrice === "応相談" ? (
-                    <div className="text-xl font-bold text-neutral-900">{plan.devPrice}</div>
-                  ) : (
-                    <div className="flex items-baseline justify-center gap-0.5">
-                      <span className="text-sm text-neutral-500">¥</span>
-                      <span className="text-2xl font-bold text-gradient">{plan.devPrice}</span>
-                      <span className="text-sm text-neutral-500">{plan.devPriceNote}</span>
-                    </div>
-                  )}
-                </div>
-
                 {/* Monthly Price */}
-                <div className="text-center mb-6">
-                  <div className="text-xs text-neutral-500 mb-1">月額利用料</div>
-                  <div className="space-y-1">
+                <div className="text-center mb-6 pb-6 border-b border-neutral-100">
+                  <div className="text-xs text-neutral-500 mb-2">月額利用料</div>
+                  <div className="space-y-2">
                     <div className="flex items-baseline justify-center gap-0.5">
                       <span className="text-xs text-primary-600 mr-1">{plan.monthlyNote}</span>
                       <span className="text-sm text-neutral-500">¥</span>
-                      <span className="text-xl font-bold text-neutral-800">{plan.monthlyPrice}</span>
+                      <span className="text-2xl font-bold text-gradient">{plan.monthlyPrice}</span>
                       <span className="text-sm text-neutral-500">/月</span>
                     </div>
                     {plan.monthlyPriceAlt && (
                       <div className="flex items-baseline justify-center gap-0.5">
                         <span className="text-xs text-accent-600 mr-1">{plan.monthlyNoteAlt}</span>
                         <span className="text-sm text-neutral-500">¥</span>
-                        <span className="text-xl font-bold text-neutral-800">{plan.monthlyPriceAlt}</span>
+                        <span className="text-2xl font-bold text-neutral-800">{plan.monthlyPriceAlt}</span>
                         <span className="text-sm text-neutral-500">/月</span>
                       </div>
                     )}
                     {!plan.monthlyPriceAlt && plan.monthlyNoteAlt && (
-                      <div className="text-xs text-neutral-500">{plan.monthlyNoteAlt}</div>
+                      <div className="text-xs text-neutral-500 mt-1">{plan.monthlyNoteAlt}</div>
                     )}
                   </div>
                 </div>
