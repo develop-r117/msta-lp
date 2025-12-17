@@ -1,7 +1,21 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import Image from "next/image";
+
+// スクリーンショット画像のリスト
+const screenshots = [
+  "/screenshots/1.png",
+  "/screenshots/2.png",
+  "/screenshots/3.png",
+  "/screenshots/4.png",
+  "/screenshots/5.png",
+  "/screenshots/6.png",
+  "/screenshots/7.png",
+  "/screenshots/8.png",
+  "/screenshots/9.png",
+];
 
 const badges = [
   { icon: "✓", text: "低コストでリリース" },
@@ -17,6 +31,8 @@ const stats = [
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -25,6 +41,15 @@ export default function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
+
+  // 自動スライドショー
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % screenshots.length);
+    }, 4000); // 4秒ごとに切り替え
+
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section
@@ -235,7 +260,7 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Visual Element - App Mockup */}
+          {/* Visual Element - App Mockup with Slideshow */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -277,83 +302,59 @@ export default function Hero() {
                 </div>
               </motion.div>
 
-              {/* Main phone */}
+              {/* Main phone with image slideshow */}
               <div className="relative bg-neutral-900 rounded-[3rem] p-3 shadow-2xl">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-neutral-900 rounded-b-2xl z-10" />
-                <div className="bg-white rounded-[2.5rem] overflow-hidden">
-                  {/* App Header */}
-                  <div className="bg-gradient-to-r from-primary-500 to-primary-600 px-6 py-8 text-white">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-                        <span className="text-xl font-bold">M</span>
-                      </div>
-                      <div>
-                        <div className="font-bold">カフェ サクラ</div>
-                        <div className="text-sm text-white/80">公式アプリ</div>
-                      </div>
-                    </div>
-                    <div className="text-sm">
-                      いつもご利用ありがとうございます！
-                    </div>
-                  </div>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-neutral-900 rounded-b-2xl z-20" />
+                <div className="bg-neutral-900 rounded-[2.5rem] overflow-hidden relative" style={{ aspectRatio: "9/19.5" }}>
+                  {/* Slideshow container */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentSlide}
+                      initial={{ opacity: 0, scale: 1.05 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ 
+                        duration: 0.8, 
+                        ease: [0.4, 0, 0.2, 1],
+                      }}
+                      className="absolute inset-0"
+                    >
+                      <Image
+                        src={screenshots[currentSlide]}
+                        alt={`アプリスクリーンショット ${currentSlide + 1}`}
+                        fill
+                        className="object-cover"
+                        priority={currentSlide === 0}
+                      />
+                      {/* Subtle gradient overlay for polish */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-black/5 pointer-events-none" />
+                    </motion.div>
+                  </AnimatePresence>
 
-                  {/* App Content */}
-                  <div className="p-4 space-y-4">
-                    {/* Stamp Card */}
-                    <div className="bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl p-4">
-                      <div className="flex justify-between items-center mb-3">
-                        <span className="font-semibold text-neutral-800">スタンプカード</span>
-                        <span className="text-sm text-primary-600">7/10</span>
-                      </div>
-                      <div className="flex gap-2">
-                        {[...Array(10)].map((_, i) => (
-                          <div
-                            key={i}
-                            className={`w-6 h-6 rounded-full ${
-                              i < 7
-                                ? "bg-primary-500"
-                                : "bg-neutral-200"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    </div>
+                  {/* Shimmer effect during transition */}
+                  <motion.div
+                    key={`shimmer-${currentSlide}`}
+                    initial={{ x: "-100%", opacity: 0.5 }}
+                    animate={{ x: "200%", opacity: 0 }}
+                    transition={{ duration: 1.2, ease: "easeInOut" }}
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none z-10"
+                  />
+                </div>
 
-                    {/* Quick Actions */}
-                    <div className="grid grid-cols-4 gap-2">
-                      {["🎟️", "📅", "💬", "🛒"].map((emoji, i) => (
-                        <div
-                          key={i}
-                          className="aspect-square rounded-xl bg-neutral-100 flex items-center justify-center text-xl"
-                        >
-                          {emoji}
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* News */}
-                    <div className="bg-neutral-50 rounded-xl p-3">
-                      <div className="text-xs text-primary-600 font-medium mb-1">NEW</div>
-                      <div className="font-medium text-sm text-neutral-800">
-                        春の新メニュー登場！
-                      </div>
-                      <div className="text-xs text-neutral-500 mt-1">
-                        季節限定の桜ラテをご用意しました
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bottom Nav */}
-                  <div className="flex justify-around py-4 border-t border-neutral-100">
-                    {["🏠", "🎁", "📍", "👤"].map((emoji, i) => (
-                      <div
-                        key={i}
-                        className={`text-xl ${i === 0 ? "opacity-100" : "opacity-40"}`}
-                      >
-                        {emoji}
-                      </div>
-                    ))}
-                  </div>
+                {/* Slide indicators */}
+                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
+                  {screenshots.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`transition-all duration-300 rounded-full ${
+                        index === currentSlide
+                          ? "w-6 h-2 bg-primary-500"
+                          : "w-2 h-2 bg-neutral-300 hover:bg-neutral-400"
+                      }`}
+                      aria-label={`スライド ${index + 1}`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
