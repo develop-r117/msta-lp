@@ -4,9 +4,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const badges = [
-  { icon: "✓", text: "低価格リリース" },
-  { icon: "✓", text: "プログラミング不要" },
-  { icon: "✓", text: "最短2週間で公開" },
+  { icon: "✓", text: "低コストでリリース" },
+  { icon: "✓", text: "運用更新と管理をノーコードで" },
+  { icon: "✓", text: "全て丸投げで最短2週間でアプリをリリース" },
 ];
 
 const stats = [
@@ -100,7 +100,7 @@ export default function Hero() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500" />
               </span>
               <span className="text-sm font-medium text-neutral-700">
-                事業者のためのアプリ開発プラットフォーム
+                個人様〜店舗、企業、官公庁、団体利用まで
               </span>
             </motion.div>
 
@@ -111,11 +111,11 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-900 tracking-tight"
             >
-              <span className="block">あなたのビジョンを</span>
+              <span className="block">誰でもかんたんに</span>
               <span className="block">
-                <span className="text-gradient">価値へと昇華</span>する
+                <span className="text-gradient">低コストで高品質な</span>
               </span>
-              <span className="block mt-2">アプリ開発CMS</span>
+              <span className="block mt-2">アプリの開発・運用を</span>
             </motion.h1>
 
             {/* Subheading */}
