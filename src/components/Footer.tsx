@@ -19,6 +19,7 @@ const footerLinks = {
     { label: "会社概要", href: "/company" },
     { label: "利用規約", href: "https://drive.google.com/file/d/13v45l5iRCDji_vIPB1381q1rOx-JRpTZ/view", external: true },
     { label: "プライバシーポリシー", href: "/privacy" },
+    { label: "特定商取引法に基づく表記", href: "/commercial" },
   ],
 };
 
@@ -202,6 +203,7 @@ export default function Footer() {
               利用規約
             </a>
             <Link href="/privacy" className="hover:text-white transition-colors">プライバシーポリシー</Link>
+            <Link href="/commercial" className="hover:text-white transition-colors">特定商取引法</Link>
             <Link href="/company" className="hover:text-white transition-colors">会社概要</Link>
           </div>
         </div>
