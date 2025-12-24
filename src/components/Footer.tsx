@@ -17,7 +17,7 @@ const footerLinks = {
   ],
   company: [
     { label: "会社概要", href: "/company" },
-    { label: "利用規約", href: "https://drive.google.com/file/d/13v45l5iRCDji_vIPB1381q1rOx-JRpTZ/view", external: true },
+    { label: "利用規約", href: "https://drive.google.com/file/d/1ZCUNqTBXzJkFxOugkXjmKT93ZavIwwF1/view?usp=sharing", external: true },
     { label: "プライバシーポリシー", href: "/privacy" },
     { label: "特定商取引法に基づく表記", href: "/commercial" },
   ],
@@ -195,7 +195,7 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-6 text-sm text-neutral-500">
             <a 
-              href="https://drive.google.com/file/d/13v45l5iRCDji_vIPB1381q1rOx-JRpTZ/view" 
+              href="https://drive.google.com/file/d/1ZCUNqTBXzJkFxOugkXjmKT93ZavIwwF1/view?usp=sharing" 
               target="_blank" 
               rel="noopener noreferrer"
               className="hover:text-white transition-colors"
