@@ -8,7 +8,7 @@ import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
 
-export const revalidate = 60;
+export const runtime = "edge";
 
 export const metadata = buildMetadata({
   title: "業種別ユースケース",

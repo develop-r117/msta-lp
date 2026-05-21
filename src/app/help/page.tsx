@@ -9,7 +9,7 @@ import {
 } from "@/lib/microcms";
 import { buildMetadata } from "@/lib/seo";
 
-export const revalidate = 600;
+export const runtime = "edge";
 
 type SearchParams = Promise<{ q?: string }>;
 

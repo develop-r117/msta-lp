@@ -15,6 +15,8 @@ import {
 } from "@/lib/features";
 import { buildMetadata } from "@/lib/seo";
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return FEATURES.map((f) => ({ slug: f.slug }));
 }

@@ -8,7 +8,7 @@ import { CTA_LINKS } from "@/lib/sections";
 import { fetchCaseBySlug, fetchCases, type CaseEntry } from "@/lib/microcms";
 import { buildMetadata } from "@/lib/seo";
 
-export const revalidate = 60;
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const cases = await fetchCases({ limit: 100 });

@@ -13,7 +13,7 @@ import FAQ from "@/components/sections/FAQ";
 import { fetchCases } from "@/lib/microcms";
 import { buildMetadata } from "@/lib/seo";
 
-export const revalidate = 60;
+export const runtime = "edge";
 
 export const metadata = buildMetadata({
   title: "エムスタ - 真のノーコード × 最強CMS",

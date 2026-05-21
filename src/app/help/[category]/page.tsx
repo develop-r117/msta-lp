@@ -11,7 +11,7 @@ import {
 } from "@/lib/microcms";
 import { buildMetadata } from "@/lib/seo";
 
-export const revalidate = 600;
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   return FALLBACK_HELP_CATEGORIES.map((c) => ({ category: c.slug }));
