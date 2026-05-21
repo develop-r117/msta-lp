@@ -36,7 +36,14 @@ export default function MstaFull() {
             <SectionHeading
               align="left"
               eyebrow="エムスタFull"
-              title={<>最強のコスパ。<span className="text-gradient">エムスタFull</span>。</>}
+              title={
+                <>
+                  <span className="text-white">最強のコスパ</span>
+                  <span className="text-white">。</span>
+                  <span className="text-gradient">エムスタFull</span>
+                  <span className="text-white">。</span>
+                </>
+              }
               description={
                 <span className="text-white/80">
                   標準機能では対応できない独自要件や、高度なUI/UXなどのご要望に対応。エムスタの基盤を活用することで、一般的なスクラッチ開発よりも低コスト・短納期で、柔軟なアプリ開発を実現します。
