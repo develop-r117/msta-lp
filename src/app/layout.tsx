@@ -1,43 +1,102 @@
 import type { Metadata } from "next";
-import { Zen_Kaku_Gothic_New, Outfit } from "next/font/google";
+import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 
-const zenKaku = Zen_Kaku_Gothic_New({
+const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
-  variable: "--font-zen-kaku",
+  variable: "--font-noto-sans-jp",
   display: "swap",
 });
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  variable: "--font-outfit",
-  display: "swap",
-});
+const siteName = "エムスタ";
+const description =
+  "エムスタは、Webアプリ・iOS・Androidに対応した次世代型アプリ制作プラットフォーム。CMSを標準搭載し、誰でも直感的にアプリ制作・運用・改善・収益化までを一つの場所で。2週間無料トライアル / 初期費用0円。";
 
 export const metadata: Metadata = {
-  title: "エムスタ - プログラミング不要の店舗アプリ作成サービス",
-  description:
-    "エムスタは、プログラミング不要で店舗やコミュニティのオリジナルモバイルアプリを数時間で立ち上げられるSaaSプラットフォームです。初期費用無料、月額料金のみで運用可能。",
-  keywords:
-    "店舗アプリ,コミュニティアプリ,アプリ作成,ノーコード,飲食店アプリ,美容院アプリ",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://msta.app"),
+  title: {
+    default: `${siteName} - 真のノーコード × 最強CMS`,
+    template: `%s | ${siteName}`,
+  },
+  description,
+  keywords: [
+    "エムスタ",
+    "アプリ制作",
+    "ノーコード",
+    "CMS",
+    "iOSアプリ",
+    "Androidアプリ",
+    "Webアプリ",
+    "アプリ制作プラットフォーム",
+    "アプリ開発代行",
+  ],
   openGraph: {
-    title: "エムスタ - プログラミング不要の店舗アプリ作成サービス",
-    description:
-      "プログラミング不要で店舗やコミュニティのオリジナルモバイルアプリを数時間で立ち上げられるSaaSプラットフォーム",
+    title: `${siteName} - 真のノーコード × 最強CMS`,
+    description,
     type: "website",
     locale: "ja_JP",
+    siteName,
   },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteName} - 真のノーコード × 最強CMS`,
+    description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msta.app";
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      name: siteName,
+      url: siteUrl,
+      logo: `${siteUrl}/favicon.ico`,
+    },
+    {
+      "@type": "WebSite",
+      name: siteName,
+      url: siteUrl,
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${siteUrl}/faq?q={search_term_string}`,
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
+      "@type": "Product",
+      name: siteName,
+      description,
+      brand: { "@type": "Brand", name: siteName },
+      offers: {
+        "@type": "Offer",
+        price: "3000",
+        priceCurrency: "JPY",
+        url: siteUrl,
+        availability: "https://schema.org/InStock",
+      },
+    },
+  ],
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ja" className={`${zenKaku.variable} ${outfit.variable}`}>
-      <body className="antialiased">{children}</body>
+    <html lang="ja" className={notoSansJP.variable}>
+      <body className={`${notoSansJP.className} antialiased`}>
+        {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </body>
     </html>
   );
 }

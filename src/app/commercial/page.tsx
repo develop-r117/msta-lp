@@ -30,7 +30,7 @@ export default function CommercialTransaction() {
           <div className="prose prose-neutral max-w-none">
             <section className="mb-8">
               <h2 className="text-xl font-bold text-neutral-900 mb-4">サービス名</h2>
-              <p className="text-neutral-600">MS Studio（エムスタ）</p>
+              <p className="text-neutral-600">エムスタ</p>
             </section>
 
             <section className="mb-8">

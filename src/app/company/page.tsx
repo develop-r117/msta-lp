@@ -47,7 +47,7 @@ export default function Company() {
                   <th className="px-6 py-4 bg-neutral-50 text-left text-sm font-semibold text-neutral-700">事業内容</th>
                   <td className="px-6 py-4 text-neutral-900">
                     <ul className="space-y-2">
-                      <li>• MS Studio（エムスタ）の企画開発・運営<br />
+                      <li>• エムスタの企画開発・運営<br />
                         <span className="text-sm text-neutral-500 ml-3">（アプリ開発プラットフォーム / 管理・運用CMS）</span>
                       </li>
                       <li>• 洗車事業者特化型SaaSプロダクト『WashLink』の企画開発・運営</li>

@@ -29,7 +29,7 @@ export default function PrivacyPolicy() {
           
           <div className="prose prose-neutral max-w-none">
             <p className="text-neutral-600 mb-8">
-              株式会社R117（以下「当社」といいます）は、MS Studio（エムスタ）サービス（以下「本サービス」といいます）において、
+              株式会社R117（以下「当社」といいます）は、エムスタサービス（以下「本サービス」といいます）において、
               お客様の個人情報の取り扱いについて、以下のとおりプライバシーポリシーを定めます。
             </p>
 

@@ -35,8 +35,15 @@
   --color-neutral-900: oklch(0.15 0.02 80);
 
   /* Custom fonts */
-  --font-display: "Outfit", "Zen Kaku Gothic New", sans-serif;
-  --font-body: "Zen Kaku Gothic New", "Outfit", system-ui, sans-serif;
+  --font-sans: var(--font-noto-sans-jp), "Noto Sans JP", sans-serif;
+  --font-display: var(--font-noto-sans-jp), "Noto Sans JP", sans-serif;
+  --font-body: var(--font-noto-sans-jp), "Noto Sans JP", sans-serif;
+
+  /* Line height */
+  --leading-tight: 1.5;
+  --leading-snug: 1.5;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.5;
 
   /* Spacing scale */
   --spacing-section: clamp(5rem, 12vw, 10rem);
@@ -46,14 +53,6 @@
   --radius-pill: 100vw;
 }
 
-/* Font imports */
-@font-face {
-  font-family: "Outfit";
-  src: url("https://fonts.gstatic.com/s/outfit/v11/QGYvz_MVcBeNP4NJtEtq.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
 
 @layer base {
   html {
@@ -65,7 +64,7 @@
     font-family: var(--font-body);
     color: var(--color-neutral-800);
     background: var(--color-neutral-50);
-    line-height: 1.7;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
@@ -73,7 +72,7 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.5;
     letter-spacing: -0.02em;
   }
 
@@ -253,5 +252,32 @@
     outline: none;
     box-shadow: 0 0 0 3px var(--color-primary-200),
                 0 0 0 5px var(--color-primary-400);
+  }
+
+  /* Hide scrollbar for tab/carousel rows */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Section padding helper - 21 sections need consistent vertical rhythm */
+  .section-padding {
+    padding-top: clamp(4rem, 9vw, 7rem);
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+}
+
+/* Reserve scroll-padding for the fixed header + mobile sub-nav */
+@layer base {
+  html {
+    scroll-padding-top: 6rem;
+  }
+  @media (min-width: 1024px) {
+    html {
+      scroll-padding-top: 7rem;
+    }
   }
 }
