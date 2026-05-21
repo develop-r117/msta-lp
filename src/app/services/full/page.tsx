@@ -16,8 +16,6 @@ export const metadata = buildMetadata({
   path: "/services/full",
 });
 
-export const runtime = "edge";
-
 export default async function FullPage() {
   const fullCases = await fetchCasesByCategory("エムスタFull");
 

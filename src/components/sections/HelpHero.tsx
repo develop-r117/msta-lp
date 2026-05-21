@@ -1,22 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import type { HelpCategory } from "@/lib/microcms";
 
 type Props = {
   categories: HelpCategory[];
-  defaultQuery?: string;
 };
 
 /**
  * ヘルプセンターのヒーロー（検索バー + カテゴリピル）。
  * 検索は /help?q=... へ遷移する単純な仕組み。
  */
-export default function HelpHero({ categories, defaultQuery = "" }: Props) {
+export default function HelpHero({ categories }: Props) {
   const router = useRouter();
-  const [query, setQuery] = useState(defaultQuery);
+  const searchParams = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("q") ?? "");
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();

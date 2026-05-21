@@ -7,8 +7,6 @@ import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
 
-export const runtime = "edge";
-
 export const metadata = buildMetadata({
   title: "導入事例",
   description:
