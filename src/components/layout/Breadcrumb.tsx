@@ -30,7 +30,7 @@ export default function Breadcrumb({ items, className }: Props) {
     <>
       <nav
         aria-label="パンくずリスト"
-        className={`mx-auto mt-20 max-w-7xl px-4 pt-4 text-xs text-neutral-500 sm:px-6 lg:px-8 md:mt-24 ${className ?? ""}`}
+        className={`mx-auto mt-20 max-w-7xl px-4 pb-3 pt-4 text-xs text-neutral-500 sm:px-6 lg:px-8 md:mt-24 ${className ?? ""}`}
       >
         <ol className="flex flex-wrap items-center gap-1.5">
           {items.map((item, idx) => {

@@ -18,12 +18,13 @@ const docContents = [
 
 export default function PartnerDocCTA() {
   return (
-    <section id="partner-doc" className="section-padding relative bg-neutral-50">
+    <section id="partner-doc" className="section-padding relative bg-section-dark">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Partner document"
-          title={<>アプリ制作を、あなたの<span className="text-gradient">新しいビジネス</span>に。</>}
+          title={<>アプリ制作を、あなたの<span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">新しいビジネス</span>に。</>}
           description="制作会社・開発会社・代理店・クリエイターが、アプリ制作・運用支援・テンプレート販売・紹介活動を通じて新しい収益機会を作るための制度概要をまとめました。"
+          tone="dark"
         />
 
         <div className="mt-12 grid gap-8 lg:grid-cols-12">
@@ -34,9 +35,9 @@ export default function PartnerDocCTA() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-5"
           >
-            <div className="relative aspect-[3/4] overflow-hidden rounded-3xl border border-neutral-200 bg-gradient-to-br from-neutral-900 via-primary-700 to-accent-600 p-8 text-white shadow-2xl">
+            <div className="relative aspect-[3/4] overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-primary-900 via-primary-700 to-accent-500 p-8 text-white shadow-2xl">
               <div className="absolute right-0 top-0 h-32 w-32 rounded-bl-3xl bg-white/10 backdrop-blur" />
-              <p className="text-xs font-bold uppercase tracking-widest text-white/70">Partner deck</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-accent-300">Partner deck</p>
               <h3 className="mt-3 text-3xl font-bold leading-tight md:text-4xl">
                 エムスタ
                 <br />
@@ -45,11 +46,11 @@ export default function PartnerDocCTA() {
               <p className="mt-3 text-sm text-white/80">アプリビジネスを始めるための制度ガイド</p>
 
               <div className="absolute bottom-8 left-8 right-8">
-                <p className="text-xs font-semibold uppercase tracking-widest text-white/50">資料の主な内容</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-accent-300/80">資料の主な内容</p>
                 <ul className="mt-3 space-y-1.5 text-sm">
                   {docContents.map((d) => (
                     <li key={d} className="flex items-start gap-2 text-white/90">
-                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-white/70" />
+                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-accent-400" />
                       {d}
                     </li>
                   ))}
@@ -65,6 +66,7 @@ export default function PartnerDocCTA() {
                 size="md"
                 fullWidth
                 icon={<ChatIcon />}
+                className="!bg-white/10 !text-white !border-white/20 hover:!bg-white/20 hover:!text-white"
               >
                 直接オンラインで相談する
               </Button>

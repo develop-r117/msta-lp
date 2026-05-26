@@ -1,6 +1,6 @@
 import Link from "next/link";
-import type { HelpArticle, HelpCategory } from "@/lib/microcms";
-import { getHelpCategorySlug } from "@/lib/microcms";
+import type { HelpArticle, HelpCategory } from "@/lib/content-types";
+import { getHelpCategorySlug } from "@/lib/content-types";
 
 type Props = {
   categories: HelpCategory[];

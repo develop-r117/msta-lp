@@ -1,38 +1,38 @@
 @import "tailwindcss";
 
 @theme {
-  /* Unique color palette - avoiding generic blue gradients */
-  --color-primary-50: oklch(0.97 0.02 160);
-  --color-primary-100: oklch(0.94 0.04 160);
-  --color-primary-200: oklch(0.88 0.08 160);
-  --color-primary-300: oklch(0.78 0.12 160);
-  --color-primary-400: oklch(0.68 0.16 160);
-  --color-primary-500: oklch(0.58 0.18 160);
-  --color-primary-600: oklch(0.50 0.16 160);
-  --color-primary-700: oklch(0.42 0.14 160);
-  --color-primary-800: oklch(0.35 0.12 160);
-  --color-primary-900: oklch(0.28 0.08 160);
+  /* Midnight Lagoon palette (msta brand) — anchored on #00509D (Blue) */
+  --color-primary-50: #F0F9FF;
+  --color-primary-100: #E0F2FE;
+  --color-primary-200: #BAE6FD;
+  --color-primary-300: #7DD3FC;
+  --color-primary-400: #00A6FB;
+  --color-primary-500: #00509D;
+  --color-primary-600: #003F7E;
+  --color-primary-700: #002D5F;
+  --color-primary-800: #001F54;
+  --color-primary-900: #03071E;
 
-  /* Coral accent */
-  --color-accent-50: oklch(0.97 0.02 25);
-  --color-accent-100: oklch(0.94 0.05 25);
-  --color-accent-200: oklch(0.88 0.10 25);
-  --color-accent-300: oklch(0.78 0.15 25);
-  --color-accent-400: oklch(0.70 0.18 25);
-  --color-accent-500: oklch(0.65 0.20 25);
-  --color-accent-600: oklch(0.55 0.18 25);
+  /* Glow accent — #00F5FF (Cyan) */
+  --color-accent-50: #ECFEFF;
+  --color-accent-100: #CFFAFE;
+  --color-accent-200: #A5F3FC;
+  --color-accent-300: #7DF9FF;
+  --color-accent-400: #00F5FF;
+  --color-accent-500: #00C4D6;
+  --color-accent-600: #0099B0;
 
-  /* Neutral with warmth */
-  --color-neutral-50: oklch(0.98 0.005 80);
-  --color-neutral-100: oklch(0.96 0.008 80);
-  --color-neutral-200: oklch(0.92 0.01 80);
-  --color-neutral-300: oklch(0.85 0.01 80);
-  --color-neutral-400: oklch(0.70 0.01 80);
-  --color-neutral-500: oklch(0.55 0.01 80);
-  --color-neutral-600: oklch(0.40 0.01 80);
-  --color-neutral-700: oklch(0.30 0.015 80);
-  --color-neutral-800: oklch(0.22 0.02 80);
-  --color-neutral-900: oklch(0.15 0.02 80);
+  /* Neutral — aligned with #111827 / #4B5563 / #E5E7EB */
+  --color-neutral-50: #F8FAFC;
+  --color-neutral-100: #F1F5F9;
+  --color-neutral-200: #E5E7EB;
+  --color-neutral-300: #D1D5DB;
+  --color-neutral-400: #9CA3AF;
+  --color-neutral-500: #6B7280;
+  --color-neutral-600: #4B5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1F2937;
+  --color-neutral-900: #111827;
 
   /* Custom fonts */
   --font-sans: var(--font-noto-sans-jp), "Noto Sans JP", sans-serif;
@@ -83,21 +83,51 @@
 }
 
 @layer utilities {
-  /* Gradient mesh backgrounds */
+  /* Light entry sections — TOP KV / About / 機能 / 事例 / FAQ / 料金 */
+  .bg-section-light {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F0F9FF 45%, #EAFBFF 100%);
+  }
+
+  /* Dark business sections — Partner / UGC / Marketplace / Pro / 収益化 */
+  .bg-section-dark {
+    background:
+      radial-gradient(circle at 20% 30%, rgba(0, 245, 255, 0.18), transparent 35%),
+      radial-gradient(circle at 80% 60%, rgba(0, 166, 251, 0.22), transparent 40%),
+      linear-gradient(135deg, #03071E 0%, #001F54 55%, #00509D 100%);
+    color: #FFFFFF;
+  }
+
+  /* Glass card on dark sections */
+  .card-on-dark {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  /* Muted text on dark sections */
+  .text-on-dark-muted {
+    color: #CBD5E1;
+  }
+
+  /* Soft brand-tinted shadow */
+  .shadow-brand-soft {
+    box-shadow: 0 4px 24px rgba(3, 7, 30, 0.06);
+  }
+
+  /* Legacy mesh — kept for backward compatibility, tuned to new palette */
   .mesh-gradient {
-    background: 
-      radial-gradient(ellipse 80% 50% at 20% 40%, oklch(0.92 0.08 160 / 0.5), transparent),
-      radial-gradient(ellipse 60% 80% at 80% 20%, oklch(0.94 0.06 25 / 0.4), transparent),
-      radial-gradient(ellipse 50% 60% at 60% 80%, oklch(0.90 0.10 200 / 0.3), transparent),
-      var(--color-neutral-50);
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 40%, rgba(0, 166, 251, 0.18), transparent),
+      radial-gradient(ellipse 60% 80% at 80% 20%, rgba(0, 245, 255, 0.14), transparent),
+      radial-gradient(ellipse 50% 60% at 60% 80%, rgba(0, 80, 157, 0.10), transparent),
+      var(--color-primary-50);
   }
 
   .mesh-gradient-dark {
-    background: 
-      radial-gradient(ellipse 80% 50% at 20% 40%, oklch(0.35 0.12 160 / 0.4), transparent),
-      radial-gradient(ellipse 60% 80% at 80% 20%, oklch(0.40 0.10 25 / 0.3), transparent),
-      radial-gradient(ellipse 50% 60% at 60% 80%, oklch(0.30 0.14 200 / 0.3), transparent),
-      var(--color-neutral-900);
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 40%, rgba(0, 166, 251, 0.30), transparent),
+      radial-gradient(ellipse 60% 80% at 80% 20%, rgba(0, 245, 255, 0.18), transparent),
+      radial-gradient(ellipse 50% 60% at 60% 80%, rgba(0, 80, 157, 0.20), transparent),
+      var(--color-primary-900);
   }
 
   /* Glass morphism */
@@ -109,10 +139,10 @@
   }
 
   .glass-dark {
-    background: oklch(0.15 0.02 80 / 0.7);
+    background: rgba(3, 7, 30, 0.7);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid oklch(1 0 0 / 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.10);
   }
 
   /* Text gradient */
@@ -194,13 +224,13 @@
   }
 
   @keyframes pulse-glow {
-    0%, 100% { 
-      box-shadow: 0 0 20px oklch(0.58 0.18 160 / 0.3),
-                  0 0 40px oklch(0.58 0.18 160 / 0.2);
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(0, 245, 255, 0.30),
+                  0 0 40px rgba(0, 166, 251, 0.20);
     }
-    50% { 
-      box-shadow: 0 0 30px oklch(0.58 0.18 160 / 0.5),
-                  0 0 60px oklch(0.58 0.18 160 / 0.3);
+    50% {
+      box-shadow: 0 0 30px rgba(0, 245, 255, 0.50),
+                  0 0 60px rgba(0, 166, 251, 0.30);
     }
   }
 

@@ -6,7 +6,7 @@ import {
   fetchUsecases,
   fetchHelpCategories,
   fetchHelpArticles,
-} from "@/lib/microcms";
+} from "@/lib/content";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msta.app";
 

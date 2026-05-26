@@ -5,7 +5,7 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
-import { fetchCaseBySlug, fetchCases, type CaseEntry } from "@/lib/microcms";
+import { fetchCaseBySlug, fetchCases, type CaseEntry } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 export const dynamicParams = false;

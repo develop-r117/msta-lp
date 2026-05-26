@@ -4,7 +4,19 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/ui/SectionHeading";
 
-const modes = [
+type Mode = {
+  id: string;
+  label: string;
+  headline: string;
+  targets: string[];
+  points: string[];
+  image: string;
+  accent: string;
+  badge: string;
+  tone: "light" | "dark";
+};
+
+const modes: Mode[] = [
   {
     id: "easy",
     label: "かんたんモード",
@@ -18,6 +30,7 @@ const modes = [
     image: "/screenshots/6.png",
     accent: "from-primary-50 to-primary-100",
     badge: "bg-primary-500",
+    tone: "light",
   },
   {
     id: "pro",
@@ -30,14 +43,15 @@ const modes = [
       "クライアントの案件をエムスタ上で展開",
     ],
     image: "/screenshots/7.png",
-    accent: "from-neutral-100 to-neutral-200",
-    badge: "bg-neutral-900",
+    accent: "from-primary-800 to-primary-900",
+    badge: "bg-accent-400 text-primary-900",
+    tone: "dark",
   },
 ];
 
 export default function Modes() {
   return (
-    <section id="modes" className="section-padding relative bg-neutral-50">
+    <section id="modes" className="section-padding relative bg-section-light">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Easy / Pro"
@@ -45,52 +59,65 @@ export default function Modes() {
         />
 
         <div className="mt-14 grid gap-6 lg:grid-cols-2">
-          {modes.map((m, i) => (
-            <motion.div
-              key={m.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="relative overflow-hidden rounded-3xl border border-neutral-200 bg-white p-7 shadow-sm md:p-9"
-            >
-              <div className={`pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b ${m.accent} opacity-60`} />
+          {modes.map((m, i) => {
+            const isDark = m.tone === "dark";
+            return (
+              <motion.div
+                key={m.id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className={
+                  isDark
+                    ? "relative overflow-hidden rounded-3xl bg-section-dark p-7 shadow-xl ring-1 ring-white/10 md:p-9"
+                    : "relative overflow-hidden rounded-3xl border border-neutral-200 bg-white p-7 shadow-sm md:p-9"
+                }
+              >
+                <div className={`pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b ${m.accent} opacity-60`} />
 
-              <div className="relative">
-                <span className={`inline-flex items-center gap-2 rounded-full ${m.badge} px-3.5 py-1.5 text-xs font-bold text-white`}>
-                  {m.label}
-                </span>
-                <h3 className="mt-4 text-2xl font-bold text-neutral-900 md:text-3xl">{m.headline}</h3>
+                <div className="relative">
+                  <span className={`inline-flex items-center gap-2 rounded-full ${m.badge} px-3.5 py-1.5 text-xs font-bold ${isDark ? "" : "text-white"}`}>
+                    {m.label}
+                  </span>
+                  <h3 className={`mt-4 text-2xl font-bold md:text-3xl ${isDark ? "text-white" : "text-neutral-900"}`}>
+                    {m.headline}
+                  </h3>
 
-                <div className="mt-5">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500">対象</p>
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {m.targets.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-semibold text-neutral-700"
-                      >
-                        {t}
-                      </span>
+                  <div className="mt-5">
+                    <p className={`text-xs font-semibold uppercase tracking-widest ${isDark ? "text-accent-400" : "text-neutral-500"}`}>対象</p>
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {m.targets.map((t) => (
+                        <span
+                          key={t}
+                          className={
+                            isDark
+                              ? "rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white ring-1 ring-white/15"
+                              : "rounded-full bg-neutral-100 px-3 py-1 text-xs font-semibold text-neutral-700"
+                          }
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <ul className={`mt-5 space-y-2.5 text-sm ${isDark ? "text-on-dark-muted" : "text-neutral-700"}`}>
+                    {m.points.map((p) => (
+                      <li key={p} className="flex items-start gap-2">
+                        <span className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full ${isDark ? "bg-accent-400" : m.badge}`} />
+                        {p}
+                      </li>
                     ))}
+                  </ul>
+
+                  <div className={`mt-7 overflow-hidden rounded-2xl ${isDark ? "border border-white/10 bg-white/5" : "border border-neutral-200 bg-neutral-100"}`}>
+                    <Image src={m.image} alt={`${m.label} のUIイメージ`} width={1200} height={760} className="h-auto w-full" />
                   </div>
                 </div>
-
-                <ul className="mt-5 space-y-2.5 text-sm text-neutral-700">
-                  {m.points.map((p) => (
-                    <li key={p} className="flex items-start gap-2">
-                      <span className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full ${m.badge}`} />
-                      {p}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-7 overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100">
-                  <Image src={m.image} alt={`${m.label} のUIイメージ`} width={1200} height={760} className="h-auto w-full" />
-                </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import HelpArticleList from "./HelpArticleList";
-import type { HelpArticle } from "@/lib/microcms";
+import type { HelpArticle } from "@/lib/content-types";
 
 type Props = {
   allArticles: HelpArticle[];

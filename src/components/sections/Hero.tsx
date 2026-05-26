@@ -24,7 +24,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative isolate overflow-hidden mesh-gradient noise pt-28 md:pt-32 lg:pt-36"
+      className="relative isolate overflow-hidden bg-section-light noise pt-28 md:pt-32 lg:pt-36"
     >
       {/* decorative orbs */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">

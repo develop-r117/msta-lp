@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import type { HelpCategory } from "@/lib/microcms";
+import type { HelpCategory } from "@/lib/content-types";
 
 type Props = {
   categories: HelpCategory[];

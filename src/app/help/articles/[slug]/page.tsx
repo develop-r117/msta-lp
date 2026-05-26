@@ -3,18 +3,18 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import HelpArticleBody from "@/components/sections/HelpArticleBody";
 import {
-  FALLBACK_HELP_ARTICLES,
   fetchHelpArticleBySlug,
   fetchHelpArticles,
   getHelpCategorySlug,
   getHelpCategoryTitle,
-} from "@/lib/microcms";
+} from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  return FALLBACK_HELP_ARTICLES.map((a) => ({ slug: a.slug }));
+  const articles = await fetchHelpArticles();
+  return articles.map((a) => ({ slug: a.slug }));
 }
 
 export async function generateMetadata({

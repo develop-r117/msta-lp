@@ -6,7 +6,7 @@ import MstaFull from "@/components/sections/MstaFull";
 import Cases from "@/components/sections/Cases";
 import { Button, ChatIcon, ArrowIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
-import { fetchCasesByCategory } from "@/lib/microcms";
+import { fetchCasesByCategory } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -30,21 +30,28 @@ export default async function FullPage() {
       bottomCtaDescription="独自要件・既存システムリプレイス・大型案件の構想段階からご相談いただけます。"
     >
       <PageHero
+        variant="dark"
         eyebrow="Msta Full"
-        title={<>独自要件にも、<span className="text-gradient">スクラッチ品質</span>で。</>}
+        title={<>独自要件にも、<span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">スクラッチ品質</span>で。</>}
         description="エムスタをベースに、独自のUI・独自の機能・既存システムのリプレイスにも対応するスクラッチ寄りの受託開発。標準機能だけでは難しい要件をお持ちの方に。"
         actions={
           <>
             <Button
               href={CTA_LINKS.spirFull}
               external={CTA_LINKS.spirFull.startsWith("http")}
-              variant="primary"
+              variant="partner"
               size="lg"
               icon={<ChatIcon />}
             >
               エムスタFullに相談
             </Button>
-            <Button href="/services/official" variant="secondary" size="lg" icon={<ArrowIcon />}>
+            <Button
+              href="/services/official"
+              variant="secondary"
+              size="lg"
+              icon={<ArrowIcon />}
+              className="!bg-white/10 !text-white !border-white/20 hover:!bg-white/20 hover:!text-white"
+            >
               標準機能でまかなえる方はこちら
             </Button>
           </>

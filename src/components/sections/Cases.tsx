@@ -6,7 +6,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Carousel from "@/components/ui/Carousel";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
-import { type CaseEntry } from "@/lib/microcms";
+import { type CaseEntry } from "@/lib/content-types";
 
 type Props = {
   initialCases: CaseEntry[];

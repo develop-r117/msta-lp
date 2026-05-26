@@ -8,7 +8,7 @@ import HelpSearchResults from "@/components/sections/HelpSearchResults";
 import {
   fetchHelpArticles,
   fetchHelpCategories,
-} from "@/lib/microcms";
+} from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({

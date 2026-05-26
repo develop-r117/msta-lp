@@ -14,9 +14,9 @@
   /product/team              チーム運用 / 権限ロール
 /pricing                     料金
 /flow                        導入までの流れ
-/cases                       導入事例 (microCMS)
-/cases/[slug]                事例詳細 (microCMS)
-/usecases                    業種別ユースケース (microCMS)
+/cases                       導入事例 (Keystatic)
+/cases/[slug]                事例詳細 (Keystatic)
+/usecases                    業種別ユースケース (Keystatic)
 /usecases/[industry]         業種別ユースケース詳細
 /services                    サービス入口
   /services/official         オフィシャル制作
@@ -27,9 +27,10 @@
 /marketplace                 マーケットプレイス
 /community                   UGC / 共創プラットフォーム
 /faq                         よくある質問
-/help                        ヘルプセンター（Zendesk風 / microCMS）
+/help                        ヘルプセンター (Zendesk風 / Keystatic)
   /help/[category]           ヘルプカテゴリ
   /help/articles/[slug]      ヘルプ記事
+/keystatic                   CMS 管理画面 (Keystatic Admin UI)
 /contact                     お問い合わせ (カテゴリ分岐ハブ)
 /company / /privacy / /commercial  企業情報・法務
 ```
@@ -48,7 +49,7 @@
 - **アニメーション**: Framer Motion
 - **フォーム**: react-hook-form + zod
 - **メール送信**: Resend (Edge Runtime)
-- **CMS**: microCMS (`microcms-js-sdk`) - 事例・ユースケース管理用
+- **CMS**: [Keystatic](https://keystatic.com/) (Git-based / 完全無料 / MIT) — 事例・ユースケース・ヘルプ・FAQ をリポジトリ内 `content/` で管理
 
 ## 開発
 
@@ -76,73 +77,66 @@ npm start
 | `RESEND_FROM` | Resend 送信元メール |
 | `PARTNER_DOC_URL` | パートナー資料の公開URL |
 | `NOTIFY_TO` | 内部通知先メール |
-| `MICROCMS_SERVICE_DOMAIN` | microCMSのサービスドメイン |
-| `MICROCMS_API_KEY` | microCMSのAPIキー |
+| `KEYSTATIC_GITHUB_CLIENT_ID` | (本番のみ) Keystatic GitHub OAuth App の Client ID |
+| `KEYSTATIC_GITHUB_CLIENT_SECRET` | (本番のみ) Keystatic GitHub OAuth App の Client Secret |
+| `KEYSTATIC_SECRET` | (本番のみ) セッション暗号化用ランダム文字列 (32桁以上推奨) |
+| `KEYSTATIC_GITHUB_REPO_OWNER` | (本番のみ) リポジトリ所有者 (例: `develop-r117`) |
+| `KEYSTATIC_GITHUB_REPO_NAME` | (本番のみ) リポジトリ名 (例: `msta-lp`) |
 
-## microCMS スキーマと初期投入手順
+## CMS (Keystatic)
 
-`microcms-js-sdk` を使い、Edge Runtime / ISR (`revalidate: 60`) で取得します。
-`MICROCMS_*` 環境変数が未設定の場合は、`src/lib/microcms.ts` 内のフォールバックデータが表示されます。
+リポジトリの `content/` 配下に Markdoc / JSON で全コンテンツを保存し、`@keystatic/core/reader` を `src/lib/content.ts` で経由して読み込みます。
 
-### `cases` (リスト型) スキーマ
+| コレクション | パス | フォーマット | 公開URL |
+| --- | --- | --- | --- |
+| 導入事例 | `content/cases/*` | `body` を Markdoc、他は frontmatter | `/cases/[slug]` |
+| 業種別ユースケース | `content/usecases/*` | `body` を Markdoc、他は frontmatter | `/usecases/[industry]` |
+| ヘルプカテゴリ | `content/help-categories/*.json` | JSON | `/help/[category]` |
+| ヘルプ記事 | `content/help-articles/*` | `body` を Markdoc、他は frontmatter | `/help/articles/[slug]` |
+| よくある質問 (singleton) | `content/faq.json` | JSON | `/faq` |
 
-| フィールド | 種別 | 説明 |
-| --- | --- | --- |
-| `slug` | テキスト | URL用 (`/cases/[slug]`) |
-| `title` | テキスト | 事例タイトル |
-| `category` | テキスト | 例: 「医療・団体」「店舗・施設」 |
-| `summary` | テキストエリア | 一覧用要約 |
-| `cover` | 画像 | カバー画像 |
-| `activeFeatures` | 繰り返し / テキスト | 活用機能のタグ |
-| `result` | テキスト | 導入効果 |
-| `customerVoice` | テキストエリア | お客様の声 |
-| `body` | リッチエディタ | 本文 (HTML) |
+詳細スキーマは [`keystatic.config.ts`](keystatic.config.ts) を参照。
 
-### `usecases` (リスト型) スキーマ
+### ローカル開発で CMS を使う (認証不要)
 
-| フィールド | 種別 | 説明 |
-| --- | --- | --- |
-| `industry` | テキスト | URL用 (`/usecases/[industry]`)。`shop` / `edu` / `med` / `creator` / `biz` 等 |
-| `title` | テキスト | 業種名 |
-| `description` | テキストエリア | 概要 |
-| `scenarios` | 繰り返し / テキスト | 活用シナリオ |
-| `activeFeatures` | 繰り返し / テキスト | 活用機能 |
-| `cover` | 画像 | カバー画像 |
-| `body` | リッチエディタ | 本文 (HTML) |
+```bash
+npm run dev
+# → http://localhost:3000/keystatic
+```
 
-### `helpCategories` (リスト型) スキーマ
+`storage: { kind: "local" }` で動作し、編集はそのまま `content/` 配下のファイル + `public/screenshots/` の画像に保存されます。保存後は通常の git ワークフロー (commit & push) で反映してください。
 
-| フィールド | 種別 | 説明 |
-| --- | --- | --- |
-| `slug` | テキスト | URL用 (`/help/[category]`) |
-| `title` | テキスト | カテゴリ名 |
-| `description` | テキストエリア | カテゴリ概要 |
-| `iconKey` | テキスト | アイコンキー (`rocket` / `billing` / `build` / `ops` / `warn` 等) |
-| `order` | 数値 | 並び順 |
+### 本番 (Cloudflare Pages / staging) で CMS を使う (GitHub OAuth)
 
-### `helpArticles` (リスト型) スキーマ
+`NODE_ENV !== "development"` かつ `KEYSTATIC_GITHUB_CLIENT_ID` と `KEYSTATIC_SECRET` がセットされている場合のみ、`storage: { kind: "github" }` に自動切替され、編集内容は GitHub へ自動コミット (=ブランチ更新 + PR) されます。
 
-| フィールド | 種別 | 説明 |
-| --- | --- | --- |
-| `slug` | テキスト | URL用 (`/help/articles/[slug]`) |
-| `title` | テキスト | 記事タイトル |
-| `summary` | テキストエリア | 記事の要約 |
-| `category` | コンテンツ参照 (`helpCategories`) | 紐づくカテゴリ |
-| `body` | リッチエディタ (HTML) | 本文 |
-| `tags` | 繰り返し / テキスト | 検索タグ |
-| `relatedArticles` | 繰り返し / コンテンツ参照 (自身) | 関連記事 |
+セットアップ手順:
 
-### 初期投入候補
+1. **GitHub OAuth App を作成** (Settings → Developer settings → OAuth Apps → New)
+   - Homepage URL: `https://<本番ドメイン>`
+   - Authorization callback URL: `https://<本番ドメイン>/api/keystatic/github/oauth/callback`
+   - 発行された `Client ID` と `Client Secret` を控える
+2. **Cloudflare Pages の環境変数** (Settings → Environment variables) に以下を Production + Preview の両方に追加:
+   ```
+   KEYSTATIC_GITHUB_CLIENT_ID     = <Client ID>
+   KEYSTATIC_GITHUB_CLIENT_SECRET = <Client Secret>
+   KEYSTATIC_SECRET               = $(openssl rand -hex 32)
+   KEYSTATIC_GITHUB_REPO_OWNER    = develop-r117
+   KEYSTATIC_GITHUB_REPO_NAME     = msta-lp
+   ```
+3. **デプロイ後** `https://<本番ドメイン>/keystatic` を開き、`Sign in with GitHub` から認証
+4. 初回アクセス時、Keystatic GitHub App のリポジトリ連携を求められたら許可
 
-要件定義書 18章記載の 7 事例を `cases` に、5 業種を `usecases` に、5 カテゴリ + 11 記事を `helpCategories` / `helpArticles` に初期投入します。
-`src/lib/microcms.ts` の `FALLBACK_CASES` / `FALLBACK_USECASES` / `FALLBACK_HELP_CATEGORIES` / `FALLBACK_HELP_ARTICLES` がそのまま投入用テンプレとして利用可能です。
+> staging ブランチで運用する場合、Cloudflare Pages の **Preview deployments** が staging ブランチをビルドし、`https://staging.<プロジェクト名>.pages.dev` のような Preview URL が発行されます。OAuth App の Authorization callback URL もこの Preview URL に合わせてください。
 
 ## Cloudflare Pages デプロイ
 
 - **ビルドコマンド**: `npx @cloudflare/next-on-pages@1`
 - **ビルド出力ディレクトリ**: `.vercel/output/static`
 - **Compatibility Flags**: `nodejs_compat` を Production / Preview の両方に追加
-- microCMS と Resend の API キーを Cloudflare Pages の環境変数に設定
+- 環境変数: Resend / Keystatic / その他の `NEXT_PUBLIC_*` を Production + Preview に設定
+- **Production ブランチ**: `main`
+- **Preview ブランチ**: `staging` 等を含めることで staging プレビュー環境が自動生成される
 
 ## ライセンス
 

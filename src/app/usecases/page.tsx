@@ -3,7 +3,7 @@ import Image from "next/image";
 import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
-import { fetchUsecases } from "@/lib/microcms";
+import { fetchUsecases } from "@/lib/content";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";

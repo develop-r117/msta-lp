@@ -14,8 +14,8 @@ type Props = {
 };
 
 const variants = {
-  light: "bg-neutral-50",
-  dark: "bg-neutral-900 text-white",
+  light: "bg-section-light",
+  dark: "bg-section-dark text-white",
   mesh: "mesh-gradient",
 } as const;
 
@@ -74,7 +74,7 @@ export default function PageHero({
             transition={{ duration: 0.6, delay: 0.1 }}
             className={cn(
               "mt-6 max-w-3xl text-base leading-relaxed sm:text-lg",
-              isDark ? "text-white/80" : "text-neutral-600",
+              isDark ? "text-on-dark-muted" : "text-neutral-600",
             )}
           >
             {description}

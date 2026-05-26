@@ -1,0 +1,7 @@
+{
+  "slug": "operations",
+  "title": "運用と機能",
+  "description": "プッシュ通知・会員管理・予約・EC・分析など、各機能の運用ヘルプ。",
+  "iconKey": "ops",
+  "order": 4
+}

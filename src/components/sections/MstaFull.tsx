@@ -16,17 +16,17 @@ const items = [
 
 export default function MstaFull() {
   return (
-    <section id="msta-full" className="section-padding relative overflow-hidden bg-neutral-900 text-white">
+    <section id="msta-full" className="section-padding relative overflow-hidden bg-section-dark">
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <motion.div
           animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -left-10 top-10 h-72 w-72 rounded-full bg-primary-500/30 blur-3xl"
+          className="absolute -left-10 top-10 h-72 w-72 rounded-full bg-primary-400/30 blur-3xl"
         />
         <motion.div
           animate={{ x: [0, -40, 0], y: [0, 40, 0] }}
           transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-accent-500/30 blur-3xl"
+          className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-accent-400/30 blur-3xl"
         />
       </div>
 
@@ -35,17 +35,18 @@ export default function MstaFull() {
           <div className="lg:col-span-7">
             <SectionHeading
               align="left"
+              tone="dark"
               eyebrow="エムスタFull"
               title={
                 <>
                   <span className="text-white">最強のコスパ</span>
                   <span className="text-white">。</span>
-                  <span className="text-gradient">エムスタFull</span>
+                  <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">エムスタFull</span>
                   <span className="text-white">。</span>
                 </>
               }
               description={
-                <span className="text-white/80">
+                <span className="text-on-dark-muted">
                   標準機能では対応できない独自要件や、高度なUI/UXなどのご要望に対応。エムスタの基盤を活用することで、一般的なスクラッチ開発よりも低コスト・短納期で、柔軟なアプリ開発を実現します。
                 </span>
               }
@@ -61,7 +62,7 @@ export default function MstaFull() {
                   transition={{ duration: 0.4 }}
                   className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur"
                 >
-                  <span className="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 text-white">
+                  <span className="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-primary-400 to-accent-400 text-primary-900">
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
@@ -75,7 +76,7 @@ export default function MstaFull() {
               <Button
                 href={CTA_LINKS.spirFull}
                 external={CTA_LINKS.spirFull.startsWith("http")}
-                variant="primary"
+                variant="partner"
                 size="lg"
                 icon={<ChatIcon />}
               >
@@ -92,14 +93,14 @@ export default function MstaFull() {
             className="lg:col-span-5"
           >
             <div className="relative rounded-3xl bg-gradient-to-br from-white/15 to-white/5 p-7 ring-1 ring-white/15 backdrop-blur md:p-9">
-              <p className="text-xs font-bold uppercase tracking-widest text-white/60">対応イメージ</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-accent-400">対応イメージ</p>
               <ul className="mt-4 space-y-3 text-sm">
                 <BulletWhite label="基盤" value="エムスタを活用、運用も標準CMSへ" />
                 <BulletWhite label="開発期間" value="スクラッチ比 短縮" />
                 <BulletWhite label="開発費" value="スクラッチ比 低コスト" />
                 <BulletWhite label="柔軟性" value="独自仕様 / 高度UIに対応" />
               </ul>
-              <p className="mt-6 text-xs text-white/60">
+              <p className="mt-6 text-xs text-on-dark-muted">
                 ※ ローンチ時点では最低限のオンライン相談CTAでスタート。エムスタFull診断コンテンツは順次追加します。
               </p>
             </div>
@@ -113,7 +114,7 @@ export default function MstaFull() {
 function BulletWhite({ label, value }: { label: string; value: string }) {
   return (
     <li className="flex items-start justify-between gap-4 border-b border-white/10 pb-3 last:border-b-0 last:pb-0">
-      <span className="text-xs font-semibold uppercase tracking-widest text-white/50">{label}</span>
+      <span className="text-xs font-semibold uppercase tracking-widest text-accent-400">{label}</span>
       <span className="text-right font-semibold text-white">{value}</span>
     </li>
   );

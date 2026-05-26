@@ -1,0 +1,82 @@
+export type CaseImage = {
+  url: string;
+  width?: number;
+  height?: number;
+};
+
+export type CaseEntry = {
+  id: string;
+  slug: string;
+  title: string;
+  category: string;
+  summary: string;
+  cover?: CaseImage;
+  activeFeatures: string[];
+  result: string;
+  customerVoice?: string;
+  body?: string;
+  publishedAt?: string;
+  updatedAt?: string;
+};
+
+export type UsecaseEntry = {
+  id: string;
+  industry: string;
+  title: string;
+  description: string;
+  scenarios: string[];
+  activeFeatures: string[];
+  cover?: CaseImage;
+  body?: string;
+  publishedAt?: string;
+  updatedAt?: string;
+};
+
+export type HelpCategory = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  iconKey?: string;
+  order?: number;
+  publishedAt?: string;
+  updatedAt?: string;
+};
+
+export type HelpArticle = {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  category: { slug: string; title: string } | string;
+  body?: string;
+  tags?: string[];
+  relatedArticles?: { slug: string; title: string }[];
+  publishedAt?: string;
+  updatedAt?: string;
+};
+
+export type FAQItem = {
+  id: string;
+  question: string;
+  answer: string;
+};
+
+export type FAQCategory = {
+  id: string;
+  label: string;
+  items: FAQItem[];
+};
+
+function helpCategoryFromArticle(a: HelpArticle): { slug: string; title: string } {
+  if (typeof a.category === "string") return { slug: a.category, title: a.category };
+  return a.category;
+}
+
+export function getHelpCategorySlug(article: HelpArticle): string {
+  return helpCategoryFromArticle(article).slug;
+}
+
+export function getHelpCategoryTitle(article: HelpArticle): string {
+  return helpCategoryFromArticle(article).title;
+}

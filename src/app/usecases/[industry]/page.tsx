@@ -5,7 +5,7 @@ import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
-import { fetchUsecaseByIndustry, fetchUsecases } from "@/lib/microcms";
+import { fetchUsecaseByIndustry, fetchUsecases } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 export const dynamicParams = false;

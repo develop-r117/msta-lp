@@ -9,6 +9,7 @@ type Props = {
   title: ReactNode;
   description?: ReactNode;
   align?: "left" | "center";
+  tone?: "light" | "dark";
   className?: string;
   id?: string;
 };
@@ -18,9 +19,11 @@ export default function SectionHeading({
   title,
   description,
   align = "center",
+  tone = "light",
   className,
   id,
 }: Props) {
+  const isDark = tone === "dark";
   return (
     <div
       id={id}
@@ -36,7 +39,12 @@ export default function SectionHeading({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5 }}
-          className="inline-block rounded-full bg-primary-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary-700"
+          className={cn(
+            "inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest",
+            isDark
+              ? "bg-white/10 text-accent-400 ring-1 ring-white/20"
+              : "bg-primary-50 text-primary-700",
+          )}
         >
           {eyebrow}
         </motion.span>
@@ -47,7 +55,8 @@ export default function SectionHeading({
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.6, delay: 0.05 }}
         className={cn(
-          "mt-4 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl md:text-5xl",
+          "mt-4 text-3xl font-bold leading-normal tracking-tight sm:text-4xl md:text-5xl",
+          isDark ? "text-white" : "text-neutral-900",
           eyebrow ? "" : "mt-0",
         )}
       >
@@ -59,7 +68,10 @@ export default function SectionHeading({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-5 text-base leading-relaxed text-neutral-600 sm:text-lg"
+          className={cn(
+            "mt-5 text-base leading-relaxed sm:text-lg",
+            isDark ? "text-on-dark-muted" : "text-neutral-600",
+          )}
         >
           {description}
         </motion.p>

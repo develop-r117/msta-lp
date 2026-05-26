@@ -5,7 +5,9 @@ import { motion, type HTMLMotionProps } from "framer-motion";
 import { type ReactNode, forwardRef } from "react";
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "secondary" | "tertiary" | "ghost";
+const MotionLink = motion.create(Link);
+
+type Variant = "primary" | "secondary" | "tertiary" | "ghost" | "partner";
 type Size = "sm" | "md" | "lg";
 
 const variantStyles: Record<Variant, string> = {
@@ -17,6 +19,8 @@ const variantStyles: Record<Variant, string> = {
     "bg-neutral-900 text-white hover:bg-neutral-800 shadow-md",
   ghost:
     "bg-transparent text-neutral-700 hover:text-primary-700 hover:bg-primary-50/60",
+  partner:
+    "bg-accent-400 text-primary-900 hover:bg-primary-400 hover:text-white shadow-lg shadow-accent-400/30 hover:shadow-xl",
 };
 
 const sizeStyles: Record<Size, string> = {
@@ -104,17 +108,16 @@ export const Button = forwardRef<HTMLElement, Props>(function Button(props, ref)
       );
     }
     return (
-      <Link href={href} legacyBehavior passHref>
-        <motion.a
-          ref={ref as React.Ref<HTMLAnchorElement>}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className={composed}
-          {...anchorRest}
-        >
-          {content}
-        </motion.a>
-      </Link>
+      <MotionLink
+        ref={ref as React.Ref<HTMLAnchorElement>}
+        href={href}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className={composed}
+        {...anchorRest}
+      >
+        {content}
+      </MotionLink>
     );
   }
 

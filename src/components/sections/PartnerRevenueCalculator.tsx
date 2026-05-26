@@ -65,16 +65,16 @@ const yen = (n: number) =>
 
 export default function PartnerRevenueCalculator() {
   return (
-    <section className="section-padding bg-neutral-50">
+    <section className="section-padding bg-section-dark">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary-700">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent-400">
             Revenue share calculator
           </p>
-          <h2 className="mt-3 text-3xl font-bold leading-tight text-neutral-900 md:text-4xl">
-            <span className="text-gradient">月額シェア</span>を、ランク別にシミュレーション。
+          <h2 className="mt-3 text-3xl font-bold leading-tight text-white md:text-4xl">
+            <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">月額シェア</span>を、ランク別にシミュレーション。
           </h2>
-          <p className="mt-4 text-sm leading-relaxed text-neutral-600 md:text-base">
+          <p className="mt-4 text-sm leading-relaxed text-on-dark-muted md:text-base">
             「Webのみ」「iOS+Android」「Web+iOS+Android」の3パターン × Bronze〜Legend のランク別に、月額シェア額の試算をご覧いただけます。
           </p>
         </div>
@@ -87,43 +87,43 @@ export default function PartnerRevenueCalculator() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm"
+              className="card-on-dark overflow-hidden rounded-3xl shadow-xl"
             >
-              <header className="border-b border-neutral-100 bg-gradient-to-br from-neutral-900 to-neutral-800 px-6 py-5 text-white">
-                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/70">
+              <header className="border-b border-white/10 bg-gradient-to-br from-primary-800 to-primary-900 px-6 py-5 text-white">
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent-400">
                   Case {i + 1}
                 </p>
                 <h3 className="mt-1.5 text-xl font-bold">{c.label}</h3>
-                <p className="mt-2 text-xs text-white/70">{c.description}</p>
+                <p className="mt-2 text-xs text-on-dark-muted">{c.description}</p>
                 <p className="mt-4 text-3xl font-black">
                   {yen(c.baseFee)}
-                  <span className="ml-1 text-xs font-semibold text-white/60">/ 月（クライアント支払い）</span>
+                  <span className="ml-1 text-xs font-semibold text-on-dark-muted">/ 月（クライアント支払い）</span>
                 </p>
               </header>
 
               <div className="px-6 py-5">
-                <p className="text-[11px] font-bold uppercase tracking-widest text-neutral-500">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-accent-400">
                   内訳
                 </p>
-                <ul className="mt-2 space-y-1 text-xs text-neutral-700">
+                <ul className="mt-2 space-y-1 text-xs text-on-dark-muted">
                   {c.breakdown.map((b) => (
                     <li key={b.item} className="flex justify-between">
                       <span>{b.item}</span>
-                      <span className="font-semibold">{yen(b.amount)}</span>
+                      <span className="font-semibold text-white">{yen(b.amount)}</span>
                     </li>
                   ))}
                 </ul>
 
-                <p className="mt-5 text-[11px] font-bold uppercase tracking-widest text-neutral-500">
+                <p className="mt-5 text-[11px] font-bold uppercase tracking-widest text-accent-400">
                   ランク別 月額シェア額（1アプリあたり）
                 </p>
                 <ul className="mt-2 space-y-1.5">
                   {RANKS.map((r) => (
                     <li
                       key={r.name}
-                      className="flex items-center justify-between rounded-xl bg-neutral-50 px-3 py-2 text-xs"
+                      className="flex items-center justify-between rounded-xl bg-white/5 px-3 py-2 text-xs ring-1 ring-white/10"
                     >
-                      <span className="inline-flex items-center gap-2 font-semibold text-neutral-700">
+                      <span className="inline-flex items-center gap-2 font-semibold text-white">
                         <span
                           className={`grid h-5 w-5 place-items-center rounded-md bg-gradient-to-br ${r.color} text-white`}
                         >
@@ -132,24 +132,24 @@ export default function PartnerRevenueCalculator() {
                           </svg>
                         </span>
                         {r.name}
-                        <span className="text-[10px] font-normal text-neutral-500">
+                        <span className="text-[10px] font-normal text-on-dark-muted">
                           ({(r.rate * 100).toFixed(0)}%)
                         </span>
                       </span>
-                      <span className="text-sm font-black text-neutral-900">
+                      <span className="text-sm font-black text-accent-400">
                         {yen(c.baseFee * r.rate)}
                       </span>
                     </li>
                   ))}
                 </ul>
 
-                <div className="mt-5 rounded-xl bg-primary-50 px-3 py-3 text-xs text-primary-800">
+                <div className="mt-5 rounded-xl bg-accent-400/10 px-3 py-3 text-xs text-accent-300 ring-1 ring-accent-400/20">
                   <p className="font-bold">10件運用時 (Goldの場合)</p>
                   <p className="mt-1">
                     月額 {yen(c.baseFee * 0.25 * 10)} / 年間 {yen(c.baseFee * 0.25 * 10 * 12)}
                   </p>
                 </div>
-                <div className="mt-2 rounded-xl bg-accent-50 px-3 py-3 text-xs text-accent-800">
+                <div className="mt-2 rounded-xl bg-primary-400/10 px-3 py-3 text-xs text-primary-300 ring-1 ring-primary-400/20">
                   <p className="font-bold">30件運用時 (Goldの場合)</p>
                   <p className="mt-1">
                     月額 {yen(c.baseFee * 0.25 * 30)} / 年間 {yen(c.baseFee * 0.25 * 30 * 12)}
@@ -160,7 +160,7 @@ export default function PartnerRevenueCalculator() {
           ))}
         </div>
 
-        <p className="mt-8 text-center text-xs text-neutral-500">
+        <p className="mt-8 text-center text-xs text-on-dark-muted">
           ※ 還元率は公開アプリ実績・契約条件により変動します。詳細はパートナー資料をご確認ください。
           <br />
           ※ 上記は1アプリあたりのシェア額です。複数件運用時は累積で増えていきます。

@@ -4,17 +4,17 @@ import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import HelpArticleList from "@/components/sections/HelpArticleList";
 import HelpCategoryGrid from "@/components/sections/HelpCategoryGrid";
 import {
-  FALLBACK_HELP_CATEGORIES,
   fetchHelpArticles,
   fetchHelpCategories,
   fetchHelpCategoryBySlug,
-} from "@/lib/microcms";
+} from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  return FALLBACK_HELP_CATEGORIES.map((c) => ({ category: c.slug }));
+  const categories = await fetchHelpCategories();
+  return categories.map((c) => ({ category: c.slug }));
 }
 
 export async function generateMetadata({

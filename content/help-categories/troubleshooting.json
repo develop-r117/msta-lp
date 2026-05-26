@@ -1,0 +1,7 @@
+{
+  "slug": "troubleshooting",
+  "title": "トラブルシューティング",
+  "description": "うまく動かない / 通知が届かない などの問題解決ガイド。",
+  "iconKey": "warn",
+  "order": 5
+}

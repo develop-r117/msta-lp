@@ -10,7 +10,7 @@ import { TwoPathSplit, ProductGrid, PartnerStrip, ServiceMix } from "@/component
 import Pricing from "@/components/sections/Pricing";
 import Cases from "@/components/sections/Cases";
 import FAQ from "@/components/sections/FAQ";
-import { fetchCases } from "@/lib/microcms";
+import { fetchCases } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({

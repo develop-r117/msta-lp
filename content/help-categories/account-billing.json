@@ -1,0 +1,7 @@
+{
+  "slug": "account-billing",
+  "title": "アカウントと料金",
+  "description": "プラン、有償オプション、請求、支払い方法に関するヘルプ。",
+  "iconKey": "billing",
+  "order": 2
+}

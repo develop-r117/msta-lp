@@ -17,6 +17,7 @@ type Props<T extends string> = {
   listClassName?: string;
   panelClassName?: string;
   ariaLabel?: string;
+  tone?: "light" | "dark";
 };
 
 export default function Tabs<T extends string>({
@@ -26,7 +27,9 @@ export default function Tabs<T extends string>({
   listClassName,
   panelClassName,
   ariaLabel,
+  tone = "light",
 }: Props<T>) {
+  const isDark = tone === "dark";
   const baseId = useId();
   const [active, setActive] = useState<T>(defaultId ?? items[0].id);
 
@@ -51,7 +54,8 @@ export default function Tabs<T extends string>({
         role="tablist"
         aria-label={ariaLabel}
         className={cn(
-          "no-scrollbar flex gap-2 overflow-x-auto rounded-full bg-neutral-100 p-1.5",
+          "no-scrollbar flex gap-2 overflow-x-auto rounded-full p-1.5",
+          isDark ? "bg-white/5 ring-1 ring-white/10" : "bg-neutral-100",
           listClassName,
         )}
       >
@@ -70,14 +74,25 @@ export default function Tabs<T extends string>({
               onClick={() => setActive(item.id)}
               className={cn(
                 "relative shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition-colors md:px-5 md:py-2.5 md:text-[0.95rem]",
-                selected ? "text-white" : "text-neutral-600 hover:text-neutral-900",
+                selected
+                  ? isDark
+                    ? "text-primary-900"
+                    : "text-white"
+                  : isDark
+                    ? "text-on-dark-muted hover:text-white"
+                    : "text-neutral-600 hover:text-neutral-900",
               )}
             >
               {selected ? (
                 <motion.span
                   layoutId={`tabs-${baseId}-active`}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  className="absolute inset-0 -z-0 rounded-full bg-gradient-to-r from-primary-500 to-primary-600"
+                  className={cn(
+                    "absolute inset-0 -z-0 rounded-full",
+                    isDark
+                      ? "bg-accent-400"
+                      : "bg-gradient-to-r from-primary-500 to-primary-600",
+                  )}
                 />
               ) : null}
               <span className="relative z-10 whitespace-nowrap">{item.label}</span>

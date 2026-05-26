@@ -23,15 +23,16 @@ export default function AIPage() {
       audience="general"
     >
       <PageHero
+        variant="dark"
         eyebrow="AI / Agent"
-        title={<>AIが、<span className="text-gradient">制作と運用</span>を支援する。</>}
+        title={<>AIが、<span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">制作と運用</span>を支援する。</>}
         description="完全自動化ではなく、制作・運用の工数削減を支援するAI。エムスタでは、アプリ制作の各フェーズでAIによる支援機能を順次搭載していきます。"
         actions={
           <>
             <Button
               href={CTA_LINKS.signup}
               external={CTA_LINKS.signup.startsWith("http")}
-              variant="primary"
+              variant="partner"
               size="lg"
               icon={<ArrowIcon />}
             >
@@ -43,6 +44,7 @@ export default function AIPage() {
               variant="secondary"
               size="lg"
               icon={<ChatIcon />}
+              className="!bg-white/10 !text-white !border-white/20 hover:!bg-white/20 hover:!text-white"
             >
               活用方法を相談する
             </Button>

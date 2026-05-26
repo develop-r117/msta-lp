@@ -47,12 +47,13 @@ const examples = [
 
 export default function PartnerRevenueExamples() {
   return (
-    <section className="section-padding relative">
+    <section className="section-padding relative bg-section-dark">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Revenue examples"
-          title={<>パートナー<span className="text-gradient">収益シミュレーション</span></>}
+          title={<>パートナー<span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">収益シミュレーション</span></>}
           description="パートナーランクと案件数に応じた収益イメージ。制作費に加え、継続課金のレベニューシェアが積み上がります。"
+          tone="dark"
         />
 
         <ul className="mt-12 grid gap-6 md:grid-cols-3">
@@ -63,31 +64,31 @@ export default function PartnerRevenueExamples() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: i * 0.07 }}
-              className="relative flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm"
+              className="card-on-dark relative flex flex-col overflow-hidden rounded-3xl shadow-xl"
             >
               <div className={`h-1.5 bg-gradient-to-r ${ex.color}`} />
               <div className="flex grow flex-col p-6 md:p-7">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-sm font-bold text-neutral-900">{ex.persona}</span>
-                  <span className="inline-flex rounded-full bg-neutral-100 px-2.5 py-0.5 text-[10px] font-bold text-neutral-600">
+                  <span className="text-sm font-bold text-white">{ex.persona}</span>
+                  <span className="inline-flex rounded-full bg-white/10 px-2.5 py-0.5 text-[10px] font-bold text-on-dark-muted">
                     {ex.rank}
                   </span>
                 </div>
-                <p className="mt-3 text-xs leading-relaxed text-neutral-600">{ex.scenario}</p>
+                <p className="mt-3 text-xs leading-relaxed text-on-dark-muted">{ex.scenario}</p>
 
                 <dl className="mt-5 grid gap-2">
                   {ex.numbers.map((n) => (
                     <div
                       key={n.label}
-                      className="flex items-center justify-between rounded-xl bg-neutral-50 px-4 py-2.5 ring-1 ring-neutral-100"
+                      className="flex items-center justify-between rounded-xl bg-white/5 px-4 py-2.5 ring-1 ring-white/10"
                     >
-                      <dt className="text-[11px] font-semibold text-neutral-500">{n.label}</dt>
-                      <dd className="text-sm font-black text-neutral-900">{n.value}</dd>
+                      <dt className="text-[11px] font-semibold text-on-dark-muted">{n.label}</dt>
+                      <dd className="text-sm font-black text-accent-400">{n.value}</dd>
                     </div>
                   ))}
                 </dl>
 
-                <p className="mt-5 rounded-xl bg-primary-50 px-4 py-3 text-xs font-semibold leading-relaxed text-primary-800">
+                <p className="mt-5 rounded-xl bg-accent-400/10 px-4 py-3 text-xs font-semibold leading-relaxed text-accent-300 ring-1 ring-accent-400/20">
                   {ex.highlight}
                 </p>
               </div>
@@ -95,7 +96,7 @@ export default function PartnerRevenueExamples() {
           ))}
         </ul>
 
-        <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-relaxed text-neutral-500">
+        <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-relaxed text-on-dark-muted">
           ※ 収益はあくまで試算例であり、実際のランク条件・還元率・案件単価は契約内容によって異なります。詳しくはパートナー資料をご確認ください。
         </p>
       </div>

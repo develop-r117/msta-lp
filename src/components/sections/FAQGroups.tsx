@@ -2,30 +2,28 @@
 
 import { useMemo, useState } from "react";
 import Accordion from "@/components/ui/Accordion";
-import { FAQ_CATEGORIES } from "@/lib/faq";
+import type { FAQCategory } from "@/lib/content-types";
 import { cn } from "@/lib/cn";
 
 type Props = {
+  categories: FAQCategory[];
   enableSearch?: boolean;
 };
 
-/**
- * カテゴリタブ + 検索 + アコーディオンを備えたFAQ表示。
- */
-export default function FAQGroups({ enableSearch = true }: Props) {
-  const [activeId, setActiveId] = useState<string>(FAQ_CATEGORIES[0]?.id ?? "general");
+export default function FAQGroups({ categories, enableSearch = true }: Props) {
+  const [activeId, setActiveId] = useState<string>(categories[0]?.id ?? "general");
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
     if (!query.trim()) {
-      return FAQ_CATEGORIES.find((c) => c.id === activeId)?.items ?? [];
+      return categories.find((c) => c.id === activeId)?.items ?? [];
     }
     const q = query.toLowerCase();
-    const all = FAQ_CATEGORIES.flatMap((c) => c.items);
+    const all = categories.flatMap((c) => c.items);
     return all.filter(
       (it) => it.question.toLowerCase().includes(q) || it.answer.toLowerCase().includes(q),
     );
-  }, [activeId, query]);
+  }, [categories, activeId, query]);
 
   return (
     <section className="section-padding bg-neutral-50">
@@ -53,7 +51,7 @@ export default function FAQGroups({ enableSearch = true }: Props) {
 
         {!query.trim() ? (
           <div className="mb-6 flex flex-wrap gap-2">
-            {FAQ_CATEGORIES.map((c) => (
+            {categories.map((c) => (
               <button
                 key={c.id}
                 type="button"
