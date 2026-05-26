@@ -1,6 +1,8 @@
-"use client";
+import KeystaticClient from "./keystatic-client";
 
-import { makePage } from "@keystatic/next/ui/app";
-import keystaticConfig from "../../../../keystatic.config";
+export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
-export default makePage(keystaticConfig);
+export default function Page() {
+  return <KeystaticClient />;
+}

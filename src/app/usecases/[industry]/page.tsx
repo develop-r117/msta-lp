@@ -5,19 +5,14 @@ import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
-import { fetchUsecaseByIndustry, fetchUsecases } from "@/lib/content";
+import { getUsecaseByIndustry } from "@/lib/cms-static";
 import { buildMetadata } from "@/lib/seo";
 
-export const dynamicParams = false;
-
-export async function generateStaticParams() {
-  const usecases = await fetchUsecases();
-  return usecases.map((u) => ({ industry: u.industry }));
-}
+export const runtime = "edge";
 
 export async function generateMetadata({ params }: { params: Promise<{ industry: string }> }) {
   const { industry } = await params;
-  const u = await fetchUsecaseByIndustry(industry);
+  const u = getUsecaseByIndustry(industry);
   if (!u) {
     return buildMetadata({
       title: "ユースケース",
@@ -35,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ industry:
 
 export default async function UsecaseDetailPage({ params }: { params: Promise<{ industry: string }> }) {
   const { industry } = await params;
-  const u = await fetchUsecaseByIndustry(industry);
+  const u = getUsecaseByIndustry(industry);
   if (!u) notFound();
 
   return (

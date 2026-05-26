@@ -7,7 +7,6 @@ import { BillingBadge, FeatureIconSvg } from "@/components/sections/Features";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
 import {
-  FEATURES,
   getFeature,
   getRelatedFeatures,
   getCategoryLabel,
@@ -15,11 +14,7 @@ import {
 } from "@/lib/features";
 import { buildMetadata } from "@/lib/seo";
 
-export const dynamicParams = false;
-
-export async function generateStaticParams() {
-  return FEATURES.map((f) => ({ slug: f.slug }));
-}
+export const runtime = "edge";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

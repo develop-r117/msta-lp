@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dump:cms": "tsx scripts/dump-cms.ts",
+    "predev": "npm run dump:cms",
     "dev": "next dev",
+    "prebuild": "npm run dump:cms",
     "build": "next build",
-    "build:cf": "npx @cloudflare/next-on-pages@1",
+    "build:cf": "node scripts/cf-build.mjs",
     "preview:cf": "npx wrangler pages dev .vercel/output/static",
     "deploy:cf": "npx wrangler pages deploy .vercel/output/static",
     "start": "next start",
@@ -36,6 +39,8 @@
     "eslint-config-next": "^15.0.0",
     "pptxgenjs": "^4.0.1",
     "tailwindcss": "^4.0.0",
-    "typescript": "^5.0.0"
+    "tsx": "^4.22.3",
+    "typescript": "^5.0.0",
+    "yaml": "^2.9.0"
   }
 }

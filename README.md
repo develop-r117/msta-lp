@@ -85,17 +85,26 @@ npm start
 
 ## CMS (Keystatic)
 
-リポジトリの `content/` 配下に Markdoc / JSON で全コンテンツを保存し、`@keystatic/core/reader` を `src/lib/content.ts` で経由して読み込みます。
+リポジトリの `content/` 配下に Markdoc / JSON で全コンテンツを保存します。**Keystatic Admin UI はローカル開発専用**で、本番 (Cloudflare Pages) では `content/` をビルド前に JSON へダンプして edge runtime から読み込みます。
 
 | コレクション | パス | フォーマット | 公開URL |
 | --- | --- | --- | --- |
-| 導入事例 | `content/cases/*` | `body` を Markdoc、他は frontmatter | `/cases/[slug]` |
-| 業種別ユースケース | `content/usecases/*` | `body` を Markdoc、他は frontmatter | `/usecases/[industry]` |
+| 導入事例 | `content/cases/*/index.mdoc` | `body` を Markdoc、他は frontmatter | `/cases/[slug]` |
+| 業種別ユースケース | `content/usecases/*/index.mdoc` | `body` を Markdoc、他は frontmatter | `/usecases/[industry]` |
 | ヘルプカテゴリ | `content/help-categories/*.json` | JSON | `/help/[category]` |
-| ヘルプ記事 | `content/help-articles/*` | `body` を Markdoc、他は frontmatter | `/help/articles/[slug]` |
+| ヘルプ記事 | `content/help-articles/*/index.mdoc` | `body` を Markdoc、他は frontmatter | `/help/articles/[slug]` |
 | よくある質問 (singleton) | `content/faq.json` | JSON | `/faq` |
 
 詳細スキーマは [`keystatic.config.ts`](keystatic.config.ts) を参照。
+
+### コンテンツ読み込みフロー
+
+| 環境 | 経由 | 説明 |
+| --- | --- | --- |
+| `npm run dev` / `npm run build` | `scripts/dump-cms.ts` → `src/data/cms.generated.json` → `src/lib/cms-static.ts` | `predev` / `prebuild` フックでダンプスクリプトが自動実行され、edge runtime のページは生成済み JSON を同期 import |
+| Keystatic Admin UI で編集 | `src/lib/content.ts` (server-only / Node `fs` 依存) | Admin UI 内部の reader だけが直接ファイルを読み書きする |
+
+> Admin UI で編集した直後にフロントに反映するには、`npm run dump:cms` を再実行するか、開発サーバーを再起動してください。
 
 ### ローカル開発で CMS を使う (認証不要)
 
@@ -106,37 +115,32 @@ npm run dev
 
 `storage: { kind: "local" }` で動作し、編集はそのまま `content/` 配下のファイル + `public/screenshots/` の画像に保存されます。保存後は通常の git ワークフロー (commit & push) で反映してください。
 
-### 本番 (Cloudflare Pages / staging) で CMS を使う (GitHub OAuth)
+### 本番 (Cloudflare Pages) では Admin UI を提供しない
 
-`NODE_ENV !== "development"` かつ `KEYSTATIC_GITHUB_CLIENT_ID` と `KEYSTATIC_SECRET` がセットされている場合のみ、`storage: { kind: "github" }` に自動切替され、編集内容は GitHub へ自動コミット (=ブランチ更新 + PR) されます。
+Cloudflare Workers の edge runtime は Keystatic Admin UI が依存する Node.js API (fs/path) と OAuth route handler をサポートしていないため、`scripts/cf-build.mjs` でビルド時に `src/app/keystatic` と `src/app/api/keystatic` を一時的に `_disabled` 末尾にリネームし、ビルド対象から除外します。
 
-セットアップ手順:
+そのため本番フローは次のとおり:
 
-1. **GitHub OAuth App を作成** (Settings → Developer settings → OAuth Apps → New)
-   - Homepage URL: `https://<本番ドメイン>`
-   - Authorization callback URL: `https://<本番ドメイン>/api/keystatic/github/oauth/callback`
-   - 発行された `Client ID` と `Client Secret` を控える
-2. **Cloudflare Pages の環境変数** (Settings → Environment variables) に以下を Production + Preview の両方に追加:
-   ```
-   KEYSTATIC_GITHUB_CLIENT_ID     = <Client ID>
-   KEYSTATIC_GITHUB_CLIENT_SECRET = <Client Secret>
-   KEYSTATIC_SECRET               = $(openssl rand -hex 32)
-   KEYSTATIC_GITHUB_REPO_OWNER    = develop-r117
-   KEYSTATIC_GITHUB_REPO_NAME     = msta-lp
-   ```
-3. **デプロイ後** `https://<本番ドメイン>/keystatic` を開き、`Sign in with GitHub` から認証
-4. 初回アクセス時、Keystatic GitHub App のリポジトリ連携を求められたら許可
-
-> staging ブランチで運用する場合、Cloudflare Pages の **Preview deployments** が staging ブランチをビルドし、`https://staging.<プロジェクト名>.pages.dev` のような Preview URL が発行されます。OAuth App の Authorization callback URL もこの Preview URL に合わせてください。
+1. ローカルで `npm run dev` → `/keystatic` を開いて編集
+2. `content/` の差分を `git commit && git push`
+3. Cloudflare Pages の自動デプロイで反映 (`prebuild` で `npm run dump:cms` が走る)
 
 ## Cloudflare Pages デプロイ
 
-- **ビルドコマンド**: `npx @cloudflare/next-on-pages@1`
+- **ビルドコマンド**: `npm run build:cf` (内部で Keystatic 除外 → `npm run dump:cms` → `@cloudflare/next-on-pages@1` を実行)
 - **ビルド出力ディレクトリ**: `.vercel/output/static`
 - **Compatibility Flags**: `nodejs_compat` を Production / Preview の両方に追加
-- 環境変数: Resend / Keystatic / その他の `NEXT_PUBLIC_*` を Production + Preview に設定
+- 環境変数: Resend / その他の `NEXT_PUBLIC_*` を Production + Preview に設定 (Keystatic 関連の env は本番では不要)
 - **Production ブランチ**: `main`
 - **Preview ブランチ**: `staging` 等を含めることで staging プレビュー環境が自動生成される
+
+### 動的ルートと Edge Runtime
+
+`@cloudflare/next-on-pages` はすべての動的ルートに `export const runtime = 'edge'` を要求します。一方 Next.js 15 は `runtime = 'edge'` と `generateStaticParams` の併用を禁止しているため、本プロジェクトでは以下の方針で両立しています:
+
+- `cases/[slug]`, `usecases/[industry]`, `help/[category]`, `help/articles/[slug]`, `product/features/[slug]` はいずれも `runtime = 'edge'` を指定し、`generateStaticParams` を持たない動的ページに
+- これらの edge ページは `src/lib/cms-static.ts` 経由で `src/data/cms.generated.json` を同期 import するだけなので、Node API に依存せず Cloudflare Workers 上で完結する
+- リクエスト時の動的レンダリングだが、データはビルド時にダンプ済みなので実質静的
 
 ## ライセンス
 

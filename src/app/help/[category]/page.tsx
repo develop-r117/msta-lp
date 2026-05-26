@@ -4,18 +4,14 @@ import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import HelpArticleList from "@/components/sections/HelpArticleList";
 import HelpCategoryGrid from "@/components/sections/HelpCategoryGrid";
 import {
-  fetchHelpArticles,
-  fetchHelpCategories,
-  fetchHelpCategoryBySlug,
-} from "@/lib/content";
+  getAllHelpArticles,
+  getAllHelpCategories,
+  getHelpArticlesByCategory,
+  getHelpCategoryBySlug,
+} from "@/lib/cms-static";
 import { buildMetadata } from "@/lib/seo";
 
-export const dynamicParams = false;
-
-export async function generateStaticParams() {
-  const categories = await fetchHelpCategories();
-  return categories.map((c) => ({ category: c.slug }));
-}
+export const runtime = "edge";
 
 export async function generateMetadata({
   params,
@@ -23,7 +19,7 @@ export async function generateMetadata({
   params: Promise<{ category: string }>;
 }) {
   const { category } = await params;
-  const cat = await fetchHelpCategoryBySlug(category);
+  const cat = getHelpCategoryBySlug(category);
   if (!cat) {
     return buildMetadata({
       title: "ヘルプ",
@@ -44,14 +40,12 @@ export default async function HelpCategoryPage({
   params: Promise<{ category: string }>;
 }) {
   const { category } = await params;
-  const cat = await fetchHelpCategoryBySlug(category);
+  const cat = getHelpCategoryBySlug(category);
   if (!cat) notFound();
 
-  const [articles, allCategories, allArticles] = await Promise.all([
-    fetchHelpArticles({ categorySlug: cat.slug }),
-    fetchHelpCategories(),
-    fetchHelpArticles(),
-  ]);
+  const articles = getHelpArticlesByCategory(cat.slug);
+  const allCategories = getAllHelpCategories();
+  const allArticles = getAllHelpArticles();
 
   return (
     <SiteShell

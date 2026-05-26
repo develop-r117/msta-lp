@@ -2,20 +2,14 @@ import { notFound } from "next/navigation";
 import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import HelpArticleBody from "@/components/sections/HelpArticleBody";
+import { getHelpCategorySlug, getHelpCategoryTitle } from "@/lib/content-types";
 import {
-  fetchHelpArticleBySlug,
-  fetchHelpArticles,
-  getHelpCategorySlug,
-  getHelpCategoryTitle,
-} from "@/lib/content";
+  getHelpArticleBySlug,
+  getHelpArticlesByCategory,
+} from "@/lib/cms-static";
 import { buildMetadata } from "@/lib/seo";
 
-export const dynamicParams = false;
-
-export async function generateStaticParams() {
-  const articles = await fetchHelpArticles();
-  return articles.map((a) => ({ slug: a.slug }));
-}
+export const runtime = "edge";
 
 export async function generateMetadata({
   params,
@@ -23,7 +17,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = await fetchHelpArticleBySlug(slug);
+  const article = getHelpArticleBySlug(slug);
   if (!article) {
     return buildMetadata({
       title: "ヘルプ記事",
@@ -44,17 +38,17 @@ export default async function HelpArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = await fetchHelpArticleBySlug(slug);
+  const article = getHelpArticleBySlug(slug);
   if (!article) notFound();
 
   const categorySlug = getHelpCategorySlug(article);
   const categoryTitle = getHelpCategoryTitle(article);
 
-  const sameCategory = await fetchHelpArticles({ categorySlug });
+  const sameCategory = getHelpArticlesByCategory(categorySlug);
   const related = (article.relatedArticles?.length
-    ? (await Promise.all(
-        article.relatedArticles.map((r) => fetchHelpArticleBySlug(r.slug)),
-      )).filter((a): a is NonNullable<typeof a> => a !== null)
+    ? article.relatedArticles
+        .map((r) => getHelpArticleBySlug(r.slug))
+        .filter((a): a is NonNullable<typeof a> => a !== null)
     : sameCategory.filter((a) => a.slug !== article.slug)
   ).slice(0, 4);
 
