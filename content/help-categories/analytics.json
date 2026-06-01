@@ -1,0 +1,7 @@
+{
+  "slug": "analytics",
+  "title": "分析・レポート",
+  "description": "DAU/MAU・新規登録・ダウンロード・スタンプ分析に関するヘルプ。",
+  "iconKey": "chart",
+  "order": 17
+}

@@ -1,0 +1,7 @@
+{
+  "slug": "push-notification",
+  "title": "プッシュ通知",
+  "description": "プッシュ通知の作成・配信・ターゲティングに関するヘルプ。",
+  "iconKey": "bell",
+  "order": 6
+}

@@ -57,7 +57,7 @@ const jsonLd = {
       "@type": "Organization",
       name: siteName,
       url: siteUrl,
-      logo: `${siteUrl}/favicon.ico`,
+      logo: `${siteUrl}/logo.png`,
     },
     {
       "@type": "WebSite",

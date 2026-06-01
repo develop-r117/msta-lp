@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { Button, ArrowIcon, DownloadIcon, ChatIcon } from "@/components/ui/Button";
+import KvMedia from "@/components/ui/KvMedia";
 import { CTA_LINKS } from "@/lib/sections";
 
 const badges = [
@@ -155,7 +155,7 @@ export default function Hero() {
             </motion.ul>
           </div>
 
-          {/* Right: Dashboard + App preview composition */}
+          {/* Right: 制作環境（ダッシュボード / エディタ / CMS / AI / プレビュー）コンポジション */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -163,48 +163,62 @@ export default function Hero() {
             className="relative mx-auto w-full max-w-xl lg:col-span-6 lg:max-w-none"
           >
             <div className="relative">
-              {/* Dashboard mock card */}
-              <div className="relative aspect-[16/11] w-full overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-2xl shadow-neutral-900/10">
-                <Image
-                  src="/screenshots/2.png"
-                  alt="エムスタ 管理ダッシュボード"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 90vw, 50vw"
-                  priority
-                />
-                <div className="absolute left-3 top-3 flex gap-1.5">
-                  <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
+              {/* メイン: 管理ダッシュボード / エディタ画面（後日KV動画へ差し替え可能） */}
+              <div className="relative overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-2xl shadow-neutral-900/10">
+                {/* ブラウザ風クローム */}
+                <div className="flex items-center gap-2 border-b border-neutral-200 bg-neutral-50 px-4 py-2.5">
+                  <span className="flex gap-1.5">
+                    <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
+                  </span>
+                  <span className="ml-2 inline-flex items-center gap-1.5 rounded-md bg-white px-2.5 py-1 text-[10px] font-semibold text-neutral-500 ring-1 ring-neutral-200">
+                    <EditorIcon />
+                    エムスタ エディタ
+                  </span>
+                  <span className="ml-auto inline-flex items-center gap-1 text-[10px] font-semibold text-primary-600">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="absolute inline-flex h-1.5 w-1.5 animate-ping rounded-full bg-primary-400 opacity-75" />
+                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary-500" />
+                    </span>
+                    編集中
+                  </span>
+                </div>
+                <div className="relative aspect-[16/10] w-full bg-neutral-100">
+                  <KvMedia
+                    image="/screenshots/2.png"
+                    alt="エムスタ 管理ダッシュボード / エディタ画面"
+                    className="absolute inset-0 h-full w-full object-cover"
+                    imageClassName="object-cover"
+                    sizes="(max-width: 1024px) 90vw, 50vw"
+                    priority
+                  />
                 </div>
               </div>
 
-              {/* Phone preview */}
-              <motion.div
-                animate={{ y: [-6, 6, -6] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -bottom-10 -right-2 w-[42%] rotate-[6deg] sm:-bottom-12 sm:right-2 lg:-bottom-12 lg:right-0"
-              >
-                <div className="rounded-[2rem] bg-neutral-900 p-2 shadow-2xl">
-                  <div className="relative aspect-[9/19] w-full overflow-hidden rounded-[1.5rem] bg-neutral-900">
-                    <Image
-                      src="/screenshots/1.png"
-                      alt="エムスタ アプリプレビュー"
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 40vw, 25vw"
-                    />
+              {/* かんたん / プロ モード切替ピル */}
+              <div className="absolute -left-3 top-16 hidden rounded-full bg-white p-1 shadow-xl ring-1 ring-neutral-200 sm:flex">
+                <span className="rounded-full bg-primary-600 px-3 py-1 text-[11px] font-bold text-white">かんたん</span>
+                <span className="px-3 py-1 text-[11px] font-bold text-neutral-500">プロ</span>
+              </div>
+
+              {/* AI生成パネル */}
+              <div className="absolute -right-2 -top-5 hidden rounded-2xl bg-neutral-900 px-4 py-3 text-white shadow-xl sm:block">
+                <div className="flex items-center gap-2">
+                  <div className="grid h-9 w-9 place-items-center rounded-xl bg-white/10 text-white">
+                    <SparkIcon />
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-white/60">
+                      AI生成
+                    </div>
+                    <div className="text-sm font-bold">画面を自動構成</div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
-              {/* Floating chip 1 */}
-              <motion.div
-                animate={{ y: [4, -4, 4] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -left-3 top-6 hidden rounded-2xl bg-white px-4 py-3 shadow-xl ring-1 ring-neutral-200 sm:block"
-              >
+              {/* CMSパネル */}
+              <div className="absolute -left-4 bottom-16 hidden rounded-2xl bg-white px-4 py-3 shadow-xl ring-1 ring-neutral-200 sm:block">
                 <div className="flex items-center gap-2">
                   <div className="grid h-9 w-9 place-items-center rounded-xl bg-primary-100 text-primary-700">
                     <CmsIcon />
@@ -213,29 +227,45 @@ export default function Hero() {
                     <div className="text-[10px] font-semibold uppercase tracking-wider text-neutral-500">
                       CMS
                     </div>
-                    <div className="text-sm font-bold text-neutral-900">標準搭載</div>
+                    <div className="text-sm font-bold text-neutral-900">投稿・通知を更新</div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
-              {/* Floating chip 2 */}
-              <motion.div
-                animate={{ y: [-4, 6, -4] }}
-                transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -right-2 -top-4 hidden rounded-2xl bg-neutral-900 px-4 py-3 text-white shadow-xl sm:block"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="grid h-9 w-9 place-items-center rounded-xl bg-white/10 text-white">
-                    <SparkIcon />
-                  </div>
-                  <div>
-                    <div className="text-[10px] font-semibold uppercase tracking-wider text-white/60">
-                      Trial
+              {/* リアルなスマホデバイスのモック（素材到着後はスクショ画像に差し替え可能） */}
+              <div className="absolute -bottom-10 -right-1 hidden w-[36%] max-w-[180px] sm:block lg:-bottom-12">
+                <div className="relative rounded-[2.2rem] border-[3px] border-neutral-800 bg-neutral-900 p-1.5 shadow-2xl">
+                  {/* サイドボタン */}
+                  <span className="absolute -left-[3px] top-16 h-10 w-[3px] rounded-l bg-neutral-700" />
+                  <span className="absolute -right-[3px] top-12 h-7 w-[3px] rounded-r bg-neutral-700" />
+                  <div className="relative aspect-[9/19.5] w-full overflow-hidden rounded-[1.7rem] bg-white">
+                    {/* ノッチ */}
+                    <div className="absolute left-1/2 top-2 z-10 h-1.5 w-12 -translate-x-1/2 rounded-full bg-neutral-900/90" />
+                    {/* アプリ画面プレースホルダ */}
+                    <div className="flex h-full flex-col">
+                      <div className="bg-gradient-to-br from-primary-500 to-accent-500 px-3 pb-6 pt-7">
+                        <div className="h-2.5 w-1/2 rounded-full bg-white/80" />
+                        <div className="mt-2 h-2 w-2/3 rounded-full bg-white/50" />
+                      </div>
+                      <div className="flex-1 space-y-2 p-3">
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="aspect-square rounded-lg bg-neutral-100" />
+                          <div className="aspect-square rounded-lg bg-neutral-100" />
+                        </div>
+                        <div className="h-2 w-3/4 rounded-full bg-neutral-200" />
+                        <div className="h-2 w-1/2 rounded-full bg-neutral-200" />
+                        <div className="h-8 rounded-xl bg-primary-500/90" />
+                      </div>
+                      <div className="flex items-center justify-around border-t border-neutral-100 px-2 py-2.5">
+                        <span className="h-4 w-4 rounded bg-neutral-200" />
+                        <span className="h-4 w-4 rounded bg-neutral-200" />
+                        <span className="h-4 w-4 rounded bg-neutral-200" />
+                        <span className="h-4 w-4 rounded bg-neutral-200" />
+                      </div>
                     </div>
-                    <div className="text-sm font-bold">2週間無料</div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -275,6 +305,14 @@ function AndroidIcon() {
   return (
     <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor">
       <path d="M17.523 15.34a1.05 1.05 0 11-1.05-1.05 1.05 1.05 0 011.05 1.05M7.527 15.34a1.05 1.05 0 11-1.05-1.05 1.05 1.05 0 011.05 1.05m9.96-3.51 2.07-3.58a.42.42 0 00-.73-.42l-2.1 3.62a13.43 13.43 0 00-10.46 0L4.16 7.83a.42.42 0 00-.73.42l2.07 3.58A11.93 11.93 0 000 19.5h24a11.93 11.93 0 00-5.49-7.67" />
+    </svg>
+  );
+}
+
+function EditorIcon() {
+  return (
+    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M11 4H4v16h16v-7M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
     </svg>
   );
 }

@@ -1,0 +1,7 @@
+{
+  "slug": "chat",
+  "title": "チャット",
+  "description": "アプリ内チャットの管理・通報対応・設定に関するヘルプ。",
+  "iconKey": "chat",
+  "order": 8
+}

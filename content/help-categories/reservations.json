@@ -1,0 +1,7 @@
+{
+  "slug": "reservations",
+  "title": "予約管理",
+  "description": "予約メニュー・スタッフ・枠管理・Googleカレンダー連携に関するヘルプ。",
+  "iconKey": "calendar",
+  "order": 15
+}

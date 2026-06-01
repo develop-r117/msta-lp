@@ -1,0 +1,7 @@
+{
+  "slug": "members",
+  "title": "会員管理",
+  "description": "会員の登録・ランク・アクセス制御・規約設定に関するヘルプ。",
+  "iconKey": "users",
+  "order": 12
+}

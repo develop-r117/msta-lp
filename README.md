@@ -32,7 +32,7 @@
   /help/articles/[slug]      ヘルプ記事
 /keystatic                   CMS 管理画面 (Keystatic Admin UI)
 /contact                     お問い合わせ (カテゴリ分岐ハブ)
-/company / /privacy / /commercial  企業情報・法務
+/privacy / /commercial       法務 (運営会社リンクは外部 https://r117.co.jp/)
 ```
 
 二系統の動線:

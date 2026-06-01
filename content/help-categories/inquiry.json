@@ -1,0 +1,7 @@
+{
+  "slug": "inquiry",
+  "title": "問い合わせフォーム",
+  "description": "問い合わせフォームの設定・受信管理・通知設定に関するヘルプ。",
+  "iconKey": "mail",
+  "order": 9
+}

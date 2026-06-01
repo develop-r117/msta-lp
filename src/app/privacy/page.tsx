@@ -29,7 +29,7 @@ export default function PrivacyPolicy() {
           
           <div className="prose prose-neutral max-w-none">
             <p className="text-neutral-600 mb-8">
-              株式会社R117（以下「当社」といいます）は、エムスタサービス（以下「本サービス」といいます）において、
+              株式会社R117（以下「当社」といいます）は、MS Studio（エムスタ）サービス（以下「本サービス」といいます）において、
               お客様の個人情報の取り扱いについて、以下のとおりプライバシーポリシーを定めます。
             </p>
 
@@ -134,7 +134,7 @@ export default function PrivacyPolicy() {
                 <p className="text-neutral-700">
                   <strong>株式会社R117</strong><br />
                   〒450-0002 愛知県名古屋市中村区名駅5-2-17 フロンティア名駅13F<br />
-                  メール: info@msta-app.com
+                  メール: info@r117.com
                 </p>
               </div>
             </section>

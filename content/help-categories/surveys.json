@@ -1,0 +1,7 @@
+{
+  "slug": "surveys",
+  "title": "アンケート",
+  "description": "アンケートの作成・回答集計・設定に関するヘルプ。",
+  "iconKey": "list",
+  "order": 10
+}

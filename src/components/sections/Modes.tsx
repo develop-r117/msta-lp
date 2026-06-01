@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/ui/SectionHeading";
+import KvMedia from "@/components/ui/KvMedia";
 
 type Mode = {
   id: string;
@@ -10,12 +10,21 @@ type Mode = {
   headline: string;
   targets: string[];
   points: string[];
+  /** プレビュー静止画。素材到着までは暫定でダッシュボード画像を使用 */
   image: string;
+  /** プレビュー動画（任意）。用意でき次第ここに渡すだけで差し替え可能 */
+  video?: { webm?: string; mp4?: string };
+  /** プレビューで「何が見えるか」を一言で */
+  previewNote: string;
+  /** プレビュー上に重ねる差分のハイライト */
+  highlights: string[];
   accent: string;
   badge: string;
   tone: "light" | "dark";
 };
 
+// NOTE: 本来は each mode の専用スクショ/プレビュー動画（旧 6.png / 7.png 相当）を割り当てる。
+// 現状それらの素材が未配置のため、暫定で既存の 2.png を表示し、差分は注釈で示している。
 const modes: Mode[] = [
   {
     id: "easy",
@@ -27,7 +36,9 @@ const modes: Mode[] = [
       "管理画面はガイド付き・項目ベースの入力",
       "リテラシーの壁を最小化",
     ],
-    image: "/screenshots/6.png",
+    image: "/screenshots/2.png",
+    previewNote: "ガイドに沿って項目を入力するだけ。難しい設定は出てきません。",
+    highlights: ["ガイド付き入力", "設定項目は最小限", "テンプレから選ぶだけ"],
     accent: "from-primary-50 to-primary-100",
     badge: "bg-primary-500",
     tone: "light",
@@ -42,7 +53,9 @@ const modes: Mode[] = [
       "テンプレート / コンポーネントの内製・販売",
       "クライアントの案件をエムスタ上で展開",
     ],
-    image: "/screenshots/7.png",
+    image: "/screenshots/2.png",
+    previewNote: "詳細な画面設計・カスタムCSS・コード差し込みまで自由に編集。",
+    highlights: ["カスタムCSS / コード", "詳細な画面設計", "コンポーネント制作"],
     accent: "from-primary-800 to-primary-900",
     badge: "bg-accent-400 text-primary-900",
     tone: "dark",
@@ -56,6 +69,7 @@ export default function Modes() {
         <SectionHeading
           eyebrow="Easy / Pro"
           title={<>初心者にも、プロにも。<br className="hidden md:block" />使い方に合わせた<span className="text-gradient">2つのモード</span>。</>}
+          description="同じプロジェクトを、ガイド付きで運用するか・細部まで作り込むか。各モードのプレビューで「何がどう違うのか」を一目で確認できます。"
         />
 
         <div className="mt-14 grid gap-6 lg:grid-cols-2">
@@ -111,9 +125,41 @@ export default function Modes() {
                     ))}
                   </ul>
 
+                  {/* プレビューフレーム: 何がどう違うかを枠＋注釈で明示（動画差し替え可能） */}
                   <div className={`mt-7 overflow-hidden rounded-2xl ${isDark ? "border border-white/10 bg-white/5" : "border border-neutral-200 bg-neutral-100"}`}>
-                    <Image src={m.image} alt={`${m.label} のUIイメージ`} width={1200} height={760} className="h-auto w-full" />
+                    <div className={`flex items-center justify-between px-3 py-2 text-[11px] font-bold ${isDark ? "bg-white/5 text-white/80" : "bg-white text-neutral-600"}`}>
+                      <span className="flex gap-1">
+                        <span className="h-2 w-2 rounded-full bg-red-400" />
+                        <span className="h-2 w-2 rounded-full bg-yellow-400" />
+                        <span className="h-2 w-2 rounded-full bg-green-400" />
+                      </span>
+                      <span className={isDark ? "text-accent-400" : "text-primary-600"}>編集画面</span>
+                    </div>
+                    <div className="relative aspect-[16/10] w-full">
+                      <KvMedia
+                        image={m.image}
+                        video={m.video}
+                        alt={`${m.label} の編集画面プレビュー`}
+                        className="absolute inset-0 h-full w-full object-cover"
+                        imageClassName="object-cover"
+                        sizes="(max-width: 1024px) 90vw, 45vw"
+                      />
+                      {/* 差分ハイライト注釈 */}
+                      <div className="absolute inset-x-0 bottom-0 flex flex-wrap gap-1.5 bg-gradient-to-t from-black/55 to-transparent p-3">
+                        {m.highlights.map((h) => (
+                          <span
+                            key={h}
+                            className="rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold text-neutral-800 shadow-sm backdrop-blur"
+                          >
+                            {h}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
+                  <p className={`mt-3 text-xs leading-relaxed ${isDark ? "text-on-dark-muted" : "text-neutral-500"}`}>
+                    {m.previewNote}
+                  </p>
                 </div>
               </motion.div>
             );

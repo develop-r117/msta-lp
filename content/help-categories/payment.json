@@ -1,0 +1,7 @@
+{
+  "slug": "payment",
+  "title": "決済・売上管理",
+  "description": "Stripe連携・売上残高・出金に関するヘルプ。",
+  "iconKey": "dollar",
+  "order": 16
+}

@@ -445,7 +445,7 @@ export const FEATURES: Feature[] = [
       "在庫アラート / 売上レポート",
     ],
     screens: ["商品", "注文", "顧客", "レビュー", "ポイント", "Stripe連携", "売上レポート"],
-    relatedSettings: ["有償 初期¥5,000 / 月¥1,980"],
+    relatedSettings: ["有償アドオン 月¥1,980 / 初期費用0円"],
     audiences: ["EC", "店舗", "コミュニティ"],
     relatedSlugs: ["coupons", "stamps", "analytics"],
   },

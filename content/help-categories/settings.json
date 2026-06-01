@@ -1,0 +1,7 @@
+{
+  "slug": "settings",
+  "title": "各種設定",
+  "description": "データ容量・アカウント設定・特商法・広告（AdMob）に関するヘルプ。",
+  "iconKey": "settings",
+  "order": 21
+}

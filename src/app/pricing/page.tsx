@@ -2,6 +2,7 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import Pricing from "@/components/sections/Pricing";
+import AddonPricing from "@/components/sections/AddonPricing";
 import FAQ from "@/components/sections/FAQ";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
@@ -53,6 +54,7 @@ export default function PricingPage() {
         }
       />
       <Pricing />
+      <AddonPricing />
       <FAQ />
     </SiteShell>
   );

@@ -30,7 +30,7 @@ export default function CommercialTransaction() {
           <div className="prose prose-neutral max-w-none">
             <section className="mb-8">
               <h2 className="text-xl font-bold text-neutral-900 mb-4">サービス名</h2>
-              <p className="text-neutral-600">エムスタ</p>
+              <p className="text-neutral-600">MS Studio（エムスタ）</p>
             </section>
 
             <section className="mb-8">
@@ -62,8 +62,8 @@ export default function CommercialTransaction() {
             <section className="mb-8">
               <h2 className="text-xl font-bold text-neutral-900 mb-4">メールアドレス</h2>
               <p className="text-neutral-600">
-                <a href="mailto:support@msta-app.com" className="text-primary-600 hover:text-primary-700 underline">
-                  support@msta-app.com
+                <a href="mailto:info@r117.com" className="text-primary-600 hover:text-primary-700 underline">
+                  info@r117.com
                 </a>
               </p>
             </section>

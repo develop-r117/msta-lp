@@ -1,0 +1,7 @@
+{
+  "slug": "email",
+  "title": "メール配信",
+  "description": "メールキャンペーンの作成・テンプレート・ドメイン認証に関するヘルプ。",
+  "iconKey": "envelope",
+  "order": 7
+}

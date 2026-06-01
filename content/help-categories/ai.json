@@ -1,0 +1,7 @@
+{
+  "slug": "ai",
+  "title": "生成AI",
+  "description": "AI画像制作・AIクレジット管理に関するヘルプ。",
+  "iconKey": "sparkle",
+  "order": 20
+}

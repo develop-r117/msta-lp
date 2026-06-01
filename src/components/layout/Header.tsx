@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
@@ -50,13 +51,15 @@ export default function Header() {
       )}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 md:h-20 lg:px-8">
-        <Link href="/" className="group flex items-center gap-2" aria-label="エムスタ ホーム">
-          <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 shadow-lg shadow-primary-500/20 md:h-10 md:w-10">
-            <span className="text-lg font-bold text-white md:text-xl">M</span>
-          </div>
-          <span className="text-base font-bold tracking-tight text-neutral-900 transition-colors group-hover:text-primary-700 md:text-lg">
-            エムスタ
-          </span>
+        <Link href="/" className="group flex items-center" aria-label="エムスタ ホーム">
+          <Image
+            src="/logo.png"
+            alt="エムスタ"
+            width={508}
+            height={176}
+            priority
+            className="h-10 w-auto md:h-12"
+          />
         </Link>
 
         {/* Desktop nav */}
@@ -105,12 +108,14 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2 md:gap-3">
+          {/* SP/タブレットでは固定CTAを下部フローティング1本に集約するため、
+              ヘッダー上部の常時表示CTAはデスクトップ(lg+)のみに限定 */}
           <Button
             href="/partners/document"
             variant="secondary"
             size="sm"
             icon={<DownloadIcon />}
-            className="hidden md:inline-flex"
+            className="hidden lg:inline-flex"
           >
             資料DL
           </Button>
@@ -120,9 +125,9 @@ export default function Header() {
             variant="primary"
             size="sm"
             icon={<ArrowIcon />}
+            className="hidden lg:inline-flex"
           >
-            <span className="hidden sm:inline">2週間無料で始める</span>
-            <span className="sm:hidden">無料で始める</span>
+            2週間無料で始める
           </Button>
 
           <button

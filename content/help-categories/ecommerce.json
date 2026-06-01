@@ -1,0 +1,7 @@
+{
+  "slug": "ecommerce",
+  "title": "EC・ネットショップ",
+  "description": "商品登録・注文管理・配送・ポイント・Stripe連携に関するヘルプ。",
+  "iconKey": "cart",
+  "order": 14
+}

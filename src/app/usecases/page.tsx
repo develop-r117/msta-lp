@@ -3,6 +3,7 @@ import Image from "next/image";
 import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
+import AppMockShowcase from "@/components/sections/AppMockShowcase";
 import { fetchUsecases } from "@/lib/content";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
@@ -38,6 +39,8 @@ export default async function UsecasesPage() {
           </>
         }
       />
+
+      <AppMockShowcase />
 
       <section className="section-padding">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

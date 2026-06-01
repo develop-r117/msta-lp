@@ -7,6 +7,8 @@ export type NavLink = {
   href: string;
   label: string;
   description?: string;
+  /** 外部サイトへのリンク（別タブ・rel=noopener で開く） */
+  external?: boolean;
 };
 
 export type NavGroup = {
@@ -137,7 +139,7 @@ export const FOOTER_SITEMAP: FooterColumn[] = [
   {
     title: "会社情報",
     links: [
-      { href: "/company", label: "運営会社" },
+      { href: "https://r117.co.jp/", label: "運営会社", external: true },
       { href: "/privacy", label: "プライバシーポリシー" },
       { href: "/commercial", label: "特定商取引法に基づく表記" },
     ],
@@ -171,7 +173,6 @@ export const ROUTE_LABELS: Record<string, string> = {
   "/help": "ヘルプセンター",
   "/help/articles": "ヘルプ記事",
   "/contact": "お問い合わせ",
-  "/company": "運営会社",
   "/privacy": "プライバシーポリシー",
   "/commercial": "特定商取引法に基づく表記",
 };
@@ -202,7 +203,6 @@ export const STATIC_ROUTES: string[] = [
   "/faq",
   "/help",
   "/contact",
-  "/company",
   "/privacy",
   "/commercial",
 ];
