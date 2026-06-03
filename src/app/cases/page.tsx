@@ -2,7 +2,7 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import Cases from "@/components/sections/Cases";
-import { fetchCases } from "@/lib/content";
+import { getAllCases } from "@/lib/cms-static";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
@@ -15,7 +15,7 @@ export const metadata = buildMetadata({
 });
 
 export default async function CasesPage() {
-  const cases = await fetchCases();
+  const cases = getAllCases();
 
   return (
     <SiteShell

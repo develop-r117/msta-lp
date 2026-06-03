@@ -6,7 +6,7 @@ import MstaFull from "@/components/sections/MstaFull";
 import Cases from "@/components/sections/Cases";
 import { Button, ChatIcon, ArrowIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
-import { fetchCasesByCategory } from "@/lib/content";
+import { getAllCases } from "@/lib/cms-static";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -16,8 +16,11 @@ export const metadata = buildMetadata({
   path: "/services/full",
 });
 
+// エムスタFullで構築・リプレイスした事例のスラッグ (業種タグは業種ベースのため明示指定)
+const FULL_CASE_SLUGS = ["tsuya-factory", "fb-scout"];
+
 export default async function FullPage() {
-  const fullCases = await fetchCasesByCategory("エムスタFull");
+  const fullCases = getAllCases().filter((c) => FULL_CASE_SLUGS.includes(c.slug));
 
   return (
     <SiteShell

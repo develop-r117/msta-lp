@@ -2,11 +2,11 @@ import type { MetadataRoute } from "next";
 import { STATIC_ROUTES } from "@/lib/navigation";
 import { FEATURES } from "@/lib/features";
 import {
-  fetchCases,
-  fetchUsecases,
-  fetchHelpCategories,
-  fetchHelpArticles,
-} from "@/lib/content";
+  getAllCases,
+  getAllUsecases,
+  getAllHelpCategories,
+  getAllHelpArticles,
+} from "@/lib/cms-static";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msta.app";
 
@@ -30,12 +30,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let dynamicEntries: MetadataRoute.Sitemap = [];
 
   try {
-    const [cases, usecases, helpCategories, helpArticles] = await Promise.all([
-      fetchCases(),
-      fetchUsecases(),
-      fetchHelpCategories(),
-      fetchHelpArticles(),
-    ]);
+    const cases = getAllCases();
+    const usecases = getAllUsecases();
+    const helpCategories = getAllHelpCategories();
+    const helpArticles = getAllHelpArticles();
     const caseEntries: MetadataRoute.Sitemap = cases.map((c) => ({
       url: `${baseUrl}/cases/${c.slug}`,
       lastModified: c.updatedAt ? new Date(c.updatedAt) : now,

@@ -10,7 +10,7 @@ import { TwoPathSplit, ProductGrid, PartnerStrip, ServiceMix } from "@/component
 import Pricing from "@/components/sections/Pricing";
 import Cases from "@/components/sections/Cases";
 import FAQ from "@/components/sections/FAQ";
-import { fetchCases } from "@/lib/content";
+import { getAllCases } from "@/lib/cms-static";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -21,7 +21,7 @@ export const metadata = buildMetadata({
 });
 
 export default async function Home() {
-  const cases = await fetchCases({ limit: 6 });
+  const cases = getAllCases().slice(0, 6);
   return (
     <>
       <Header />

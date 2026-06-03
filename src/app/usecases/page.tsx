@@ -4,7 +4,7 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import AppMockShowcase from "@/components/sections/AppMockShowcase";
-import { fetchUsecases } from "@/lib/content";
+import { getAllUsecases } from "@/lib/cms-static";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
@@ -17,7 +17,7 @@ export const metadata = buildMetadata({
 });
 
 export default async function UsecasesPage() {
-  const usecases = await fetchUsecases();
+  const usecases = getAllUsecases();
 
   return (
     <SiteShell

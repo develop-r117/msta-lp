@@ -6,9 +6,9 @@ import HelpCategoryGrid from "@/components/sections/HelpCategoryGrid";
 import HelpArticleList from "@/components/sections/HelpArticleList";
 import HelpSearchResults from "@/components/sections/HelpSearchResults";
 import {
-  fetchHelpArticles,
-  fetchHelpCategories,
-} from "@/lib/content";
+  getAllHelpArticles,
+  getAllHelpCategories,
+} from "@/lib/cms-static";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -19,10 +19,8 @@ export const metadata = buildMetadata({
 });
 
 export default async function HelpHomePage() {
-  const [categories, allArticles] = await Promise.all([
-    fetchHelpCategories(),
-    fetchHelpArticles(),
-  ]);
+  const categories = getAllHelpCategories();
+  const allArticles = getAllHelpArticles();
 
   const popular = allArticles.slice(0, 6);
 
