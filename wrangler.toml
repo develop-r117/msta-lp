@@ -1,5 +1,8 @@
 name = "msta-lp"
-compatibility_date = "2024-01-01"
+# next-on-pages の edge 関数は node:async_hooks (AsyncLocalStorage) を要求する。
+# nodejs_compat でこれらが提供されるのは compatibility_date >= 2024-09-23 のみ。
+# 古い日付だと edge 動的ルートが "No such module async_hooks" で 500 になる。
+compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
 # Pages settings

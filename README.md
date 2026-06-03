@@ -130,6 +130,7 @@ Cloudflare Workers の edge runtime は Keystatic Admin UI が依存する Node.
 - **ビルドコマンド**: `npm run build:cf` (内部で Keystatic 除外 → `npm run dump:cms` → `@cloudflare/next-on-pages@1` を実行)
 - **ビルド出力ディレクトリ**: `.vercel/output/static`
 - **Compatibility Flags**: `nodejs_compat` を Production / Preview の両方に追加
+- **Compatibility Date**: `2024-09-23` 以降を指定（`wrangler.toml` で設定済み）。これより古いと `nodejs_compat` でも `node:async_hooks` が解決されず、edge 動的ルート（`cases/[slug]` 等）が `Internal Server Error` になる
 - 環境変数: Resend / その他の `NEXT_PUBLIC_*` を Production + Preview に設定 (Keystatic 関連の env は本番では不要)
 - **Production ブランチ**: `main`
 - **Preview ブランチ**: `staging` 等を含めることで staging プレビュー環境が自動生成される
