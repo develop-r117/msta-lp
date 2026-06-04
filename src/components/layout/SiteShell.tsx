@@ -1,7 +1,6 @@
 import { type ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import FloatingCTA from "./FloatingCTA";
 import BottomCTA from "./BottomCTA";
 import Breadcrumb, { type BreadcrumbItem } from "./Breadcrumb";
 
@@ -15,7 +14,7 @@ type Props = {
 };
 
 /**
- * 全下層ページの共通シェル。Header / Breadcrumb / main / BottomCTA / Footer / FloatingCTA を内包。
+ * 全下層ページの共通シェル。Header / Breadcrumb / main / BottomCTA / Footer を内包。
  */
 export default function SiteShell({
   children,
@@ -34,7 +33,6 @@ export default function SiteShell({
         <BottomCTA audience={audience} title={bottomCtaTitle} description={bottomCtaDescription} />
       )}
       <Footer />
-      <FloatingCTA />
     </>
   );
 }
