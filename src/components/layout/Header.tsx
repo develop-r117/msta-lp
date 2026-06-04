@@ -204,27 +204,6 @@ export default function Header() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-4 flex flex-col gap-2 pb-2">
-                <Button
-                  href={CTA_LINKS.signup}
-                  external={CTA_LINKS.signup.startsWith("http")}
-                  variant="primary"
-                  size="md"
-                  fullWidth
-                  icon={<ArrowIcon />}
-                >
-                  2週間無料で始める
-                </Button>
-                <Button
-                  href="/partners/document"
-                  variant="secondary"
-                  size="md"
-                  fullWidth
-                  icon={<DownloadIcon />}
-                >
-                  パートナー資料DL
-                </Button>
-              </div>
             </div>
           </motion.div>
         ) : null}
