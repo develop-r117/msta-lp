@@ -1,5 +1,6 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import FloatingCTA from "@/components/layout/FloatingCTA";
 import BottomCTA from "@/components/layout/BottomCTA";
 
 import Hero from "@/components/sections/Hero";
@@ -38,6 +39,7 @@ export default async function Home() {
       </main>
       <BottomCTA audience="both" />
       <Footer />
+      <FloatingCTA />
     </>
   );
 }
