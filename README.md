@@ -135,6 +135,21 @@ Cloudflare Workers の edge runtime は Keystatic Admin UI が依存する Node.
 - **Production ブランチ**: `main`
 - **Preview ブランチ**: `staging` 等を含めることで staging プレビュー環境が自動生成される
 
+### push での自動デプロイ (GitHub Actions)
+
+Cloudflare ダッシュボードの Git 連携を使わず、`.github/workflows/deploy-cloudflare-pages.yml` で `main` / `staging` への push 時に `wrangler pages deploy` (Direct Upload) を自動実行する。これにより **push = 反映** になる。
+
+事前に GitHub リポジトリの **Settings > Secrets and variables > Actions** に以下を登録すること:
+
+| Secret | 内容 |
+| --- | --- |
+| `CLOUDFLARE_API_TOKEN` | 対象アカウントで `Cloudflare Pages: Edit` 権限を持つ API トークン |
+| `CLOUDFLARE_ACCOUNT_ID` | 対象アカウントの Account ID |
+
+ブランチ対応: `main` → 本番 / `staging` → プレビュー。手動実行は Actions タブの `workflow_dispatch` から可能。
+
+> 注: ローカルから手動で反映する場合は `npm run build:cf && npm run deploy:cf`（`wrangler login` 済みであること）。
+
 ### 動的ルートと Edge Runtime
 
 `@cloudflare/next-on-pages` はすべての動的ルートに `export const runtime = 'edge'` を要求します。一方 Next.js 15 は `runtime = 'edge'` と `generateStaticParams` の併用を禁止しているため、本プロジェクトでは以下の方針で両立しています:

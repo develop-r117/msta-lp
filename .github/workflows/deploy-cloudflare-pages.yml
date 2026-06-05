@@ -1,0 +1,52 @@
+name: Deploy to Cloudflare Pages
+
+# main / staging への push で Cloudflare Pages へ自動デプロイする。
+# Cloudflare ダッシュボードの Git 連携が無いため、CI 側で `wrangler pages deploy`
+# (Direct Upload) を実行して反映させる。
+#
+# 必要な GitHub Secrets (Settings > Secrets and variables > Actions):
+#   - CLOUDFLARE_API_TOKEN : 対象アカウントの "Cloudflare Pages: Edit" 権限を持つ API トークン
+#   - CLOUDFLARE_ACCOUNT_ID: 対象アカウントの Account ID
+#
+# ブランチとデプロイ先の対応:
+#   - main    -> 本番 (Production)
+#   - staging -> プレビュー (Preview / staging)
+
+on:
+  push:
+    branches: [main, staging]
+  workflow_dispatch:
+
+# 同一ブランチの古い実行はキャンセルし、最新コミットのみ反映する
+concurrency:
+  group: cf-pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (next-on-pages)
+        run: npm run build:cf
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy .vercel/output/static --project-name=msta-lp --branch=${{ github.ref_name }} --commit-hash=${{ github.sha }}
