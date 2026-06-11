@@ -1,55 +1,58 @@
 /**
  * KVデモのシナリオ定義（単一ソース）。
  *
- * ループ構成:
- *   1. パレットから「クーポン」ブロックをキャンバスへドラッグ＆ドロップ
- *   2. インスペクタでテーマカラーを変更
- *   3. 見出しテキストをタイプライター編集
- *   4. 「公開」→ ダッシュボードにトースト / スマホに通知バナー
- *   5. フェードしてリセット
+ * 実際のダッシュボードの2画面に即した2シーン構成:
+ *
+ * シーン1「構築」= 固定コンテンツ編集（ページビルダー / 紫テーマ）
+ *   1. 「ブロックを追加」をクリック → ブロックピッカーが開く
+ *   2. 「1カラムバナー」カードをクリック → ブロックリストとスマホに同時挿入
+ *   3. 「保存」→ 緑チェック「保存しました」ダイアログ
+ *
+ * シーン2「運用」= 投稿コンテンツ編集（AI記事作成 / 緑グラデ）
+ *   4. タイトルをタイプライター入力
+ *   5. 「AI記事作成」→ ローダー → 本文がストリーミング生成
+ *   6. 「保存」→ スマホにプッシュ通知 + お知らせカード挿入
  *
  * 各フェーズはカーソル座標（ダッシュボード領域に対する%）と
  * 適用される状態パッチを持ち、HeroDemo がタイマーで順送りする。
  */
 
-export type ThemeId = "ocean" | "sunset" | "forest";
-
-export type Theme = {
-  /** グラデーション開始色 */
-  from: string;
-  /** グラデーション終了色 */
-  to: string;
-  /** ボタン等の単色 */
-  solid: string;
-  /** 淡い背景色 */
-  soft: string;
-};
-
-export const THEMES: Record<ThemeId, Theme> = {
-  ocean: { from: "#00509D", to: "#00C4D6", solid: "#00509D", soft: "#E0F2FE" },
-  sunset: { from: "#F97316", to: "#EC4899", solid: "#F0590E", soft: "#FFEDD5" },
-  forest: { from: "#059669", to: "#84CC16", solid: "#059669", soft: "#D1FAE5" },
-};
+export type SceneId = "build" | "operate";
 
 export type DemoState = {
-  /** クーポンブロックが配置済みか */
-  couponAdded: boolean;
-  theme: ThemeId;
-  headline: string;
-  /** タイプ中（キャレット表示） */
+  scene: SceneId;
+  /* --- 構築シーン --- */
+  /** ブロックピッカーモーダルが開いているか */
+  pickerOpen: boolean;
+  /** 「1カラムバナー」ブロックが追加済みか */
+  bannerAdded: boolean;
+  /** 構築の保存完了（保存しましたダイアログ） */
+  buildSaved: boolean;
+  /* --- 運用シーン --- */
+  postTitle: string;
+  /** タイトル入力中（キャレット表示） */
   typing: boolean;
-  published: boolean;
+  /** AI記事作成の生成中ローダー */
+  aiGenerating: boolean;
+  /** 本文のストリーミング済み行数 (0〜4) */
+  bodyLines: number;
+  /** 投稿の保存完了（ダイアログ + スマホ通知） */
+  postSaved: boolean;
 };
 
-export const HEADLINE_BEFORE = "ようこそ、エムスタへ";
-export const HEADLINE_AFTER = "夏の新作フェア開催中";
+export const POST_TITLE = "夏の新作フェア開催中";
+export const BODY_LINE_COUNT = 4;
 
 export const INITIAL_STATE: DemoState = {
-  couponAdded: false,
-  theme: "ocean",
-  headline: HEADLINE_BEFORE,
+  scene: "build",
+  pickerOpen: false,
+  bannerAdded: false,
+  buildSaved: false,
+  postTitle: "",
   typing: false,
-  published: false,
+  aiGenerating: false,
+  bodyLines: 0,
+  postSaved: false,
 };
 
 export type Phase = {
@@ -58,82 +61,123 @@ export type Phase = {
   duration: number;
   /** カーソル目標座標（ダッシュボード領域に対する%） */
   cursor: { x: number; y: number };
-  /** マウス押下中（カーソル縮小） */
-  pressed?: boolean;
   /** フェーズ開始時にクリックリップルを表示 */
   click?: boolean;
-  /** クーポンのドラッグゴーストを随伴 */
-  drag?: boolean;
   /** フェーズ開始時に適用する状態パッチ */
   patch?: Partial<DemoState>;
   /** フローティングパネルの強調 */
   highlight?: "cms" | "ai" | null;
-  /** リセット用フェードアウト */
+  /** リセット/シーン切替用フェードアウト */
   fade?: boolean;
 };
 
-// 座標は DashboardMock の data-demo 要素の実測値（aspect-[16/10] 領域に対する%）
-const CURSOR_HOME = { x: 58, y: 72 };
-const PALETTE_COUPON = { x: 11, y: 38.5 };
-const CANVAS_DROP = { x: 43.5, y: 39 };
-const SWATCH_SUNSET = { x: 12, y: 13.5 };
-const TEXT_FIELD = { x: 32, y: 13.5 };
-const PUBLISH_BUTTON = { x: 94.5, y: 4.6 };
+// 座標は各 Mock の data-demo 要素の実測値（aspect-[16/10] 領域に対する%）
+const HOME = { x: 40, y: 72 };
+const ADD_BLOCK_BTN = { x: 55, y: 40.6 }; // data-demo="add-block"
+const PICKER_BANNER = { x: 34.5, y: 48.1 }; // data-demo="picker-banner"
+const BUILD_SAVE = { x: 60, y: 91 }; // data-demo="build-save"
+const TITLE_FIELD = { x: 20, y: 38.2 }; // data-demo="post-title"（フィールド左寄りをクリック）
+const AI_BUTTON = { x: 57.7, y: 45 }; // data-demo="ai-write"
+const POST_SAVE = { x: 60, y: 91 }; // data-demo="post-save"
 
-/** 1文字ずつ headline を埋めるタイプライターフェーズ群 */
+/** 1文字ずつ postTitle を埋めるタイプライターフェーズ群 */
 function typingPhases(): Phase[] {
-  const chars = Array.from(HEADLINE_AFTER);
+  const chars = Array.from(POST_TITLE);
   return chars.map((_, i) => ({
-    id: `type-${i + 1}`,
-    duration: i === chars.length - 1 ? 650 : 110,
-    cursor: TEXT_FIELD,
+    id: `o-type-${i + 1}`,
+    duration: i === chars.length - 1 ? 550 : 110,
+    cursor: TITLE_FIELD,
+    patch: { postTitle: chars.slice(0, i + 1).join("") },
+  }));
+}
+
+/** 本文をストリーミング風に1行ずつ出すフェーズ群 */
+function streamingPhases(): Phase[] {
+  return Array.from({ length: BODY_LINE_COUNT }, (_, i) => ({
+    id: `o-stream-${i + 1}`,
+    duration: i === BODY_LINE_COUNT - 1 ? 750 : 420,
+    cursor: AI_BUTTON,
     highlight: "ai" as const,
-    patch: { headline: chars.slice(0, i + 1).join("") },
+    patch: {
+      bodyLines: i + 1,
+      ...(i === BODY_LINE_COUNT - 1 ? { aiGenerating: false } : null),
+    },
   }));
 }
 
 export const PHASES: Phase[] = [
-  // リセット直後: 非表示のままテーマ色やブロックの逆転トランジションを済ませる
-  { id: "settle", duration: 600, cursor: CURSOR_HOME, fade: true },
-  { id: "start", duration: 1000, cursor: CURSOR_HOME },
-  { id: "to-palette", duration: 900, cursor: PALETTE_COUPON },
-  { id: "grab", duration: 380, cursor: PALETTE_COUPON, pressed: true, click: true },
-  { id: "drag", duration: 1100, cursor: CANVAS_DROP, pressed: true, drag: true },
+  /* ===== シーン1: 構築（固定コンテンツ編集） ===== */
+  // リセット直後: 非表示のまま状態の逆転トランジションを済ませる
+  { id: "settle", duration: 600, cursor: HOME, fade: true },
+  { id: "b-start", duration: 1000, cursor: HOME },
+  { id: "b-to-add", duration: 900, cursor: ADD_BLOCK_BTN },
   {
-    id: "drop",
-    duration: 950,
-    cursor: CANVAS_DROP,
-    patch: { couponAdded: true },
+    id: "b-click-add",
+    duration: 500,
+    cursor: ADD_BLOCK_BTN,
+    click: true,
+    patch: { pickerOpen: true },
+  },
+  { id: "b-to-card", duration: 900, cursor: PICKER_BANNER },
+  {
+    id: "b-click-card",
+    duration: 450,
+    cursor: PICKER_BANNER,
+    click: true,
+    patch: { pickerOpen: false, bannerAdded: true },
     highlight: "cms",
   },
-  { id: "to-swatch", duration: 900, cursor: SWATCH_SUNSET },
+  { id: "b-applied", duration: 1100, cursor: HOME, highlight: "cms" },
+  { id: "b-to-save", duration: 800, cursor: BUILD_SAVE },
   {
-    id: "click-swatch",
-    duration: 950,
-    cursor: SWATCH_SUNSET,
+    id: "b-click-save",
+    duration: 450,
+    cursor: BUILD_SAVE,
     click: true,
-    patch: { theme: "sunset" },
+    patch: { buildSaved: true },
   },
-  { id: "to-text", duration: 800, cursor: TEXT_FIELD },
+  { id: "b-saved", duration: 1600, cursor: HOME },
+
+  /* ===== シーン切替（フェード中に運用画面へ差し替え） ===== */
+  { id: "scene-switch", duration: 600, cursor: HOME, fade: true },
+
+  /* ===== シーン2: 運用（投稿コンテンツ編集） ===== */
   {
-    id: "click-text",
-    duration: 500,
-    cursor: TEXT_FIELD,
+    id: "o-start",
+    duration: 900,
+    cursor: HOME,
+    patch: { scene: "operate", buildSaved: false },
+  },
+  { id: "o-to-title", duration: 800, cursor: TITLE_FIELD },
+  {
+    id: "o-click-title",
+    duration: 400,
+    cursor: TITLE_FIELD,
     click: true,
-    patch: { headline: "", typing: true },
-    highlight: "ai",
+    patch: { typing: true },
   },
   ...typingPhases(),
-  { id: "to-publish", duration: 900, cursor: PUBLISH_BUTTON, patch: { typing: false } },
+  { id: "o-to-ai", duration: 800, cursor: AI_BUTTON, patch: { typing: false } },
   {
-    id: "click-publish",
-    duration: 500,
-    cursor: PUBLISH_BUTTON,
+    id: "o-click-ai",
+    duration: 450,
+    cursor: AI_BUTTON,
     click: true,
-    patch: { published: true },
+    patch: { aiGenerating: true },
+    highlight: "ai",
   },
-  { id: "celebrate", duration: 2400, cursor: CURSOR_HOME },
-  { id: "reset", duration: 700, cursor: CURSOR_HOME, fade: true },
+  { id: "o-ai-loading", duration: 900, cursor: AI_BUTTON, highlight: "ai" },
+  ...streamingPhases(),
+  { id: "o-to-save", duration: 900, cursor: POST_SAVE },
+  {
+    id: "o-click-save",
+    duration: 450,
+    cursor: POST_SAVE,
+    click: true,
+    patch: { postSaved: true },
+  },
+  { id: "o-celebrate", duration: 2300, cursor: HOME },
+  { id: "reset", duration: 700, cursor: HOME, fade: true },
 ];
 
 /** フェーズ index 時点の累積状態を返す（ループ先頭で自動的に初期状態へ戻る） */

@@ -3,15 +3,21 @@
 import type { ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/cn";
-import type { Theme } from "./scenario";
 
 /* ============================================================
  * HeroDemo 共有パーツ:
- * ブラウザ風クローム / フローティングパネル / テーマグラデーション / キャレット
+ * ブラウザ風クローム / フローティングパネル / 保存ダイアログ / キャレット
  * ============================================================ */
 
 /** ブラウザ風クロームのカード。中身（ダッシュボード領域）を children で受ける */
-export function BrowserChrome({ children }: { children: ReactNode }) {
+export function BrowserChrome({
+  label = "エムスタ 管理画面",
+  children,
+}: {
+  /** タブに表示する画面名（シーン連動） */
+  label?: string;
+  children: ReactNode;
+}) {
   return (
     <div className="relative overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-2xl shadow-neutral-900/10">
       <div className="flex items-center gap-2 border-b border-neutral-200 bg-neutral-50 px-4 py-2.5">
@@ -22,7 +28,17 @@ export function BrowserChrome({ children }: { children: ReactNode }) {
         </span>
         <span className="ml-2 inline-flex items-center gap-1.5 rounded-md bg-white px-2.5 py-1 text-[10px] font-semibold text-neutral-500 ring-1 ring-neutral-200">
           <EditorIcon />
-          エムスタ エディタ
+          <AnimatePresence initial={false} mode="popLayout">
+            <motion.span
+              key={label}
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.25 }}
+            >
+              {label}
+            </motion.span>
+          </AnimatePresence>
         </span>
         <span className="ml-auto inline-flex items-center gap-1 text-[10px] font-semibold text-primary-600">
           <span className="relative flex h-1.5 w-1.5">
@@ -49,8 +65,16 @@ export function ModePill() {
   );
 }
 
-/** AI生成パネル（active でパルス強調） */
-export function AiPanel({ active = false }: { active?: boolean }) {
+/** AIパネル（シーン連動の文言 / active でパルス強調） */
+export function AiPanel({
+  active = false,
+  title = "AI制作",
+  subtitle = "画面を自動構成",
+}: {
+  active?: boolean;
+  title?: string;
+  subtitle?: string;
+}) {
   return (
     <motion.div
       animate={active ? { scale: 1.06 } : { scale: 1 }}
@@ -66,9 +90,31 @@ export function AiPanel({ active = false }: { active?: boolean }) {
         </div>
         <div>
           <div className="text-[10px] font-semibold uppercase tracking-wider text-white/60">
-            AI生成
+            <AnimatePresence initial={false} mode="popLayout">
+              <motion.span
+                key={title}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="inline-block"
+              >
+                {title}
+              </motion.span>
+            </AnimatePresence>
           </div>
-          <div className="text-sm font-bold">画面を自動構成</div>
+          <div className="text-sm font-bold">
+            <AnimatePresence initial={false} mode="popLayout">
+              <motion.span
+                key={subtitle}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="inline-block"
+              >
+                {subtitle}
+              </motion.span>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -82,7 +128,7 @@ export function CmsPanel({ active = false }: { active?: boolean }) {
       animate={active ? { scale: 1.06 } : { scale: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 18 }}
       className={cn(
-        "absolute -left-4 bottom-16 hidden rounded-2xl bg-white px-4 py-3 shadow-xl ring-1 ring-neutral-200 sm:block",
+        "absolute -left-4 bottom-16 z-40 hidden rounded-2xl bg-white px-4 py-3 shadow-xl ring-1 ring-neutral-200 sm:block",
         active && "ring-2 ring-primary-400"
       )}
     >
@@ -101,20 +147,82 @@ export function CmsPanel({ active = false }: { active?: boolean }) {
   );
 }
 
-/** テーマ切替時にクロスフェードするグラデーション背景（親に relative が必要） */
-export function ThemeGradient({ theme }: { theme: Theme }) {
+/**
+ * 保存成功ダイアログ（実UIの SaveSuccessDialog のデフォルメ）。
+ * 緑チェック + 「保存しました」。親（ダッシュボード領域）に absolute 配置。
+ */
+export function SaveDialog({ show, message }: { show: boolean; message: string }) {
   return (
-    <AnimatePresence initial={false}>
-      <motion.div
-        key={theme.from}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-        className="absolute inset-0"
-        style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})` }}
-      />
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="absolute inset-0 z-20 grid place-items-center bg-neutral-900/20"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 360, damping: 26 }}
+            className="flex w-[52%] max-w-[230px] flex-col items-center gap-1.5 rounded-2xl bg-white px-4 py-3.5 shadow-2xl"
+          >
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 400, damping: 16, delay: 0.1 }}
+              className="grid h-7 w-7 place-items-center rounded-full bg-green-100 text-green-600"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={3}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </motion.span>
+            <span className="text-[11px] font-bold text-neutral-900">保存しました</span>
+            <span className="text-center text-[8px] leading-snug text-neutral-500">{message}</span>
+          </motion.div>
+        </motion.div>
+      )}
     </AnimatePresence>
+  );
+}
+
+/**
+ * 編集モーダルのシェル。
+ * 実UI同様、ダッシュボード（サイドバー+一覧のスケルトン）の上に
+ * モーダルカードとして編集画面を重ねる。スマホモックと重ならないよう左寄せ。
+ */
+export function ModalShell({ children }: { children: ReactNode }) {
+  return (
+    <div className="absolute inset-0 bg-neutral-100">
+      {/* 背景のダッシュボードスケルトン */}
+      <div className="absolute inset-y-0 left-0 w-[10%] space-y-2 border-r border-neutral-200 bg-white p-2">
+        <div className="h-2 w-2/3 rounded bg-primary-200" />
+        <div className="h-1.5 rounded bg-neutral-100" />
+        <div className="h-1.5 rounded bg-neutral-200" />
+        <div className="h-1.5 rounded bg-neutral-100" />
+        <div className="h-1.5 rounded bg-neutral-100" />
+      </div>
+      <div className="absolute inset-y-0 left-[10%] right-0 space-y-1.5 p-3">
+        <div className="h-2.5 w-1/4 rounded bg-neutral-300" />
+        <div className="h-4 rounded bg-white" />
+        <div className="h-4 rounded bg-white" />
+        <div className="h-4 rounded bg-white" />
+      </div>
+      {/* ディム */}
+      <div className="absolute inset-0 bg-neutral-900/25" />
+      {/* 編集モーダル本体 */}
+      <div className="absolute bottom-[4.5%] left-[3.5%] top-[4.5%] w-[62%] overflow-hidden rounded-xl bg-white shadow-2xl">
+        <div className="relative h-full">{children}</div>
+      </div>
+    </div>
   );
 }
 
@@ -126,6 +234,17 @@ export function Caret({ className }: { className?: string }) {
       transition={{ duration: 0.9, repeat: Infinity, times: [0, 0.5, 0.5, 1] }}
       className={cn("ml-px inline-block w-px self-stretch bg-current align-middle", className)}
     />
+  );
+}
+
+/** モーダル/フォームの ✕ 閉じるボタン風 */
+export function CloseGlyph() {
+  return (
+    <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-neutral-100 text-neutral-400">
+      <svg className="h-2 w-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+        <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </span>
   );
 }
 

@@ -2,12 +2,11 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import type { Phase } from "./scenario";
-import { TicketIcon } from "./DashboardMock";
 
 /**
  * デモを操作する疑似カーソル。
  * フェーズの duration に同期して目標座標（%）へ移動し、
- * クリックリップル / ドラッグゴースト（クーポンチップ）を演出する。
+ * クリック時はリップル + 押下スケールを演出する。
  */
 export default function DemoCursor({ phase }: { phase: Phase }) {
   return (
@@ -34,26 +33,9 @@ export default function DemoCursor({ phase }: { phase: Phase }) {
         )}
       </AnimatePresence>
 
-      {/* ドラッグゴースト */}
-      <AnimatePresence>
-        {phase.drag && (
-          <motion.span
-            key="ghost"
-            initial={{ opacity: 0, scale: 0.7 }}
-            animate={{ opacity: 0.95, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.7 }}
-            transition={{ duration: 0.2 }}
-            className="absolute left-3 top-4 flex items-center gap-1 whitespace-nowrap rounded-lg bg-white px-2 py-1 shadow-xl ring-1 ring-primary-200"
-          >
-            <TicketIcon className="h-3 w-3 text-primary-600" />
-            <span className="text-[9px] font-bold text-neutral-800">クーポン</span>
-          </motion.span>
-        )}
-      </AnimatePresence>
-
       {/* ポインタ本体（先端 = 座標原点） */}
       <motion.svg
-        animate={{ scale: phase.pressed ? 0.82 : 1 }}
+        animate={{ scale: phase.click ? 0.85 : 1 }}
         transition={{ duration: 0.15 }}
         className="h-5 w-5 origin-top-left drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]"
         viewBox="0 0 24 24"

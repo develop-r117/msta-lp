@@ -1,19 +1,22 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { PHASES, stateAt } from "./scenario";
 import { AiPanel, BrowserChrome, CmsPanel } from "./panels";
-import DashboardMock from "./DashboardMock";
+import BuildMock from "./BuildMock";
+import OperateMock from "./OperateMock";
 import PhoneMock from "./PhoneMock";
 import DemoCursor from "./DemoCursor";
 import StaticKv from "./StaticKv";
 
 /**
  * KVデモのオーケストレータ。
- * scenario.ts のフェーズをタイマーで順送りし、疑似カーソルの操作と
- * ダッシュボード / スマホプレビューの状態を同期させてループ再生する。
+ * scenario.ts のフェーズをタイマーで順送りし、構築（ページビルダー）→
+ * 運用（投稿コンテンツ編集）の2シーンを疑似カーソルの操作と
+ * スマホプレビューに同期させてループ再生する。
  *
+ * - シーン切替はフェード中（fade フェーズ）に行い、切り替わりを見せない
  * - 画面外（useInView）・非表示タブ（visibilitychange）では進行を停止
  * - prefers-reduced-motion 時は静的コンポジションへフォールバック
  */
@@ -25,7 +28,17 @@ export default function HeroDemo() {
 
 function AnimatedKv() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(containerRef, { amount: 0.25 });
+  // 画面内判定（楽観的に true で開始し、外れたら停止する）
+  const [inView, setInView] = useState(true);
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
+      threshold: 0.25,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const [pageVisible, setPageVisible] = useState(true);
   useEffect(() => {
@@ -36,28 +49,36 @@ function AnimatedKv() {
 
   const active = inView && pageVisible;
 
-  const [phaseIndex, setPhaseIndex] = useState(0);
+  // 開発時の視覚検証用: ?demoPhase=<id> でフェーズを固定できる
+  const frozenIndex = useMemo(() => {
+    if (process.env.NODE_ENV === "production" || typeof window === "undefined") return -1;
+    const id = new URLSearchParams(window.location.search).get("demoPhase");
+    return id ? PHASES.findIndex((p) => p.id === id) : -1;
+  }, []);
+
+  const [phaseIndex, setPhaseIndex] = useState(frozenIndex >= 0 ? frozenIndex : 0);
   useEffect(() => {
-    if (!active) return;
+    if (!active || frozenIndex >= 0) return;
     const timer = setTimeout(
       () => setPhaseIndex((i) => (i + 1) % PHASES.length),
       PHASES[phaseIndex].duration
     );
     return () => clearTimeout(timer);
-  }, [active, phaseIndex]);
+  }, [active, phaseIndex, frozenIndex]);
 
   const phase = PHASES[phaseIndex];
   const state = useMemo(() => stateAt(phaseIndex), [phaseIndex]);
+  const isBuild = state.scene === "build";
 
   return (
     <div
       ref={containerRef}
       role="img"
-      aria-label="エムスタの操作デモ: ダッシュボードでクーポン追加・テーマ変更・テキスト編集を行うと、アプリのプレビューに即時反映され、ワンクリックで公開される様子"
+      aria-label="エムスタの操作デモ: 構築ではページビルダーでブロックを追加して保存、運用では投稿をAIで作成して保存すると、アプリのプレビューに即時反映される様子"
       data-phase={phase.id}
       className="relative"
     >
-      <BrowserChrome>
+      <BrowserChrome label={isBuild ? "固定コンテンツ編集" : "投稿コンテンツ編集"}>
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-50">
           <motion.div
             aria-hidden
@@ -65,17 +86,17 @@ function AnimatedKv() {
             transition={{ duration: 0.45 }}
             className="absolute inset-0"
           >
-            <DashboardMock
-              state={state}
-              dragging={Boolean(phase.drag)}
-              grabbing={Boolean(phase.pressed)}
-            />
+            {isBuild ? <BuildMock state={state} /> : <OperateMock state={state} />}
           </motion.div>
           <DemoCursor phase={phase} />
         </div>
       </BrowserChrome>
 
-      <AiPanel active={phase.highlight === "ai"} />
+      <AiPanel
+        active={phase.highlight === "ai"}
+        title={isBuild ? "AI制作" : "AI記事作成"}
+        subtitle={isBuild ? "画面を自動構成" : "記事を自動生成"}
+      />
       <CmsPanel active={phase.highlight === "cms"} />
 
       {/* ライブプレビュー（スマホ） */}
