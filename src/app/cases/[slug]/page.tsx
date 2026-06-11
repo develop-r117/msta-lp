@@ -91,7 +91,7 @@ export default async function CaseDetailPage({ params }: { params: Promise<{ slu
 
           {entry.body ? (
             <div
-              className="prose prose-neutral mx-auto mt-12 max-w-none [&_h2]:mt-12 [&_h2]:text-2xl [&_h2]:font-bold [&_h3]:text-xl [&_p]:leading-relaxed"
+              className="case-article mx-auto mt-12 max-w-3xl"
               dangerouslySetInnerHTML={{ __html: entry.body }}
             />
           ) : (

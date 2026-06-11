@@ -82,6 +82,158 @@
   }
 }
 
+@layer components {
+  /* ===== 事例詳細ページ 本文 (Markdoc HTML) =====
+     CMSダンプで生成されたHTMLに直接クラスを付与できないため、
+     記事ラッパー .case-article 配下の要素セレクタでスタイルを当てる */
+  .case-article {
+    color: var(--color-neutral-700);
+    font-size: 1rem;
+    line-height: 1.9;
+  }
+
+  /* Markdoc出力は <article> でラップされる */
+  .case-article article > * + * {
+    margin-top: 1.25em;
+  }
+
+  /* セクション見出し: リード/伝えたいこと/インタビュー/まとめ 等 */
+  .case-article h2 {
+    margin-top: 3.75rem;
+    padding-left: 1rem;
+    border-left: 4px solid var(--color-primary-500);
+    font-size: 1.5rem;
+    line-height: 1.4;
+    color: var(--color-neutral-900);
+  }
+
+  .case-article h2:first-child {
+    margin-top: 0;
+    font-size: 1.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .case-article h2 {
+      font-size: 1.625rem;
+    }
+    .case-article h2:first-child {
+      font-size: 2rem;
+    }
+  }
+
+  /* インタビュー設問: Qバッジ付きの質問ブロック */
+  .case-article h3 {
+    position: relative;
+    margin-top: 3rem;
+    padding: 0.875rem 1.25rem 0.875rem 3.25rem;
+    background: var(--color-primary-50);
+    border: 1px solid var(--color-primary-100);
+    border-radius: 1rem;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-primary-800);
+  }
+
+  .case-article h3::before {
+    content: "Q";
+    position: absolute;
+    left: 1rem;
+    top: 1.05rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.625rem;
+    height: 1.625rem;
+    border-radius: 9999px;
+    background: var(--color-primary-500);
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  .case-article p {
+    line-height: 1.9;
+  }
+
+  /* リード直下のサブタイトル（〜◯◯様の…〜） */
+  .case-article h2:first-child + p {
+    margin-top: 0.75rem;
+    font-weight: 600;
+    color: var(--color-neutral-500);
+  }
+
+  .case-article hr {
+    margin: 3.5rem 0;
+    border: 0;
+    height: 1px;
+    background: var(--color-neutral-200);
+  }
+
+  .case-article strong {
+    font-weight: 700;
+    color: var(--color-neutral-900);
+  }
+
+  .case-article a {
+    color: var(--color-primary-600);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--color-primary-200);
+  }
+
+  .case-article a:hover {
+    color: var(--color-primary-700);
+    text-decoration-color: var(--color-primary-400);
+  }
+
+  .case-article ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+  }
+
+  .case-article ul li {
+    margin: 0.5em 0;
+    padding-left: 0.25rem;
+  }
+
+  .case-article ul li::marker {
+    color: var(--color-primary-400);
+  }
+
+  /* 見出し直後のリスト = クライアント情報などの定義リスト → カード表示 */
+  .case-article h2 + ul {
+    list-style: none;
+    margin-top: 1.5rem;
+    padding: 0.5rem 1.5rem;
+    background: #fff;
+    border: 1px solid var(--color-neutral-200);
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 24px rgba(3, 7, 30, 0.06);
+  }
+
+  .case-article h2 + ul li {
+    margin: 0;
+    padding: 0.875rem 0;
+    border-bottom: 1px solid var(--color-neutral-100);
+    font-size: 0.9375rem;
+  }
+
+  .case-article h2 + ul li:last-child {
+    border-bottom: 0;
+  }
+
+  .case-article blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    background: var(--color-neutral-50);
+    border-left: 4px solid var(--color-accent-400);
+    border-radius: 0 1rem 1rem 0;
+    font-style: italic;
+    color: var(--color-neutral-700);
+  }
+}
+
 @layer utilities {
   /* Light entry sections — TOP KV / About / 機能 / 事例 / FAQ / 料金 */
   .bg-section-light {
