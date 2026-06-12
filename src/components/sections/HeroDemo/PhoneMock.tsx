@@ -45,6 +45,25 @@ export default function PhoneMock({
 
           {/* コンテンツ */}
           <div className="min-h-0 flex-1 space-y-1.5 overflow-hidden p-2">
+            {/* 見出しブロック（ビジュアルエディタで追加） */}
+            <AnimatePresence initial={false} mode="popLayout">
+              {state.veBlockAdded && (
+                <motion.div
+                  key="ve-heading"
+                  layout
+                  initial={{ opacity: 0, scale: 0.88, y: -8 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 340, damping: 26 }}
+                  className="px-0.5"
+                >
+                  <div className="text-[9px] font-semibold leading-tight text-neutral-900">
+                    見出し
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* スライダーブロック（既存） */}
             <motion.div layout className="relative h-11 overflow-hidden rounded-lg bg-neutral-100">
               <div
@@ -147,9 +166,9 @@ export default function PhoneMock({
           </div>
         </motion.div>
 
-        {/* 構築の保存時: 反映フラッシュ */}
+        {/* 構築/ビジュアルエディタの保存時: 反映フラッシュ */}
         <AnimatePresence>
-          {state.buildSaved && (
+          {(state.buildSaved || state.veSaved) && (
             <motion.div
               key="flash"
               initial={{ opacity: 0.55 }}

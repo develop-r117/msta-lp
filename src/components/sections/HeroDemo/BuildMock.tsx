@@ -22,8 +22,27 @@ export default function BuildMock({ state }: { state: DemoState }) {
       <div className="flex shrink-0 items-center gap-1.5 border-b border-neutral-100 px-3 py-1.5">
         <DocIcon className="h-3 w-3 text-purple-500" />
         <span className="text-[10px] font-bold text-neutral-800">固定コンテンツ編集</span>
-        <span className="ml-auto hidden items-center gap-1 rounded-lg border border-purple-200 bg-purple-50/50 px-2 py-0.5 md:flex">
-          <span className="grid h-2.5 w-2.5 place-items-center rounded-[3px] border border-purple-300 bg-white" />
+        <span
+          data-demo="ve-toggle"
+          className={cn(
+            "ml-auto flex items-center gap-1 rounded-lg border px-2 py-0.5 transition-colors",
+            state.veToggled
+              ? "border-purple-400 bg-purple-100"
+              : "border-purple-200 bg-purple-50/50"
+          )}
+        >
+          <span
+            className={cn(
+              "grid h-2.5 w-2.5 place-items-center rounded-[3px] border text-white",
+              state.veToggled ? "border-purple-600 bg-purple-600" : "border-purple-300 bg-white"
+            )}
+          >
+            {state.veToggled && (
+              <svg className="h-1.5 w-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            )}
+          </span>
           <span className="text-[7px] font-semibold text-purple-700">
             ビジュアルエディタモードを有効にする
           </span>

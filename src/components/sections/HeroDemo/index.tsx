@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { PHASES, stateAt } from "./scenario";
 import { AiPanel, BrowserChrome, CmsPanel } from "./panels";
 import BuildMock from "./BuildMock";
+import VisualMock from "./VisualMock";
 import OperateMock from "./OperateMock";
 import PhoneMock from "./PhoneMock";
 import DemoCursor from "./DemoCursor";
@@ -68,17 +69,23 @@ function AnimatedKv() {
 
   const phase = PHASES[phaseIndex];
   const state = useMemo(() => stateAt(phaseIndex), [phaseIndex]);
-  const isBuild = state.scene === "build";
+  const isOperate = state.scene === "operate";
+
+  const CHROME_LABELS = {
+    build: "固定コンテンツ編集",
+    visual: "ホーム - ブロック編集",
+    operate: "投稿コンテンツ編集",
+  } as const;
 
   return (
     <div
       ref={containerRef}
       role="img"
-      aria-label="エムスタの操作デモ: 構築ではページビルダーでブロックを追加して保存、運用では投稿をAIで作成して保存すると、アプリのプレビューに即時反映される様子"
+      aria-label="エムスタの操作デモ: ページビルダーでのブロック追加、ビジュアルエディタでの画面編集、AIによる投稿作成を行うと、アプリのプレビューに即時反映され保存・公開される様子"
       data-phase={phase.id}
       className="relative"
     >
-      <BrowserChrome label={isBuild ? "固定コンテンツ編集" : "投稿コンテンツ編集"}>
+      <BrowserChrome label={CHROME_LABELS[state.scene]}>
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-50">
           <motion.div
             aria-hidden
@@ -86,7 +93,13 @@ function AnimatedKv() {
             transition={{ duration: 0.45 }}
             className="absolute inset-0"
           >
-            {isBuild ? <BuildMock state={state} /> : <OperateMock state={state} />}
+            {state.scene === "build" ? (
+              <BuildMock state={state} />
+            ) : state.scene === "visual" ? (
+              <VisualMock state={state} />
+            ) : (
+              <OperateMock state={state} />
+            )}
           </motion.div>
           <DemoCursor phase={phase} />
         </div>
@@ -94,8 +107,8 @@ function AnimatedKv() {
 
       <AiPanel
         active={phase.highlight === "ai"}
-        title={isBuild ? "AI制作" : "AI記事作成"}
-        subtitle={isBuild ? "画面を自動構成" : "記事を自動生成"}
+        title={isOperate ? "AI記事作成" : "AI制作"}
+        subtitle={isOperate ? "記事を自動生成" : "画面を自動構成"}
       />
       <CmsPanel active={phase.highlight === "cms"} />
 
