@@ -6,10 +6,11 @@ import { getHelpCategorySlug, getHelpCategoryTitle } from "@/lib/content-types";
 import {
   getHelpArticleBySlug,
   getHelpArticlesByCategory,
-} from "@/lib/cms-static";
+} from "@/lib/cms-data";
 import { buildMetadata } from "@/lib/seo";
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -17,7 +18,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = getHelpArticleBySlug(slug);
+  const article = await getHelpArticleBySlug(slug);
   if (!article) {
     return buildMetadata({
       title: "ヘルプ記事",
@@ -38,17 +39,17 @@ export default async function HelpArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = getHelpArticleBySlug(slug);
+  const article = await getHelpArticleBySlug(slug);
   if (!article) notFound();
 
   const categorySlug = getHelpCategorySlug(article);
   const categoryTitle = getHelpCategoryTitle(article);
 
-  const sameCategory = getHelpArticlesByCategory(categorySlug);
+  const sameCategory = await getHelpArticlesByCategory(categorySlug);
   const related = (article.relatedArticles?.length
-    ? article.relatedArticles
-        .map((r) => getHelpArticleBySlug(r.slug))
-        .filter((a): a is NonNullable<typeof a> => a !== null)
+    ? (
+        await Promise.all(article.relatedArticles.map((r) => getHelpArticleBySlug(r.slug)))
+      ).filter((a): a is NonNullable<typeof a> => a !== null)
     : sameCategory.filter((a) => a.slug !== article.slug)
   ).slice(0, 4);
 

@@ -8,8 +8,11 @@ import HelpSearchResults from "@/components/sections/HelpSearchResults";
 import {
   getAllHelpArticles,
   getAllHelpCategories,
-} from "@/lib/cms-static";
+} from "@/lib/cms-data";
 import { buildMetadata } from "@/lib/seo";
+
+export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export const metadata = buildMetadata({
   title: "ヘルプセンター",
@@ -19,8 +22,8 @@ export const metadata = buildMetadata({
 });
 
 export default async function HelpHomePage() {
-  const categories = getAllHelpCategories();
-  const allArticles = getAllHelpArticles();
+  const categories = await getAllHelpCategories();
+  const allArticles = await getAllHelpArticles();
 
   const popular = allArticles.slice(0, 6);
 

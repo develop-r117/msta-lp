@@ -2,8 +2,11 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import FAQGroups from "@/components/sections/FAQGroups";
-import { getAllFAQCategories } from "@/lib/cms-static";
+import { getAllFAQCategories } from "@/lib/cms-data";
 import { buildMetadata } from "@/lib/seo";
+
+export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export const metadata = buildMetadata({
   title: "よくある質問",
@@ -13,7 +16,7 @@ export const metadata = buildMetadata({
 });
 
 export default async function FAQPage() {
-  const FAQ_CATEGORIES = getAllFAQCategories();
+  const FAQ_CATEGORIES = await getAllFAQCategories();
   const allItems = FAQ_CATEGORIES.flatMap((c) => c.items);
   const jsonLd = {
     "@context": "https://schema.org",

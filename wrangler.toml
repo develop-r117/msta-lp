@@ -8,3 +8,9 @@ compatibility_flags = ["nodejs_compat"]
 # Pages settings
 pages_build_output_dir = ".vercel/output/static"
 
+# CMS コンテンツ格納用 KV。公開ページはリクエスト時に KV を読み、
+# /admin の保存が push やビルドなしで即座に反映される。
+[[kv_namespaces]]
+binding = "CMS_KV"
+id = "8f26118b07fe4928bc412dc18179049e"
+

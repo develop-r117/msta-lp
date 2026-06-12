@@ -10,8 +10,11 @@ import { TwoPathSplit, ProductGrid, PartnerStrip, ServiceMix } from "@/component
 import Pricing from "@/components/sections/Pricing";
 import Cases from "@/components/sections/Cases";
 import FAQ from "@/components/sections/FAQ";
-import { getAllCases } from "@/lib/cms-static";
+import { getAllCases } from "@/lib/cms-data";
 import { buildMetadata } from "@/lib/seo";
+
+export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export const metadata = buildMetadata({
   title: "エムスタ - 真のノーコード × 最強CMS",
@@ -21,7 +24,7 @@ export const metadata = buildMetadata({
 });
 
 export default async function Home() {
-  const cases = getAllCases().slice(0, 6);
+  const cases = (await getAllCases()).slice(0, 6);
   return (
     <>
       <Header />

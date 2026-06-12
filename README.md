@@ -119,11 +119,20 @@ npm run dev
 
 Cloudflare Workers の edge runtime は Keystatic Admin UI が依存する Node.js API (fs/path) と OAuth route handler をサポートしていないため、`scripts/cf-build.mjs` でビルド時に `src/app/keystatic` と `src/app/api/keystatic` を一時的に `_disabled` 末尾にリネームし、ビルド対象から除外します。
 
-そのため本番フローは次のとおり:
+### 公開サイト上の管理画面 `/admin` (即時反映)
 
-1. ローカルで `npm run dev` → `/keystatic` を開いて編集
-2. `content/` の差分を `git commit && git push`
-3. Cloudflare Pages の自動デプロイで反映 (`prebuild` で `npm run dump:cms` が走る)
+非エンジニアがブラウザだけで編集できるよう、公開サイトに認証付き管理画面 `/admin` を用意しています。
+
+- **データ源**: Cloudflare KV (`CMS_KV`、キー `cms:data`)。公開ページはリクエスト時に KV を読むため、**保存すると push・再ビルドなしで即時反映** (海外リージョンは KV の伝播で最大60秒)
+- **認証**: Cloudflare Pages の環境変数 `ADMIN_PASSWORD` (Production / Preview 両方に設定)
+- **本文**: Markdown (Markdoc) で編集し、保存時に edge 上で HTML に変換
+- **フォールバック**: KV が空・未バインドの場合はビルド時生成の `cms.generated.json` を使用
+
+| コマンド | 用途 |
+| --- | --- |
+| `npm run seed:cms` | `content/` の最新内容を KV に投入 (初回セットアップ / ローカル編集の反映)。**/admin での編集を上書きするので注意** |
+
+> KV が正となるため、`/admin` で編集した内容は `content/` のファイルには反映されません。ローカル (Keystatic) と /admin の編集を併用する場合は、どちらを正とするか運用ルールを決めてください。
 
 ## Cloudflare Pages デプロイ
 

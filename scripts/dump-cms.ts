@@ -91,6 +91,7 @@ function dumpCases(): CaseEntry[] {
       result: asString(data.result),
       customerVoice: asString(data.customerVoice) || undefined,
       body: renderMdocBody(body),
+      bodySource: body || undefined,
     });
   }
   return out;
@@ -113,6 +114,7 @@ function dumpUsecases(): UsecaseEntry[] {
       activeFeatures: asStringArray(data.activeFeatures),
       cover: cover ? { url: cover } : undefined,
       body: renderMdocBody(body),
+      bodySource: body || undefined,
     });
   }
   return out;
@@ -158,6 +160,7 @@ function dumpHelpArticles(categories: HelpCategory[]): HelpArticle[] {
         title: catMap.get(catSlug) ?? catSlug,
       },
       body: renderMdocBody(body),
+      bodySource: body || undefined,
       tags: asStringArray(data.tags),
       relatedArticles: asStringArray(data.relatedArticleSlugs).map((s) => ({
         slug: s,

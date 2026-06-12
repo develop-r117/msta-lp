@@ -6,8 +6,11 @@ import MstaFull from "@/components/sections/MstaFull";
 import Cases from "@/components/sections/Cases";
 import { Button, ChatIcon, ArrowIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
-import { getAllCases } from "@/lib/cms-static";
+import { getAllCases } from "@/lib/cms-data";
 import { buildMetadata } from "@/lib/seo";
+
+export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export const metadata = buildMetadata({
   title: "エムスタFull (スクラッチ受託開発)",
@@ -20,7 +23,7 @@ export const metadata = buildMetadata({
 const FULL_CASE_SLUGS = ["tsuya-factory", "fb-scout"];
 
 export default async function FullPage() {
-  const fullCases = getAllCases().filter((c) => FULL_CASE_SLUGS.includes(c.slug));
+  const fullCases = (await getAllCases()).filter((c) => FULL_CASE_SLUGS.includes(c.slug));
 
   return (
     <SiteShell

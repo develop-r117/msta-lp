@@ -4,10 +4,13 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import AppMockShowcase from "@/components/sections/AppMockShowcase";
-import { getAllUsecases } from "@/lib/cms-static";
+import { getAllUsecases } from "@/lib/cms-data";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
+
+export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export const metadata = buildMetadata({
   title: "業種別ユースケース",
@@ -17,7 +20,7 @@ export const metadata = buildMetadata({
 });
 
 export default async function UsecasesPage() {
-  const usecases = getAllUsecases();
+  const usecases = await getAllUsecases();
 
   return (
     <SiteShell

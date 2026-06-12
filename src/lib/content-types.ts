@@ -15,6 +15,8 @@ export type CaseEntry = {
   result: string;
   customerVoice?: string;
   body?: string;
+  /** /admin 編集用の Markdoc 原文 (body は HTML 化済みのため別途保持) */
+  bodySource?: string;
   publishedAt?: string;
   updatedAt?: string;
 };
@@ -28,6 +30,7 @@ export type UsecaseEntry = {
   activeFeatures: string[];
   cover?: CaseImage;
   body?: string;
+  bodySource?: string;
   publishedAt?: string;
   updatedAt?: string;
 };
@@ -50,6 +53,7 @@ export type HelpArticle = {
   summary: string;
   category: { slug: string; title: string } | string;
   body?: string;
+  bodySource?: string;
   tags?: string[];
   relatedArticles?: { slug: string; title: string }[];
   publishedAt?: string;

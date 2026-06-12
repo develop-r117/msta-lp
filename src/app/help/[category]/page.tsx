@@ -8,10 +8,11 @@ import {
   getAllHelpCategories,
   getHelpArticlesByCategory,
   getHelpCategoryBySlug,
-} from "@/lib/cms-static";
+} from "@/lib/cms-data";
 import { buildMetadata } from "@/lib/seo";
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -19,7 +20,7 @@ export async function generateMetadata({
   params: Promise<{ category: string }>;
 }) {
   const { category } = await params;
-  const cat = getHelpCategoryBySlug(category);
+  const cat = await getHelpCategoryBySlug(category);
   if (!cat) {
     return buildMetadata({
       title: "ヘルプ",
@@ -40,12 +41,12 @@ export default async function HelpCategoryPage({
   params: Promise<{ category: string }>;
 }) {
   const { category } = await params;
-  const cat = getHelpCategoryBySlug(category);
+  const cat = await getHelpCategoryBySlug(category);
   if (!cat) notFound();
 
-  const articles = getHelpArticlesByCategory(cat.slug);
-  const allCategories = getAllHelpCategories();
-  const allArticles = getAllHelpArticles();
+  const articles = await getHelpArticlesByCategory(cat.slug);
+  const allCategories = await getAllHelpCategories();
+  const allArticles = await getAllHelpArticles();
 
   return (
     <SiteShell

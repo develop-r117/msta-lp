@@ -1,0 +1,753 @@
+"use client";
+
+/**
+ * /admin コンテンツ管理画面。
+ *
+ * 公開サイト上で動く軽量 CMS エディタ。保存は /api/admin/cms 経由で
+ * Cloudflare KV に書き込まれ、公開ページへ即時反映される。
+ */
+import { useCallback, useEffect, useMemo, useState } from "react";
+import type {
+  CaseEntry,
+  UsecaseEntry,
+  HelpCategory,
+  HelpArticle,
+  FAQCategory,
+  FAQItem,
+} from "@/lib/content-types";
+
+type CmsData = {
+  generatedAt: string;
+  cases: CaseEntry[];
+  usecases: UsecaseEntry[];
+  helpCategories: HelpCategory[];
+  helpArticles: HelpArticle[];
+  faqCategories: FAQCategory[];
+};
+
+type Collection =
+  | "cases"
+  | "usecases"
+  | "helpCategories"
+  | "helpArticles"
+  | "faqCategories";
+
+const TABS: { key: Collection; label: string }[] = [
+  { key: "cases", label: "導入事例" },
+  { key: "usecases", label: "ユースケース" },
+  { key: "helpCategories", label: "ヘルプカテゴリ" },
+  { key: "helpArticles", label: "ヘルプ記事" },
+  { key: "faqCategories", label: "FAQ" },
+];
+
+/* ===== フォーム状態 (フラット化したレコード / FAQ項目は別Stateで管理) ===== */
+type FormState = Record<string, string>;
+
+function linesToArray(v: string): string[] {
+  return v
+    .split("\n")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function itemToForm(collection: Collection, item: Record<string, unknown> | null): FormState {
+  if (!item) {
+    return collection === "faqCategories" ? { id: "", label: "" } : {};
+  }
+  const f: FormState = {};
+  switch (collection) {
+    case "cases": {
+      const c = item as unknown as CaseEntry;
+      Object.assign(f, {
+        id: c.id ?? "",
+        slug: c.slug ?? "",
+        title: c.title ?? "",
+        category: c.category ?? "",
+        summary: c.summary ?? "",
+        coverUrl: c.cover?.url ?? "",
+        activeFeatures: (c.activeFeatures ?? []).join("\n"),
+        result: c.result ?? "",
+        customerVoice: c.customerVoice ?? "",
+        bodySource: c.bodySource ?? "",
+      });
+      break;
+    }
+    case "usecases": {
+      const u = item as unknown as UsecaseEntry;
+      Object.assign(f, {
+        id: u.id ?? "",
+        industry: u.industry ?? "",
+        title: u.title ?? "",
+        description: u.description ?? "",
+        scenarios: (u.scenarios ?? []).join("\n"),
+        activeFeatures: (u.activeFeatures ?? []).join("\n"),
+        coverUrl: u.cover?.url ?? "",
+        bodySource: u.bodySource ?? "",
+      });
+      break;
+    }
+    case "helpCategories": {
+      const c = item as unknown as HelpCategory;
+      Object.assign(f, {
+        id: c.id ?? "",
+        slug: c.slug ?? "",
+        title: c.title ?? "",
+        description: c.description ?? "",
+        iconKey: c.iconKey ?? "",
+        order: String(c.order ?? 99),
+      });
+      break;
+    }
+    case "helpArticles": {
+      const a = item as unknown as HelpArticle;
+      const catSlug = typeof a.category === "string" ? a.category : a.category?.slug ?? "";
+      Object.assign(f, {
+        id: a.id ?? "",
+        slug: a.slug ?? "",
+        title: a.title ?? "",
+        summary: a.summary ?? "",
+        categorySlug: catSlug,
+        tags: (a.tags ?? []).join("\n"),
+        relatedSlugs: (a.relatedArticles ?? []).map((r) => r.slug).join("\n"),
+        bodySource: a.bodySource ?? "",
+      });
+      break;
+    }
+    case "faqCategories": {
+      const c = item as unknown as FAQCategory;
+      f.id = c.id ?? "";
+      f.label = c.label ?? "";
+      break;
+    }
+  }
+  return f;
+}
+
+function formToItem(
+  collection: Collection,
+  f: FormState,
+  faqItems: FAQItem[],
+): Record<string, unknown> {
+  switch (collection) {
+    case "cases":
+      return {
+        id: f.id.trim(),
+        slug: (f.slug || f.id).trim(),
+        title: f.title ?? "",
+        category: f.category ?? "",
+        summary: f.summary ?? "",
+        cover: f.coverUrl?.trim() ? { url: f.coverUrl.trim() } : undefined,
+        activeFeatures: linesToArray(f.activeFeatures ?? ""),
+        result: f.result ?? "",
+        customerVoice: f.customerVoice?.trim() || undefined,
+        bodySource: f.bodySource ?? "",
+      };
+    case "usecases":
+      return {
+        id: f.id.trim(),
+        industry: (f.industry || f.id).trim(),
+        title: f.title ?? "",
+        description: f.description ?? "",
+        scenarios: linesToArray(f.scenarios ?? ""),
+        activeFeatures: linesToArray(f.activeFeatures ?? ""),
+        cover: f.coverUrl?.trim() ? { url: f.coverUrl.trim() } : undefined,
+        bodySource: f.bodySource ?? "",
+      };
+    case "helpCategories":
+      return {
+        id: f.id.trim(),
+        slug: (f.slug || f.id).trim(),
+        title: f.title ?? "",
+        description: f.description ?? "",
+        iconKey: f.iconKey?.trim() || undefined,
+        order: Number(f.order) || 99,
+      };
+    case "helpArticles":
+      return {
+        id: f.id.trim(),
+        slug: (f.slug || f.id).trim(),
+        title: f.title ?? "",
+        summary: f.summary ?? "",
+        category: { slug: f.categorySlug ?? "" },
+        tags: linesToArray(f.tags ?? ""),
+        relatedArticles: linesToArray(f.relatedSlugs ?? "").map((s) => ({ slug: s, title: s })),
+        bodySource: f.bodySource ?? "",
+      };
+    case "faqCategories":
+      return {
+        id: f.id.trim(),
+        label: f.label ?? "",
+        items: faqItems.map((it, i) => ({
+          id: it.id?.trim() || `${f.id.trim()}-${i + 1}`,
+          question: it.question ?? "",
+          answer: it.answer ?? "",
+        })),
+      };
+  }
+}
+
+function listTitle(collection: Collection, item: Record<string, unknown>): string {
+  if (collection === "faqCategories") return String(item.label ?? item.id);
+  return String(item.title ?? item.id);
+}
+
+function listSub(collection: Collection, item: Record<string, unknown>): string {
+  switch (collection) {
+    case "cases":
+      return `${item.category ?? ""} / ${item.slug ?? ""}`;
+    case "usecases":
+      return String(item.industry ?? "");
+    case "helpCategories":
+      return `順序: ${item.order ?? "-"} / ${item.slug ?? ""}`;
+    case "helpArticles": {
+      const cat = item.category as { title?: string } | string | undefined;
+      const t = typeof cat === "string" ? cat : cat?.title ?? "";
+      return `${t} / ${item.slug ?? ""}`;
+    }
+    case "faqCategories": {
+      const items = item.items as unknown[] | undefined;
+      return `${items?.length ?? 0} 件の質問`;
+    }
+  }
+}
+
+/* ===== UI 部品 ===== */
+function Field({
+  label,
+  hint,
+  children,
+}: {
+  label: string;
+  hint?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1 block text-xs font-bold text-neutral-700">{label}</span>
+      {children}
+      {hint ? <span className="mt-1 block text-[11px] text-neutral-400">{hint}</span> : null}
+    </label>
+  );
+}
+
+const inputCls =
+  "w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900";
+
+export default function AdminApp() {
+  const [phase, setPhase] = useState<"loading" | "login" | "ready">("loading");
+  const [password, setPassword] = useState("");
+  const [data, setData] = useState<CmsData | null>(null);
+  const [tab, setTab] = useState<Collection>("cases");
+  const [form, setForm] = useState<FormState | null>(null);
+  const [faqItems, setFaqItems] = useState<FAQItem[]>([]);
+  const [editingExisting, setEditingExisting] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+
+  const fetchData = useCallback(async () => {
+    const res = await fetch("/api/admin/cms", { cache: "no-store" });
+    if (res.status === 401) {
+      setPhase("login");
+      return;
+    }
+    if (!res.ok) {
+      setError("データの取得に失敗しました。");
+      setPhase("login");
+      return;
+    }
+    setData((await res.json()) as CmsData);
+    setPhase("ready");
+  }, []);
+
+  useEffect(() => {
+    void fetchData();
+  }, [fetchData]);
+
+  const login = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+      if (!res.ok) {
+        const j = (await res.json().catch(() => null)) as { error?: string } | null;
+        setError(j?.error ?? "ログインに失敗しました。");
+        return;
+      }
+      setPassword("");
+      await fetchData();
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const logout = async () => {
+    await fetch("/api/admin/login", { method: "DELETE" });
+    setData(null);
+    setPhase("login");
+  };
+
+  const save = async () => {
+    if (!form) return;
+    const item = formToItem(tab, form, faqItems);
+    if (!item.id) {
+      setError("ID は必須です (半角英数とハイフン)。");
+      return;
+    }
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/cms", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "upsert", collection: tab, item }),
+      });
+      const j = (await res.json().catch(() => null)) as
+        | { error?: string; data?: CmsData }
+        | null;
+      if (!res.ok) {
+        setError(j?.error ?? "保存に失敗しました。");
+        return;
+      }
+      if (j?.data) setData(j.data);
+      setForm(null);
+      setNotice("保存しました。公開ページに即時反映されます。");
+      setTimeout(() => setNotice(""), 4000);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const remove = async (id: string, title: string) => {
+    if (!window.confirm(`「${title}」を削除します。よろしいですか?`)) return;
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/cms", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "delete", collection: tab, id }),
+      });
+      const j = (await res.json().catch(() => null)) as
+        | { error?: string; data?: CmsData }
+        | null;
+      if (!res.ok) {
+        setError(j?.error ?? "削除に失敗しました。");
+        return;
+      }
+      if (j?.data) setData(j.data);
+      setNotice("削除しました。");
+      setTimeout(() => setNotice(""), 4000);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const items = useMemo(() => {
+    if (!data) return [];
+    return data[tab] as unknown as Record<string, unknown>[];
+  }, [data, tab]);
+
+  /* ===== ログイン画面 ===== */
+  if (phase === "loading") {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-neutral-50 text-sm text-neutral-500">
+        読み込み中…
+      </div>
+    );
+  }
+
+  if (phase === "login") {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-neutral-100 px-4">
+        <form
+          onSubmit={login}
+          className="w-full max-w-sm rounded-2xl border border-neutral-200 bg-white p-8 shadow-sm"
+        >
+          <h1 className="text-lg font-bold text-neutral-900">コンテンツ管理</h1>
+          <p className="mt-1 text-xs text-neutral-500">
+            管理者パスワードを入力してください。
+          </p>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="パスワード"
+            className={`${inputCls} mt-4`}
+            autoFocus
+          />
+          {error ? <p className="mt-2 text-xs font-semibold text-red-600">{error}</p> : null}
+          <button
+            type="submit"
+            disabled={busy || !password}
+            className="mt-4 w-full rounded-lg bg-neutral-900 py-2.5 text-sm font-bold text-white transition hover:bg-neutral-700 disabled:opacity-40"
+          >
+            {busy ? "確認中…" : "ログイン"}
+          </button>
+        </form>
+      </div>
+    );
+  }
+
+  /* ===== 編集フォーム ===== */
+  if (form) {
+    return (
+      <div className="min-h-screen bg-neutral-50">
+        <header className="sticky top-0 z-10 border-b border-neutral-200 bg-white/90 backdrop-blur">
+          <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
+            <button
+              onClick={() => setForm(null)}
+              className="text-sm font-semibold text-neutral-500 hover:text-neutral-900"
+            >
+              ← 一覧へ戻る
+            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={save}
+                disabled={busy}
+                className="rounded-lg bg-neutral-900 px-5 py-2 text-sm font-bold text-white transition hover:bg-neutral-700 disabled:opacity-40"
+              >
+                {busy ? "保存中…" : "保存して公開"}
+              </button>
+            </div>
+          </div>
+        </header>
+        <main className="mx-auto max-w-3xl space-y-4 px-4 py-6">
+          {error ? (
+            <p className="rounded-lg bg-red-50 px-4 py-2 text-xs font-semibold text-red-700">
+              {error}
+            </p>
+          ) : null}
+          <Editor
+            collection={tab}
+            form={form}
+            setForm={setForm}
+            faqItems={faqItems}
+            setFaqItems={setFaqItems}
+            editingExisting={editingExisting}
+            helpCategories={data?.helpCategories ?? []}
+          />
+        </main>
+      </div>
+    );
+  }
+
+  /* ===== 一覧 ===== */
+  return (
+    <div className="min-h-screen bg-neutral-50">
+      <header className="border-b border-neutral-200 bg-white">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
+          <div>
+            <h1 className="text-lg font-bold text-neutral-900">コンテンツ管理</h1>
+            <p className="text-[11px] text-neutral-400">
+              保存すると公開ページへ即時反映されます (海外リージョンは最大60秒)。
+            </p>
+          </div>
+          <div className="flex items-center gap-3 text-sm">
+            <a href="/" target="_blank" className="font-semibold text-neutral-500 hover:text-neutral-900">
+              サイトを表示 ↗
+            </a>
+            <button onClick={logout} className="font-semibold text-neutral-500 hover:text-neutral-900">
+              ログアウト
+            </button>
+          </div>
+        </div>
+        <nav className="mx-auto flex max-w-5xl gap-1 overflow-x-auto px-4">
+          {TABS.map((t) => (
+            <button
+              key={t.key}
+              onClick={() => setTab(t.key)}
+              className={`whitespace-nowrap rounded-t-lg px-4 py-2.5 text-sm font-bold transition ${
+                tab === t.key
+                  ? "border-b-2 border-neutral-900 text-neutral-900"
+                  : "text-neutral-400 hover:text-neutral-700"
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </nav>
+      </header>
+
+      <main className="mx-auto max-w-5xl px-4 py-6">
+        {notice ? (
+          <p className="mb-4 rounded-lg bg-emerald-50 px-4 py-2 text-xs font-bold text-emerald-700">
+            {notice}
+          </p>
+        ) : null}
+        {error ? (
+          <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-xs font-semibold text-red-700">
+            {error}
+          </p>
+        ) : null}
+
+        <div className="mb-4 flex justify-end">
+          <button
+            onClick={() => {
+              setForm(itemToForm(tab, null));
+              setFaqItems([]);
+              setEditingExisting(false);
+              setError("");
+            }}
+            className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-neutral-700"
+          >
+            + 新規作成
+          </button>
+        </div>
+
+        <ul className="divide-y divide-neutral-200 overflow-hidden rounded-2xl border border-neutral-200 bg-white">
+          {items.map((item) => (
+            <li key={String(item.id)} className="flex items-center justify-between gap-3 px-5 py-3.5">
+              <div className="min-w-0">
+                <p className="truncate text-sm font-bold text-neutral-900">
+                  {listTitle(tab, item)}
+                </p>
+                <p className="truncate text-xs text-neutral-400">{listSub(tab, item)}</p>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <button
+                  onClick={() => {
+                    setForm(itemToForm(tab, item));
+                    setFaqItems(
+                      tab === "faqCategories"
+                        ? ((item.items as FAQItem[] | undefined) ?? []).map((it) => ({ ...it }))
+                        : [],
+                    );
+                    setEditingExisting(true);
+                    setError("");
+                  }}
+                  className="rounded-lg border border-neutral-300 px-3.5 py-1.5 text-xs font-bold text-neutral-700 transition hover:border-neutral-900 hover:text-neutral-900"
+                >
+                  編集
+                </button>
+                <button
+                  onClick={() => remove(String(item.id), listTitle(tab, item))}
+                  disabled={busy}
+                  className="rounded-lg border border-red-200 px-3.5 py-1.5 text-xs font-bold text-red-500 transition hover:border-red-500 disabled:opacity-40"
+                >
+                  削除
+                </button>
+              </div>
+            </li>
+          ))}
+          {items.length === 0 ? (
+            <li className="px-5 py-10 text-center text-sm text-neutral-400">
+              まだコンテンツがありません。
+            </li>
+          ) : null}
+        </ul>
+      </main>
+    </div>
+  );
+}
+
+/* ===== コレクション別エディタ ===== */
+function Editor({
+  collection,
+  form,
+  setForm,
+  faqItems,
+  setFaqItems,
+  editingExisting,
+  helpCategories,
+}: {
+  collection: Collection;
+  form: FormState;
+  setForm: (f: FormState) => void;
+  faqItems: FAQItem[];
+  setFaqItems: (items: FAQItem[]) => void;
+  editingExisting: boolean;
+  helpCategories: HelpCategory[];
+}) {
+  const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    setForm({ ...form, [key]: e.target.value });
+
+  const idField = (
+    <Field
+      label="ID (URLスラッグ)"
+      hint={editingExisting ? "既存コンテンツの ID は変更できません。" : "半角英数とハイフン。例: my-new-case"}
+    >
+      <input
+        className={inputCls}
+        value={form.id ?? ""}
+        onChange={set("id")}
+        disabled={editingExisting}
+        placeholder="my-content-id"
+      />
+    </Field>
+  );
+
+  const markdownField = (
+    <Field label="本文 (Markdown)" hint="見出しは ## 、箇条書きは - 、画像は ![説明](URL) で記述できます。">
+      <textarea
+        className={`${inputCls} min-h-[320px] font-mono text-[13px] leading-relaxed`}
+        value={form.bodySource ?? ""}
+        onChange={set("bodySource")}
+      />
+    </Field>
+  );
+
+  const card = "space-y-4 rounded-2xl border border-neutral-200 bg-white p-6";
+
+  switch (collection) {
+    case "cases":
+      return (
+        <div className={card}>
+          {idField}
+          <Field label="タイトル">
+            <input className={inputCls} value={form.title ?? ""} onChange={set("title")} />
+          </Field>
+          <Field label="カテゴリ (業種ラベル)">
+            <input className={inputCls} value={form.category ?? ""} onChange={set("category")} placeholder="例: 飲食店" />
+          </Field>
+          <Field label="概要">
+            <textarea className={`${inputCls} min-h-[80px]`} value={form.summary ?? ""} onChange={set("summary")} />
+          </Field>
+          <Field label="カバー画像URL" hint="例: /screenshots/xxx.png (publicフォルダ内) または https:// から始まるURL">
+            <input className={inputCls} value={form.coverUrl ?? ""} onChange={set("coverUrl")} />
+          </Field>
+          <Field label="活用機能 (1行に1つ)">
+            <textarea className={`${inputCls} min-h-[80px]`} value={form.activeFeatures ?? ""} onChange={set("activeFeatures")} />
+          </Field>
+          <Field label="導入効果">
+            <input className={inputCls} value={form.result ?? ""} onChange={set("result")} />
+          </Field>
+          <Field label="お客様の声 (任意)">
+            <textarea className={`${inputCls} min-h-[60px]`} value={form.customerVoice ?? ""} onChange={set("customerVoice")} />
+          </Field>
+          {markdownField}
+        </div>
+      );
+
+    case "usecases":
+      return (
+        <div className={card}>
+          {idField}
+          <Field label="業種キー" hint="URL に使われます。例: shop / med / edu">
+            <input className={inputCls} value={form.industry ?? ""} onChange={set("industry")} />
+          </Field>
+          <Field label="タイトル">
+            <input className={inputCls} value={form.title ?? ""} onChange={set("title")} />
+          </Field>
+          <Field label="説明">
+            <textarea className={`${inputCls} min-h-[80px]`} value={form.description ?? ""} onChange={set("description")} />
+          </Field>
+          <Field label="活用シナリオ (1行に1つ)">
+            <textarea className={`${inputCls} min-h-[100px]`} value={form.scenarios ?? ""} onChange={set("scenarios")} />
+          </Field>
+          <Field label="活用機能 (1行に1つ)">
+            <textarea className={`${inputCls} min-h-[80px]`} value={form.activeFeatures ?? ""} onChange={set("activeFeatures")} />
+          </Field>
+          <Field label="カバー画像URL">
+            <input className={inputCls} value={form.coverUrl ?? ""} onChange={set("coverUrl")} />
+          </Field>
+          {markdownField}
+        </div>
+      );
+
+    case "helpCategories":
+      return (
+        <div className={card}>
+          {idField}
+          <Field label="タイトル">
+            <input className={inputCls} value={form.title ?? ""} onChange={set("title")} />
+          </Field>
+          <Field label="説明">
+            <textarea className={`${inputCls} min-h-[80px]`} value={form.description ?? ""} onChange={set("description")} />
+          </Field>
+          <Field label="アイコンキー (任意)">
+            <input className={inputCls} value={form.iconKey ?? ""} onChange={set("iconKey")} />
+          </Field>
+          <Field label="表示順 (小さいほど先頭)">
+            <input className={inputCls} type="number" value={form.order ?? "99"} onChange={set("order")} />
+          </Field>
+        </div>
+      );
+
+    case "helpArticles":
+      return (
+        <div className={card}>
+          {idField}
+          <Field label="タイトル">
+            <input className={inputCls} value={form.title ?? ""} onChange={set("title")} />
+          </Field>
+          <Field label="概要">
+            <textarea className={`${inputCls} min-h-[60px]`} value={form.summary ?? ""} onChange={set("summary")} />
+          </Field>
+          <Field label="カテゴリ">
+            <select className={inputCls} value={form.categorySlug ?? ""} onChange={set("categorySlug")}>
+              <option value="">選択してください</option>
+              {helpCategories.map((c) => (
+                <option key={c.slug} value={c.slug}>
+                  {c.title}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field label="タグ (1行に1つ)">
+            <textarea className={`${inputCls} min-h-[60px]`} value={form.tags ?? ""} onChange={set("tags")} />
+          </Field>
+          <Field label="関連記事スラッグ (1行に1つ / 任意)">
+            <textarea className={`${inputCls} min-h-[60px]`} value={form.relatedSlugs ?? ""} onChange={set("relatedSlugs")} />
+          </Field>
+          {markdownField}
+        </div>
+      );
+
+    case "faqCategories": {
+      const setItems = setFaqItems;
+      return (
+        <div className="space-y-4">
+          <div className={card}>
+            {idField}
+            <Field label="カテゴリ名">
+              <input className={inputCls} value={form.label ?? ""} onChange={set("label")} />
+            </Field>
+          </div>
+          {faqItems.map((it, i) => (
+            <div key={i} className={card}>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-neutral-400">Q{i + 1}</span>
+                <button
+                  onClick={() => setItems(faqItems.filter((_, j) => j !== i))}
+                  className="text-xs font-bold text-red-500 hover:text-red-700"
+                >
+                  この質問を削除
+                </button>
+              </div>
+              <Field label="質問">
+                <input
+                  className={inputCls}
+                  value={it.question}
+                  onChange={(e) =>
+                    setItems(faqItems.map((x, j) => (j === i ? { ...x, question: e.target.value } : x)))
+                  }
+                />
+              </Field>
+              <Field label="回答">
+                <textarea
+                  className={`${inputCls} min-h-[100px]`}
+                  value={it.answer}
+                  onChange={(e) =>
+                    setItems(faqItems.map((x, j) => (j === i ? { ...x, answer: e.target.value } : x)))
+                  }
+                />
+              </Field>
+            </div>
+          ))}
+          <button
+            onClick={() => setItems([...faqItems, { id: "", question: "", answer: "" }])}
+            className="w-full rounded-2xl border-2 border-dashed border-neutral-300 py-3 text-sm font-bold text-neutral-500 transition hover:border-neutral-900 hover:text-neutral-900"
+          >
+            + 質問を追加
+          </button>
+        </div>
+      );
+    }
+  }
+}

@@ -2,10 +2,13 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import Cases from "@/components/sections/Cases";
-import { getAllCases } from "@/lib/cms-static";
+import { getAllCases } from "@/lib/cms-data";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
+
+export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export const metadata = buildMetadata({
   title: "導入事例",
@@ -15,7 +18,7 @@ export const metadata = buildMetadata({
 });
 
 export default async function CasesPage() {
-  const cases = getAllCases();
+  const cases = await getAllCases();
 
   return (
     <SiteShell

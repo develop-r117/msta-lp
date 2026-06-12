@@ -6,14 +6,15 @@ import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
 import type { CaseEntry } from "@/lib/content-types";
-import { getCaseBySlug, getAllCases } from "@/lib/cms-static";
+import { getCaseBySlug, getAllCases } from "@/lib/cms-data";
 import { buildMetadata } from "@/lib/seo";
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const c = getCaseBySlug(slug);
+  const c = await getCaseBySlug(slug);
   if (!c) {
     return buildMetadata({
       title: "導入事例",
@@ -31,10 +32,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function CaseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const entry = getCaseBySlug(slug);
+  const entry = await getCaseBySlug(slug);
   if (!entry) notFound();
 
-  const others = getAllCases().filter((c) => c.slug !== entry.slug).slice(0, 3);
+  const others = (await getAllCases()).filter((c) => c.slug !== entry.slug).slice(0, 3);
 
   return (
     <SiteShell

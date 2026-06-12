@@ -5,14 +5,15 @@ import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
-import { getUsecaseByIndustry } from "@/lib/cms-static";
+import { getUsecaseByIndustry } from "@/lib/cms-data";
 import { buildMetadata } from "@/lib/seo";
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ industry: string }> }) {
   const { industry } = await params;
-  const u = getUsecaseByIndustry(industry);
+  const u = await getUsecaseByIndustry(industry);
   if (!u) {
     return buildMetadata({
       title: "ユースケース",
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ industry:
 
 export default async function UsecaseDetailPage({ params }: { params: Promise<{ industry: string }> }) {
   const { industry } = await params;
-  const u = getUsecaseByIndustry(industry);
+  const u = await getUsecaseByIndustry(industry);
   if (!u) notFound();
 
   return (
