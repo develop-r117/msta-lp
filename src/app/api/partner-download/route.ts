@@ -13,6 +13,18 @@ const interestLabels: Record<string, string> = {
   other: "その他",
 };
 
+// 申込者に案内するパートナー資料のダウンロードURL。
+// 環境変数 PARTNER_DOC_URL が設定されていればそちらを優先する。
+const DEFAULT_DOC_URL =
+  "https://drive.google.com/file/d/1yINb53olehb9_QQBRstc36gxyuhTDZM7/view?usp=drive_link";
+
+// 申込通知の送信先（管理者）。環境変数 NOTIFY_TO で上書き可能。
+const DEFAULT_ADMIN_EMAIL = "info@r117.co.jp";
+
+// 送信元。Resendで認証済みドメインのアドレスを RESEND_FROM に設定すること。
+// 未設定時はドメイン認証不要で送れる onboarding@resend.dev を使用する。
+const DEFAULT_FROM = "エムスタ <onboarding@resend.dev>";
+
 export async function POST(req: Request) {
   let json: unknown;
   try {
@@ -48,39 +60,64 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, emailed: false });
   }
 
-  const fromAddress = env.RESEND_FROM ?? "エムスタ <noreply@example.com>";
-  const docUrl = env.PARTNER_DOC_URL ?? "https://example.com/partner.pdf";
+  const fromAddress = env.RESEND_FROM ?? DEFAULT_FROM;
+  const docUrl = env.PARTNER_DOC_URL ?? DEFAULT_DOC_URL;
+  const adminTo = env.NOTIFY_TO ?? DEFAULT_ADMIN_EMAIL;
 
   try {
-    // 1) User confirmation email with download link
-    await resend.emails.send({
-      from: fromAddress,
-      to: data.email,
-      subject: "【エムスタ】パートナー資料のダウンロードリンク",
-      html: renderUserEmail({
-        name: data.name,
-        company: data.company || "",
-        docUrl,
-      }),
-    });
-
-    // 2) Internal notification email (optional)
-    if (env.NOTIFY_TO) {
-      await resend.emails.send({
+    // 1) 申込者へダウンロードリンクを送信
+    // 2) 管理者へ申込内容を通知
+    // 両方を並行送信し、Resendが返すerrorも個別に検知する。
+    const [userResult, adminResult] = await Promise.all([
+      resend.emails.send({
         from: fromAddress,
-        to: env.NOTIFY_TO,
+        to: data.email,
+        subject: "【エムスタ】パートナー資料のダウンロードリンク",
+        html: renderUserEmail({
+          name: data.name,
+          company: data.company || "",
+          docUrl,
+        }),
+      }),
+      resend.emails.send({
+        from: fromAddress,
+        to: adminTo,
+        replyTo: data.email,
         subject: `[エムスタ] パートナー資料DL: ${data.company || data.name}`,
         html: renderNotifyEmail({
           ...data,
           interestText: interestList,
           consultText,
         }),
-      });
+      }),
+    ]);
+
+    if (userResult.error) {
+      console.error("[partner-download] user email failed", userResult.error);
+    }
+    if (adminResult.error) {
+      console.error("[partner-download] admin email failed", adminResult.error);
     }
 
-    return NextResponse.json({ ok: true, emailed: true });
+    // 申込者宛が失敗した場合のみエラーを返す。
+    // （管理者通知のみの失敗ではユーザー体験を止めないが、ログには残す）
+    if (userResult.error) {
+      return NextResponse.json(
+        {
+          error:
+            "メール送信中にエラーが発生しました。時間をおいて再度お試しいただくか、お問い合わせください。",
+        },
+        { status: 502 },
+      );
+    }
+
+    return NextResponse.json({
+      ok: true,
+      emailed: true,
+      adminNotified: !adminResult.error,
+    });
   } catch (e) {
-    console.error("[partner-download] email send failed", e);
+    console.error("[partner-download] email send threw", e);
     return NextResponse.json(
       { error: "メール送信中にエラーが発生しました。時間をおいて再度お試しください。" },
       { status: 500 },
