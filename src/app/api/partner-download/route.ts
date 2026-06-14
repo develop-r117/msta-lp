@@ -50,26 +50,26 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true }, { status: 200 });
   }
 
-  const env = getServerEnv();
-
-  const interestList = data.interests
-    .map((i) => interestLabels[i] ?? i)
-    .join(" / ");
-  const consultText = data.consult === "yes" ? "希望する" : "希望しない";
-
-  // SendGrid APIキー未設定時は送信せず正常終了（フロントは動作させる）
-  if (!isEmailConfigured()) {
-    console.warn(
-      "[partner-download] SendGrid not configured; submission accepted without email send.",
-    );
-    return NextResponse.json({ ok: true, emailed: false });
-  }
-
-  const fromAddress = env.SENDGRID_FROM ?? DEFAULT_FROM;
-  const docUrl = env.PARTNER_DOC_URL ?? DEFAULT_DOC_URL;
-  const adminTo = env.NOTIFY_TO ?? DEFAULT_ADMIN_EMAIL;
-
   try {
+    const env = getServerEnv();
+
+    const interestList = data.interests
+      .map((i) => interestLabels[i] ?? i)
+      .join(" / ");
+    const consultText = data.consult === "yes" ? "希望する" : "希望しない";
+
+    // SendGrid APIキー未設定時は送信せず正常終了（フロントは動作させる）
+    if (!isEmailConfigured()) {
+      console.warn(
+        "[partner-download] SendGrid not configured; submission accepted without email send.",
+      );
+      return NextResponse.json({ ok: true, emailed: false });
+    }
+
+    const fromAddress = env.SENDGRID_FROM ?? DEFAULT_FROM;
+    const docUrl = env.PARTNER_DOC_URL ?? DEFAULT_DOC_URL;
+    const adminTo = env.NOTIFY_TO ?? DEFAULT_ADMIN_EMAIL;
+
     // 1) 申込者へダウンロードリンクを送信
     // 2) 管理者へ申込内容を通知
     // 両方を並行送信し、SendGridが返すerrorも個別に検知する。
