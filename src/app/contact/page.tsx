@@ -3,7 +3,7 @@ import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import SpirEmbed from "@/components/ui/SpirEmbed";
 import { Button, ArrowIcon, DownloadIcon, ChatIcon } from "@/components/ui/Button";
-import { CTA_LINKS } from "@/lib/sections";
+import { CTA_LINKS, GENERAL_CALENDAR_EMBED } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -105,7 +105,11 @@ export default function ContactPage() {
             まずは話を聞いてみたい方向けの、一般相談用予約フォームです。専用カテゴリのご相談は、上のカード群からカレンダーをご選択ください。
           </p>
           <div className="mt-8">
-            <SpirEmbed url={process.env.NEXT_PUBLIC_SPIR_GENERAL_URL ?? process.env.NEXT_PUBLIC_SPIR_URL} title="一般相談カレンダー" />
+            <SpirEmbed
+              embedCode={GENERAL_CALENDAR_EMBED}
+              url={CTA_LINKS.spirGeneral.startsWith("http") ? CTA_LINKS.spirGeneral : undefined}
+              title="一般相談カレンダー"
+            />
           </div>
         </div>
       </section>

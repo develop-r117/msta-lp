@@ -5,15 +5,31 @@ import { cn } from "@/lib/cn";
 
 type Props = {
   url?: string;
+  /** Spirが発行する埋め込みコード（<iframe ...> 等のHTML）。指定時はurlより優先。 */
+  embedCode?: string;
   title?: string;
   className?: string;
   fallback?: ReactNode;
 };
 
 /**
- * Spirのカレンダー埋め込み。url未設定時はfallbackを表示する。
+ * Spirのカレンダー埋め込み。
+ * - embedCode（CMSで貼り付けた埋め込みHTML）があればそれを優先して描画する。
+ * - なければurlをiframeで表示し、どちらも無ければfallbackを表示する。
  */
-export default function SpirEmbed({ url, title = "オンライン相談カレンダー", className, fallback }: Props) {
+export default function SpirEmbed({ url, embedCode, title = "オンライン相談カレンダー", className, fallback }: Props) {
+  if (embedCode?.trim()) {
+    return (
+      <div
+        className={cn(
+          "overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm [&_iframe]:block [&_iframe]:h-[640px] [&_iframe]:w-full",
+          className,
+        )}
+        dangerouslySetInnerHTML={{ __html: embedCode }}
+      />
+    );
+  }
+
   if (!url) {
     return (
       <div

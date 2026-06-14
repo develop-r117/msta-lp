@@ -89,6 +89,23 @@ function helpCategoryFromArticle(a: HelpArticle): { slug: string; title: string 
   return a.category;
 }
 
+export type ContactSettings = {
+  /** 「2週間無料」CTAの遷移先 (空文字の場合は環境変数 / 既定値にフォールバック) */
+  signupUrl: string;
+  /** 一般のご相談 予約リンク */
+  spirGeneral: string;
+  /** オフィシャル制作 予約リンク */
+  spirOfficial: string;
+  /** 3hパック 予約リンク */
+  spirThreeHour: string;
+  /** エムスタFull 予約リンク */
+  spirFull: string;
+  /** パートナー制度 予約リンク */
+  spirPartner: string;
+  /** 一般相談カレンダーのSpir埋込コード (iframe等のHTML) */
+  generalCalendarEmbed: string;
+};
+
 export function getHelpCategorySlug(article: HelpArticle): string {
   return helpCategoryFromArticle(article).slug;
 }

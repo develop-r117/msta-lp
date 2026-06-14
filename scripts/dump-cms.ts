@@ -25,6 +25,7 @@ import type {
   HelpCategory,
   HelpArticle,
   FAQCategory,
+  ContactSettings,
 } from "../src/lib/content-types";
 
 type Frontmatter = Record<string, unknown>;
@@ -190,12 +191,26 @@ function dumpFAQ(): FAQCategory[] {
   }));
 }
 
+function dumpContact(): ContactSettings {
+  const data = readJson<Frontmatter>("content/contact.json") ?? {};
+  return {
+    signupUrl: asString(data.signupUrl),
+    spirGeneral: asString(data.spirGeneral),
+    spirOfficial: asString(data.spirOfficial),
+    spirThreeHour: asString(data.spirThreeHour),
+    spirFull: asString(data.spirFull),
+    spirPartner: asString(data.spirPartner),
+    generalCalendarEmbed: asString(data.generalCalendarEmbed),
+  };
+}
+
 function main() {
   const cases = dumpCases();
   const usecases = dumpUsecases();
   const helpCategories = dumpHelpCategories();
   const helpArticles = dumpHelpArticles(helpCategories);
   const faqCategories = dumpFAQ();
+  const contact = dumpContact();
 
   const out = {
     generatedAt: new Date().toISOString(),
@@ -210,9 +225,15 @@ function main() {
   mkdirSync(dirname(outPath), { recursive: true });
   writeFileSync(outPath, JSON.stringify(out, null, 2));
 
+  // CTAリンク等はクライアントコンポーネントからも参照するため、
+  // 巨大な cms.generated.json とは分け、軽量な専用ファイルに書き出す。
+  const contactPath = "src/data/contact.generated.json";
+  writeFileSync(contactPath, JSON.stringify(contact, null, 2));
+
   console.log(
     `✓ CMS dumped: ${cases.length} cases, ${usecases.length} usecases, ${helpCategories.length} help categories, ${helpArticles.length} help articles, ${faqCategories.length} FAQ groups → ${outPath}`,
   );
+  console.log(`✓ Contact settings dumped → ${contactPath}`);
 }
 
 try {

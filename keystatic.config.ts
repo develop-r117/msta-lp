@@ -107,6 +107,46 @@ export default config({
   },
 
   singletons: {
+    contact: singleton({
+      label: "お問い合わせ / 予約リンク",
+      path: "content/contact",
+      format: { data: "json" },
+      schema: {
+        signupUrl: fields.text({
+          label: "2週間無料トライアル リンク先URL",
+          description:
+            "「2週間無料」系ボタンの遷移先。外部URL（https〜）の場合は自動で別タブで開きます。空欄の場合は環境変数 / 既定値を使用します。",
+        }),
+        spirGeneral: fields.text({
+          label: "一般のご相談 予約リンクURL",
+          description:
+            "「オンラインで相談」など一般相談ボタンの遷移先。外部URLは別タブで開きます。",
+        }),
+        spirOfficial: fields.text({
+          label: "オフィシャル制作 予約リンクURL",
+          description: "オフィシャル制作相談ボタンの遷移先。外部URLは別タブで開きます。",
+        }),
+        spirThreeHour: fields.text({
+          label: "3hパック 予約リンクURL",
+          description: "3hパック予約・相談ボタンの遷移先。外部URLは別タブで開きます。",
+        }),
+        spirFull: fields.text({
+          label: "エムスタFull 予約リンクURL",
+          description: "エムスタFull相談ボタンの遷移先。外部URLは別タブで開きます。",
+        }),
+        spirPartner: fields.text({
+          label: "パートナー制度 予約リンクURL",
+          description: "パートナー相談ボタンの遷移先。外部URLは別タブで開きます。",
+        }),
+        generalCalendarEmbed: fields.text({
+          label: "一般相談カレンダー Spir埋込コード",
+          description:
+            "Spirで発行した埋め込みコード（<iframe ...></iframe> 形式）をそのまま貼り付けてください。空欄の場合は「一般のご相談 予約リンクURL」からの簡易表示にフォールバックします。",
+          multiline: true,
+        }),
+      },
+    }),
+
     faq: singleton({
       label: "よくある質問",
       path: "content/faq",

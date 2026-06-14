@@ -68,11 +68,15 @@ npm start
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | サイトURL (例: `https://msta.app`) |
 | `NEXT_PUBLIC_SITE_ENV` | `production` で robots を全開放 |
-| `NEXT_PUBLIC_SIGNUP_URL` | 「2週間無料」CTAのリンク先 |
-| `NEXT_PUBLIC_SPIR_GENERAL_URL` | 一般相談用 Spir URL |
-| `NEXT_PUBLIC_SPIR_OFFICIAL_URL` | オフィシャル制作相談用 Spir URL |
-| `NEXT_PUBLIC_SPIR_PARTNER_URL` | パートナー相談用 Spir URL |
-| `NEXT_PUBLIC_SPIR_FULL_URL` | エムスタFull相談用 Spir URL |
+| `NEXT_PUBLIC_SIGNUP_URL` | 「2週間無料」CTAのリンク先（※CMS未設定時のフォールバック） |
+| `NEXT_PUBLIC_SPIR_GENERAL_URL` | 一般相談用 Spir URL（※CMS未設定時のフォールバック） |
+| `NEXT_PUBLIC_SPIR_OFFICIAL_URL` | オフィシャル制作相談用 Spir URL（※CMS未設定時のフォールバック） |
+| `NEXT_PUBLIC_SPIR_PARTNER_URL` | パートナー相談用 Spir URL（※CMS未設定時のフォールバック） |
+| `NEXT_PUBLIC_SPIR_FULL_URL` | エムスタFull相談用 Spir URL（※CMS未設定時のフォールバック） |
+
+> 各種CTA / 予約リンクと「一般相談カレンダーのSpir埋込コード」は、`/keystatic` の
+> **「お問い合わせ / 予約リンク」**（`content/contact.json`）から編集できます。
+> CMS側が空欄の項目のみ、上記の環境変数 → コード既定値の順でフォールバックします。
 | `RESEND_API_KEY` | Resend APIキー (パートナー資料DL通知) |
 | `RESEND_FROM` | Resend 送信元メール |
 | `PARTNER_DOC_URL` | パートナー資料の公開URL |
