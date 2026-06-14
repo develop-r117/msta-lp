@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { partnerFormSchema } from "@/components/ui/PartnerForm";
 import { getServerEnv } from "@/lib/env";
-import { getResend } from "@/lib/email";
+import { isEmailConfigured, sendEmail } from "@/lib/email";
 
 export const runtime = "edge";
 
@@ -21,9 +21,8 @@ const DEFAULT_DOC_URL =
 // 申込通知の送信先（管理者）。環境変数 NOTIFY_TO で上書き可能。
 const DEFAULT_ADMIN_EMAIL = "info@r117.co.jp";
 
-// 送信元。Resendで認証済みドメインのアドレスを RESEND_FROM に設定すること。
-// 未設定時はドメイン認証不要で送れる onboarding@resend.dev を使用する。
-const DEFAULT_FROM = "エムスタ <onboarding@resend.dev>";
+// 送信元。SendGridで認証済み(Sender Authentication)のアドレスを SENDGRID_FROM に設定すること。
+const DEFAULT_FROM = "エムスタ <noreply@msta.app>";
 
 export async function POST(req: Request) {
   let json: unknown;
@@ -52,31 +51,30 @@ export async function POST(req: Request) {
   }
 
   const env = getServerEnv();
-  const resend = getResend();
 
   const interestList = data.interests
     .map((i) => interestLabels[i] ?? i)
     .join(" / ");
   const consultText = data.consult === "yes" ? "希望する" : "希望しない";
 
-  // If Resend key is missing, succeed silently (frontend still works)
-  if (!resend) {
+  // SendGrid APIキー未設定時は送信せず正常終了（フロントは動作させる）
+  if (!isEmailConfigured()) {
     console.warn(
-      "[partner-download] Resend not configured; submission accepted without email send.",
+      "[partner-download] SendGrid not configured; submission accepted without email send.",
     );
     return NextResponse.json({ ok: true, emailed: false });
   }
 
-  const fromAddress = env.RESEND_FROM ?? DEFAULT_FROM;
+  const fromAddress = env.SENDGRID_FROM ?? DEFAULT_FROM;
   const docUrl = env.PARTNER_DOC_URL ?? DEFAULT_DOC_URL;
   const adminTo = env.NOTIFY_TO ?? DEFAULT_ADMIN_EMAIL;
 
   try {
     // 1) 申込者へダウンロードリンクを送信
     // 2) 管理者へ申込内容を通知
-    // 両方を並行送信し、Resendが返すerrorも個別に検知する。
+    // 両方を並行送信し、SendGridが返すerrorも個別に検知する。
     const [userResult, adminResult] = await Promise.all([
-      resend.emails.send({
+      sendEmail({
         from: fromAddress,
         to: data.email,
         subject: "【エムスタ】パートナー資料のダウンロードリンク",
@@ -86,7 +84,7 @@ export async function POST(req: Request) {
           docUrl,
         }),
       }),
-      resend.emails.send({
+      sendEmail({
         from: fromAddress,
         to: adminTo,
         replyTo: data.email,
@@ -99,16 +97,16 @@ export async function POST(req: Request) {
       }),
     ]);
 
-    if (userResult.error) {
+    if (!userResult.ok) {
       console.error("[partner-download] user email failed", userResult.error);
     }
-    if (adminResult.error) {
+    if (!adminResult.ok) {
       console.error("[partner-download] admin email failed", adminResult.error);
     }
 
     // 申込者宛が失敗した場合のみエラーを返す。
     // （管理者通知のみの失敗ではユーザー体験を止めないが、ログには残す）
-    if (userResult.error) {
+    if (!userResult.ok) {
       return NextResponse.json(
         {
           error:
@@ -121,7 +119,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       ok: true,
       emailed: true,
-      adminNotified: !adminResult.error,
+      adminNotified: adminResult.ok,
     });
   } catch (e) {
     console.error("[partner-download] email send threw", e);

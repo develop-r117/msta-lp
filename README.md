@@ -48,7 +48,7 @@
 - **UIライブラリ**: React 19
 - **アニメーション**: Framer Motion
 - **フォーム**: react-hook-form + zod
-- **メール送信**: Resend (Edge Runtime)
+- **メール送信**: SendGrid (REST API / Edge Runtime)
 - **CMS**: [Keystatic](https://keystatic.com/) (Git-based / 完全無料 / MIT) — 事例・ユースケース・ヘルプ・FAQ をリポジトリ内 `content/` で管理
 
 ## 開発
@@ -77,8 +77,8 @@ npm start
 > 各種CTA / 予約リンクと「一般相談カレンダーのSpir埋込コード」は、`/keystatic` の
 > **「お問い合わせ / 予約リンク」**（`content/contact.json`）から編集できます。
 > CMS側が空欄の項目のみ、上記の環境変数 → コード既定値の順でフォールバックします。
-| `RESEND_API_KEY` | Resend APIキー (パートナー資料DL通知) |
-| `RESEND_FROM` | Resend 送信元メール |
+| `SENDGRID_API_KEY` | SendGrid APIキー (パートナー資料DL通知) |
+| `SENDGRID_FROM` | SendGrid 送信元メール (Sender Authentication済み) |
 | `PARTNER_DOC_URL` | パートナー資料の公開URL |
 | `NOTIFY_TO` | 内部通知先メール |
 | `KEYSTATIC_GITHUB_CLIENT_ID` | (本番のみ) Keystatic GitHub OAuth App の Client ID |
@@ -144,7 +144,7 @@ Cloudflare Workers の edge runtime は Keystatic Admin UI が依存する Node.
 - **ビルド出力ディレクトリ**: `.vercel/output/static`
 - **Compatibility Flags**: `nodejs_compat` を Production / Preview の両方に追加
 - **Compatibility Date**: `2024-09-23` 以降を指定（`wrangler.toml` で設定済み）。これより古いと `nodejs_compat` でも `node:async_hooks` が解決されず、edge 動的ルート（`cases/[slug]` 等）が `Internal Server Error` になる
-- 環境変数: Resend / その他の `NEXT_PUBLIC_*` を Production + Preview に設定 (Keystatic 関連の env は本番では不要)
+- 環境変数: SendGrid / その他の `NEXT_PUBLIC_*` を Production + Preview に設定 (Keystatic 関連の env は本番では不要)
 - **Production ブランチ**: `main`
 - **Preview ブランチ**: `staging` 等を含めることで staging プレビュー環境が自動生成される
 
