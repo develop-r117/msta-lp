@@ -103,6 +103,20 @@ function helpCategoryFromArticle(a: HelpArticle): {
   return a.category;
 }
 
+export type LegalPage = {
+  id: string;
+  slug: string;
+  title: string;
+  /** 制定日・最終更新日など、本文末尾に表示する任意の補足テキスト。 */
+  effectiveDate?: string;
+  body?: string;
+  /** /admin 編集用の Markdoc 原文 (body は HTML 化済みのため別途保持) */
+  bodySource?: string;
+  draft?: boolean;
+  publishedAt?: string;
+  updatedAt?: string;
+};
+
 export type ContactSettings = {
   /** 「2週間無料」CTAの遷移先 (空文字の場合は環境変数 / 既定値にフォールバック) */
   signupUrl: string;

@@ -15,6 +15,7 @@ import type {
   HelpArticle,
   FAQCategory,
   FAQItem,
+  LegalPage,
   ContactSettings,
 } from "@/lib/content-types";
 
@@ -25,6 +26,7 @@ type CmsData = {
   helpCategories: HelpCategory[];
   helpArticles: HelpArticle[];
   faqCategories: FAQCategory[];
+  legalPages?: LegalPage[];
   contact?: ContactSettings;
 };
 
@@ -33,7 +35,8 @@ type Collection =
   | "usecases"
   | "helpCategories"
   | "helpArticles"
-  | "faqCategories";
+  | "faqCategories"
+  | "legalPages";
 
 const TABS: { key: Collection; label: string }[] = [
   { key: "cases", label: "導入事例" },
@@ -41,6 +44,7 @@ const TABS: { key: Collection; label: string }[] = [
   { key: "helpCategories", label: "ヘルプカテゴリ" },
   { key: "helpArticles", label: "ヘルプ記事" },
   { key: "faqCategories", label: "FAQ" },
+  { key: "legalPages", label: "規約・法務ページ" },
 ];
 
 const EMPTY_CONTACT: ContactSettings = {
@@ -143,6 +147,18 @@ function itemToForm(
       f.draft = c.draft ? "1" : "";
       break;
     }
+    case "legalPages": {
+      const p = item as unknown as LegalPage;
+      Object.assign(f, {
+        id: p.id ?? "",
+        slug: p.slug ?? "",
+        title: p.title ?? "",
+        effectiveDate: p.effectiveDate ?? "",
+        bodySource: p.bodySource ?? "",
+        draft: p.draft ? "1" : "",
+      });
+      break;
+    }
   }
   return f;
 }
@@ -217,6 +233,15 @@ function formToItem(
         })),
         draft: f.draft === "1",
       };
+    case "legalPages":
+      return {
+        id: f.id.trim(),
+        slug: (f.slug || f.id).trim(),
+        title: f.title ?? "",
+        effectiveDate: f.effectiveDate?.trim() || undefined,
+        bodySource: f.bodySource ?? "",
+        draft: f.draft === "1",
+      };
   }
 }
 
@@ -248,6 +273,8 @@ function listSub(
       const items = item.items as unknown[] | undefined;
       return `${items?.length ?? 0} 件の質問`;
     }
+    case "legalPages":
+      return `/${item.slug ?? ""}`;
   }
 }
 
@@ -804,7 +831,7 @@ export default function AdminApp() {
 
   const items = useMemo(() => {
     if (!data) return [];
-    return data[tab] as unknown as Record<string, unknown>[];
+    return (data[tab] as unknown as Record<string, unknown>[]) ?? [];
   }, [data, tab]);
 
   /* ===== ログイン画面 ===== */
@@ -1582,5 +1609,47 @@ function Editor({
         </div>
       );
     }
+
+    case "legalPages":
+      return (
+        <div className={card}>
+          <Field
+            label="ID (URLスラッグ)"
+            hint={
+              editingExisting
+                ? "既存ページの ID は変更できません。"
+                : "commercial = 特定商取引法 / privacy = プライバシーポリシー"
+            }
+          >
+            <input
+              className={inputCls}
+              value={form.id ?? ""}
+              onChange={set("id")}
+              disabled={editingExisting}
+              placeholder="commercial"
+            />
+          </Field>
+          {draftField}
+          <Field label="タイトル (ページ見出し)">
+            <input
+              className={inputCls}
+              value={form.title ?? ""}
+              onChange={set("title")}
+              placeholder="特定商取引法に基づく表記"
+            />
+          </Field>
+          {markdownField}
+          <Field
+            label="制定日・最終更新日 (任意・本文末尾に表示)"
+            hint="例: 制定日: 2025年1月1日 / 最終更新日: 2025年1月1日"
+          >
+            <textarea
+              className={`${inputCls} min-h-[60px]`}
+              value={form.effectiveDate ?? ""}
+              onChange={set("effectiveDate")}
+            />
+          </Field>
+        </div>
+      );
   }
 }

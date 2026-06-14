@@ -137,6 +137,26 @@ export default config({
       },
     }),
 
+    legal: collection({
+      label: "規約・法務ページ",
+      slugField: "slug",
+      path: "content/legal/*",
+      format: { contentField: "body" },
+      schema: {
+        slug: fields.text({
+          label: "スラッグ (URL)",
+          description: "commercial = 特定商取引法, privacy = プライバシーポリシー",
+          validation: { isRequired: true },
+        }),
+        title: fields.text({ label: "タイトル", validation: { isRequired: true } }),
+        effectiveDate: fields.text({
+          label: "制定日・最終更新日 (任意・本文末尾に表示)",
+          multiline: true,
+        }),
+        body: fields.markdoc({ label: "本文" }),
+      },
+    }),
+
     helpArticles: collection({
       label: "ヘルプ記事",
       slugField: "slug",

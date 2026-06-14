@@ -26,6 +26,7 @@ import type {
   HelpArticle,
   FAQCategory,
   ContactSettings,
+  LegalPage,
 } from "../src/lib/content-types";
 
 type Frontmatter = Record<string, unknown>;
@@ -203,6 +204,25 @@ function dumpFAQ(): FAQCategory[] {
   }));
 }
 
+function dumpLegal(): LegalPage[] {
+  const dir = "content/legal";
+  const out: LegalPage[] = [];
+  for (const dirSlug of listDirNames(dir)) {
+    const parsed = readMdoc(join(dir, dirSlug, "index.mdoc"));
+    if (!parsed) continue;
+    const { data, body } = parsed;
+    out.push({
+      id: dirSlug,
+      slug: asString(data.slug, dirSlug),
+      title: asString(data.title),
+      effectiveDate: asString(data.effectiveDate) || undefined,
+      body: renderMdocBody(body),
+      bodySource: body || undefined,
+    });
+  }
+  return out;
+}
+
 function dumpContact(): ContactSettings {
   const data = readJson<Frontmatter>("content/contact.json") ?? {};
   return {
@@ -222,6 +242,7 @@ function main() {
   const helpCategories = dumpHelpCategories();
   const helpArticles = dumpHelpArticles(helpCategories);
   const faqCategories = dumpFAQ();
+  const legalPages = dumpLegal();
   const contact = dumpContact();
 
   const out = {
@@ -231,6 +252,7 @@ function main() {
     helpCategories,
     helpArticles,
     faqCategories,
+    legalPages,
     contact,
   };
 
@@ -244,7 +266,7 @@ function main() {
   writeFileSync(contactPath, JSON.stringify(contact, null, 2));
 
   console.log(
-    `✓ CMS dumped: ${cases.length} cases, ${usecases.length} usecases, ${helpCategories.length} help categories, ${helpArticles.length} help articles, ${faqCategories.length} FAQ groups → ${outPath}`,
+    `✓ CMS dumped: ${cases.length} cases, ${usecases.length} usecases, ${helpCategories.length} help categories, ${helpArticles.length} help articles, ${faqCategories.length} FAQ groups, ${legalPages.length} legal pages → ${outPath}`,
   );
   console.log(`✓ Contact settings dumped → ${contactPath}`);
 }

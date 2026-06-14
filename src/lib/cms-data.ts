@@ -17,6 +17,7 @@ import {
   type HelpArticle,
   type FAQCategory,
   type ContactSettings,
+  type LegalPage,
 } from "./content-types";
 
 export type CmsData = {
@@ -26,6 +27,7 @@ export type CmsData = {
   helpCategories: HelpCategory[];
   helpArticles: HelpArticle[];
   faqCategories: FAQCategory[];
+  legalPages?: LegalPage[];
   contact?: ContactSettings;
 };
 
@@ -174,6 +176,20 @@ export async function searchHelpArticles(q: string): Promise<HelpArticle[]> {
 /* ===== FAQ ===== */
 export async function getAllFAQCategories(): Promise<FAQCategory[]> {
   return publishedOnly((await getCmsData()).faqCategories);
+}
+
+/* ===== 規約・法務ページ ===== */
+export async function getAllLegalPages(): Promise<LegalPage[]> {
+  return publishedOnly((await getCmsData()).legalPages ?? []);
+}
+
+export async function getLegalPageBySlug(
+  slug: string,
+): Promise<LegalPage | null> {
+  const found = ((await getCmsData()).legalPages ?? []).find(
+    (p) => p.slug === slug,
+  );
+  return found && !found.draft ? found : null;
 }
 
 /* ===== お問い合わせ / 予約リンク設定 ===== */

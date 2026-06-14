@@ -25,7 +25,8 @@ type Collection =
   | "usecases"
   | "helpCategories"
   | "helpArticles"
-  | "faqCategories";
+  | "faqCategories"
+  | "legalPages";
 
 const COLLECTIONS: Collection[] = [
   "cases",
@@ -33,6 +34,7 @@ const COLLECTIONS: Collection[] = [
   "helpCategories",
   "helpArticles",
   "faqCategories",
+  "legalPages",
 ];
 
 type UpsertPayload = {
@@ -112,6 +114,9 @@ export async function PUT(req: Request) {
   const raw = await kv.get(CMS_KV_KEY, "text");
   const data: CmsData = raw ? (JSON.parse(raw) as CmsData) : await getCmsData();
 
+  // 旧データに存在しない可能性のあるコレクションを初期化しておく
+  if (!Array.isArray(data.legalPages)) data.legalPages = [];
+
   // お問い合わせ / 予約リンク設定の保存 (コレクションではなく単一オブジェクト)
   if (payload.action === "saveContact") {
     data.contact = { ...DEFAULT_CONTACT, ...normalizeContact(payload.contact) };
@@ -151,7 +156,8 @@ export async function PUT(req: Request) {
     if (
       payload.collection === "cases" ||
       payload.collection === "usecases" ||
-      payload.collection === "helpArticles"
+      payload.collection === "helpArticles" ||
+      payload.collection === "legalPages"
     ) {
       const src = typeof item.bodySource === "string" ? item.bodySource : "";
       item.body = renderMdoc(src);
