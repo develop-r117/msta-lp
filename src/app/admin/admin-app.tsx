@@ -69,6 +69,7 @@ function itemToForm(collection: Collection, item: Record<string, unknown> | null
         result: c.result ?? "",
         customerVoice: c.customerVoice ?? "",
         bodySource: c.bodySource ?? "",
+        draft: c.draft ? "1" : "",
       });
       break;
     }
@@ -83,6 +84,7 @@ function itemToForm(collection: Collection, item: Record<string, unknown> | null
         activeFeatures: (u.activeFeatures ?? []).join("\n"),
         coverUrl: u.cover?.url ?? "",
         bodySource: u.bodySource ?? "",
+        draft: u.draft ? "1" : "",
       });
       break;
     }
@@ -95,6 +97,7 @@ function itemToForm(collection: Collection, item: Record<string, unknown> | null
         description: c.description ?? "",
         iconKey: c.iconKey ?? "",
         order: String(c.order ?? 99),
+        draft: c.draft ? "1" : "",
       });
       break;
     }
@@ -110,6 +113,7 @@ function itemToForm(collection: Collection, item: Record<string, unknown> | null
         tags: (a.tags ?? []).join("\n"),
         relatedSlugs: (a.relatedArticles ?? []).map((r) => r.slug).join("\n"),
         bodySource: a.bodySource ?? "",
+        draft: a.draft ? "1" : "",
       });
       break;
     }
@@ -117,6 +121,7 @@ function itemToForm(collection: Collection, item: Record<string, unknown> | null
       const c = item as unknown as FAQCategory;
       f.id = c.id ?? "";
       f.label = c.label ?? "";
+      f.draft = c.draft ? "1" : "";
       break;
     }
   }
@@ -141,6 +146,7 @@ function formToItem(
         result: f.result ?? "",
         customerVoice: f.customerVoice?.trim() || undefined,
         bodySource: f.bodySource ?? "",
+        draft: f.draft === "1",
       };
     case "usecases":
       return {
@@ -152,6 +158,7 @@ function formToItem(
         activeFeatures: linesToArray(f.activeFeatures ?? ""),
         cover: f.coverUrl?.trim() ? { url: f.coverUrl.trim() } : undefined,
         bodySource: f.bodySource ?? "",
+        draft: f.draft === "1",
       };
     case "helpCategories":
       return {
@@ -161,6 +168,7 @@ function formToItem(
         description: f.description ?? "",
         iconKey: f.iconKey?.trim() || undefined,
         order: Number(f.order) || 99,
+        draft: f.draft === "1",
       };
     case "helpArticles":
       return {
@@ -172,6 +180,7 @@ function formToItem(
         tags: linesToArray(f.tags ?? ""),
         relatedArticles: linesToArray(f.relatedSlugs ?? "").map((s) => ({ slug: s, title: s })),
         bodySource: f.bodySource ?? "",
+        draft: f.draft === "1",
       };
     case "faqCategories":
       return {
@@ -182,6 +191,7 @@ function formToItem(
           question: it.question ?? "",
           answer: it.answer ?? "",
         })),
+        draft: f.draft === "1",
       };
   }
 }
@@ -315,8 +325,13 @@ export default function AdminApp() {
         return;
       }
       if (j?.data) setData(j.data);
+      const wasDraft = form.draft === "1";
       setForm(null);
-      setNotice("保存しました。公開ページに即時反映されます。");
+      setNotice(
+        wasDraft
+          ? "下書きとして保存しました。公開ページには表示されません。"
+          : "保存しました。公開ページに即時反映されます。",
+      );
       setTimeout(() => setNotice(""), 4000);
     } finally {
       setBusy(false);
@@ -412,7 +427,7 @@ export default function AdminApp() {
                 disabled={busy}
                 className="rounded-lg bg-neutral-900 px-5 py-2 text-sm font-bold text-white transition hover:bg-neutral-700 disabled:opacity-40"
               >
-                {busy ? "保存中…" : "保存して公開"}
+                {busy ? "保存中…" : form.draft === "1" ? "下書きとして保存" : "保存して公開"}
               </button>
             </div>
           </div>
@@ -504,8 +519,17 @@ export default function AdminApp() {
           {items.map((item) => (
             <li key={String(item.id)} className="flex items-center justify-between gap-3 px-5 py-3.5">
               <div className="min-w-0">
-                <p className="truncate text-sm font-bold text-neutral-900">
-                  {listTitle(tab, item)}
+                <p className="flex items-center gap-2 truncate text-sm font-bold text-neutral-900">
+                  <span className="truncate">{listTitle(tab, item)}</span>
+                  {item.draft ? (
+                    <span className="shrink-0 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">
+                      下書き
+                    </span>
+                  ) : (
+                    <span className="shrink-0 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-600">
+                      公開中
+                    </span>
+                  )}
                 </p>
                 <p className="truncate text-xs text-neutral-400">{listSub(tab, item)}</p>
               </div>
@@ -592,6 +616,26 @@ function Editor({
     </Field>
   );
 
+  const isDraft = form.draft === "1";
+  const draftField = (
+    <label className="flex items-start gap-3 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3">
+      <input
+        type="checkbox"
+        checked={isDraft}
+        onChange={(e) => setForm({ ...form, draft: e.target.checked ? "1" : "" })}
+        className="mt-0.5 h-4 w-4 shrink-0 accent-amber-500"
+      />
+      <span className="block">
+        <span className="block text-sm font-bold text-neutral-800">
+          下書き (非公開) にする
+        </span>
+        <span className="mt-0.5 block text-[11px] text-neutral-500">
+          チェックすると公開サイトには表示されません。管理画面では編集できます。
+        </span>
+      </span>
+    </label>
+  );
+
   const card = "space-y-4 rounded-2xl border border-neutral-200 bg-white p-6";
 
   switch (collection) {
@@ -599,6 +643,7 @@ function Editor({
       return (
         <div className={card}>
           {idField}
+          {draftField}
           <Field label="タイトル">
             <input className={inputCls} value={form.title ?? ""} onChange={set("title")} />
           </Field>
@@ -628,6 +673,7 @@ function Editor({
       return (
         <div className={card}>
           {idField}
+          {draftField}
           <Field label="業種キー" hint="URL に使われます。例: shop / med / edu">
             <input className={inputCls} value={form.industry ?? ""} onChange={set("industry")} />
           </Field>
@@ -654,6 +700,7 @@ function Editor({
       return (
         <div className={card}>
           {idField}
+          {draftField}
           <Field label="タイトル">
             <input className={inputCls} value={form.title ?? ""} onChange={set("title")} />
           </Field>
@@ -673,6 +720,7 @@ function Editor({
       return (
         <div className={card}>
           {idField}
+          {draftField}
           <Field label="タイトル">
             <input className={inputCls} value={form.title ?? ""} onChange={set("title")} />
           </Field>
@@ -705,6 +753,7 @@ function Editor({
         <div className="space-y-4">
           <div className={card}>
             {idField}
+            {draftField}
             <Field label="カテゴリ名">
               <input className={inputCls} value={form.label ?? ""} onChange={set("label")} />
             </Field>

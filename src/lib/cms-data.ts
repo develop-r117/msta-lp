@@ -73,61 +73,76 @@ export async function getCmsData(): Promise<CmsData> {
   return cached.promise;
 }
 
+/**
+ * 下書き(draft=true)を除外して公開対象のみを返すフィルタ。
+ * 公開ページ向けのアクセサはこれを通すこと。/admin は getCmsData() を
+ * 直接読むため、下書きも含めた全件を編集できる。
+ */
+function publishedOnly<T extends { draft?: boolean }>(list: T[]): T[] {
+  return list.filter((x) => !x.draft);
+}
+
 /* ===== Cases ===== */
 export async function getAllCases(): Promise<CaseEntry[]> {
-  return (await getCmsData()).cases;
+  return publishedOnly((await getCmsData()).cases);
 }
 
 export async function getCaseBySlug(slug: string): Promise<CaseEntry | null> {
-  return (await getCmsData()).cases.find((c) => c.slug === slug) ?? null;
+  const found = (await getCmsData()).cases.find((c) => c.slug === slug);
+  return found && !found.draft ? found : null;
 }
 
 export async function getCasesByCategory(category: string): Promise<CaseEntry[]> {
-  return (await getCmsData()).cases.filter((c) => c.category === category);
+  return publishedOnly((await getCmsData()).cases).filter(
+    (c) => c.category === category,
+  );
 }
 
 /* ===== Usecases ===== */
 export async function getAllUsecases(): Promise<UsecaseEntry[]> {
-  return (await getCmsData()).usecases;
+  return publishedOnly((await getCmsData()).usecases);
 }
 
 export async function getUsecaseByIndustry(
   industry: string,
 ): Promise<UsecaseEntry | null> {
-  return (await getCmsData()).usecases.find((u) => u.industry === industry) ?? null;
+  const found = (await getCmsData()).usecases.find((u) => u.industry === industry);
+  return found && !found.draft ? found : null;
 }
 
 /* ===== Help Categories ===== */
 export async function getAllHelpCategories(): Promise<HelpCategory[]> {
-  return (await getCmsData()).helpCategories;
+  return publishedOnly((await getCmsData()).helpCategories);
 }
 
 export async function getHelpCategoryBySlug(
   slug: string,
 ): Promise<HelpCategory | null> {
-  return (await getCmsData()).helpCategories.find((c) => c.slug === slug) ?? null;
+  const found = (await getCmsData()).helpCategories.find((c) => c.slug === slug);
+  return found && !found.draft ? found : null;
 }
 
 /* ===== Help Articles ===== */
 export async function getAllHelpArticles(): Promise<HelpArticle[]> {
-  return (await getCmsData()).helpArticles;
+  return publishedOnly((await getCmsData()).helpArticles);
 }
 
 export async function getHelpArticleBySlug(slug: string): Promise<HelpArticle | null> {
-  return (await getCmsData()).helpArticles.find((a) => a.slug === slug) ?? null;
+  const found = (await getCmsData()).helpArticles.find((a) => a.slug === slug);
+  return found && !found.draft ? found : null;
 }
 
 export async function getHelpArticlesByCategory(
   categorySlug: string,
 ): Promise<HelpArticle[]> {
-  return (await getCmsData()).helpArticles.filter(
+  return publishedOnly((await getCmsData()).helpArticles).filter(
     (a) => getHelpCategorySlug(a) === categorySlug,
   );
 }
 
 export async function searchHelpArticles(q: string): Promise<HelpArticle[]> {
   const ql = q.toLowerCase();
-  return (await getCmsData()).helpArticles.filter(
+  return publishedOnly((await getCmsData()).helpArticles).filter(
     (a) =>
       a.title.toLowerCase().includes(ql) ||
       a.summary.toLowerCase().includes(ql) ||
@@ -137,5 +152,5 @@ export async function searchHelpArticles(q: string): Promise<HelpArticle[]> {
 
 /* ===== FAQ ===== */
 export async function getAllFAQCategories(): Promise<FAQCategory[]> {
-  return (await getCmsData()).faqCategories;
+  return publishedOnly((await getCmsData()).faqCategories);
 }

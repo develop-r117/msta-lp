@@ -17,6 +17,8 @@ export type CaseEntry = {
   body?: string;
   /** /admin 編集用の Markdoc 原文 (body は HTML 化済みのため別途保持) */
   bodySource?: string;
+  /** true の場合は下書き(非公開)。公開ページには表示されない。 */
+  draft?: boolean;
   publishedAt?: string;
   updatedAt?: string;
 };
@@ -31,6 +33,8 @@ export type UsecaseEntry = {
   cover?: CaseImage;
   body?: string;
   bodySource?: string;
+  /** true の場合は下書き(非公開)。公開ページには表示されない。 */
+  draft?: boolean;
   publishedAt?: string;
   updatedAt?: string;
 };
@@ -42,6 +46,8 @@ export type HelpCategory = {
   description: string;
   iconKey?: string;
   order?: number;
+  /** true の場合は下書き(非公開)。公開ページには表示されない。 */
+  draft?: boolean;
   publishedAt?: string;
   updatedAt?: string;
 };
@@ -56,6 +62,8 @@ export type HelpArticle = {
   bodySource?: string;
   tags?: string[];
   relatedArticles?: { slug: string; title: string }[];
+  /** true の場合は下書き(非公開)。公開ページには表示されない。 */
+  draft?: boolean;
   publishedAt?: string;
   updatedAt?: string;
 };
@@ -70,6 +78,8 @@ export type FAQCategory = {
   id: string;
   label: string;
   items: FAQItem[];
+  /** true の場合は下書き(非公開)。公開ページには表示されない。 */
+  draft?: boolean;
 };
 
 function helpCategoryFromArticle(a: HelpArticle): { slug: string; title: string } {
