@@ -3,35 +3,15 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button, ArrowIcon, DownloadIcon } from "@/components/ui/Button";
 import { trackLeadSubmit } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
+import {
+  partnerFormSchema,
+  type PartnerFormValues,
+} from "@/lib/partner-form-schema";
 
-export const partnerFormSchema = z.object({
-  company: z.string().max(100).optional().or(z.literal("")),
-  name: z.string().min(1, "担当者名は必須です").max(60),
-  email: z.string().email("正しいメールアドレスを入力してください"),
-  phone: z.string().max(40).optional().or(z.literal("")),
-  industry: z.string().max(80).optional().or(z.literal("")),
-  websiteUrl: z
-    .string()
-    .max(200)
-    .optional()
-    .or(z.literal(""))
-    .refine(
-      (v) => !v || /^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}.*$/.test(v),
-      "正しいURLを入力してください",
-    ),
-  interests: z
-    .array(z.enum(["create", "intro", "template", "official", "other"]))
-    .min(1, "1つ以上選択してください"),
-  consult: z.enum(["yes", "no"]),
-  // Honeypot
-  website: z.string().max(0).optional(),
-});
-
-export type PartnerFormValues = z.infer<typeof partnerFormSchema>;
+export { partnerFormSchema, type PartnerFormValues };
 
 const interestOptions: {
   id: PartnerFormValues["interests"][number];

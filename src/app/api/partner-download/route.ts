@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { partnerFormSchema } from "@/components/ui/PartnerForm";
+import { partnerFormSchema } from "@/lib/partner-form-schema";
 import { getServerEnv } from "@/lib/env";
 import { isEmailConfigured, sendEmail } from "@/lib/email";
 
