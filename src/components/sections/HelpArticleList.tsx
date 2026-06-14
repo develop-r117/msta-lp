@@ -10,12 +10,18 @@ type Props = {
   emptyMessage?: string;
 };
 
-export default function HelpArticleList({ articles, title, emptyMessage }: Props) {
+export default function HelpArticleList({
+  articles,
+  title,
+  emptyMessage,
+}: Props) {
   return (
     <section className="section-padding bg-neutral-50">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         {title ? (
-          <h2 className="text-2xl font-bold text-neutral-900 md:text-3xl">{title}</h2>
+          <h2 className="text-2xl font-bold text-neutral-900 md:text-3xl">
+            {title}
+          </h2>
         ) : null}
 
         {articles.length === 0 ? (
@@ -60,7 +66,9 @@ export default function HelpArticleList({ articles, title, emptyMessage }: Props
                 {/* 検索エンジンに残るよう、カテゴリへのテキストリンクも備える */}
                 <p className="hidden">
                   カテゴリ:{" "}
-                  <Link href={`/help/${getHelpCategorySlug(a)}`}>{getHelpCategoryTitle(a)}</Link>
+                  <Link href={`/help/${getHelpCategorySlug(a)}`}>
+                    {getHelpCategoryTitle(a)}
+                  </Link>
                 </p>
               </li>
             ))}

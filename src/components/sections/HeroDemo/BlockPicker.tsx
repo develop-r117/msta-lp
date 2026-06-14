@@ -12,9 +12,19 @@ import { BlockIcon, type BlockKind } from "./BuildMock";
 
 const CATEGORIES = ["すべて", "メディア", "コンテンツ", "ナビゲーション"];
 
-const CARDS: { kind: BlockKind; name: string; desc: string; target?: boolean }[] = [
+const CARDS: {
+  kind: BlockKind;
+  name: string;
+  desc: string;
+  target?: boolean;
+}[] = [
   { kind: "slider", name: "スライダー", desc: "複数の画像をスライド表示" },
-  { kind: "banner", name: "1カラムバナー", desc: "横幅いっぱいのバナー画像", target: true },
+  {
+    kind: "banner",
+    name: "1カラムバナー",
+    desc: "横幅いっぱいのバナー画像",
+    target: true,
+  },
   { kind: "menu2", name: "2カラム正方形バナー", desc: "2つの正方形バナー" },
   { kind: "heading", name: "大見出し", desc: "大きな見出しテキスト" },
   { kind: "text", name: "テキスト", desc: "リッチテキストコンテンツ" },
@@ -42,7 +52,9 @@ export default function BlockPicker({ open }: { open: boolean }) {
             {/* ヘッダー */}
             <div className="flex items-center gap-1.5 border-b border-neutral-100 px-3 py-2">
               <span className="text-[11px] font-bold text-purple-500">+</span>
-              <span className="text-[10px] font-bold text-neutral-800">ブロックを追加</span>
+              <span className="text-[10px] font-bold text-neutral-800">
+                ブロックを追加
+              </span>
               <span className="ml-auto grid h-3.5 w-3.5 place-items-center text-neutral-400">
                 <svg
                   className="h-2 w-2"
@@ -63,7 +75,9 @@ export default function BlockPicker({ open }: { open: boolean }) {
                   key={c}
                   className={cn(
                     "rounded-full px-2 py-0.5 text-[7px] font-bold",
-                    i === 0 ? "bg-purple-600 text-white" : "bg-neutral-100 text-neutral-500"
+                    i === 0
+                      ? "bg-purple-600 text-white"
+                      : "bg-neutral-100 text-neutral-500",
                   )}
                 >
                   {c}
@@ -81,7 +95,7 @@ export default function BlockPicker({ open }: { open: boolean }) {
                     "flex flex-col items-center gap-1 rounded-lg border-2 px-1 py-1.5 text-center",
                     card.target
                       ? "border-purple-400 bg-purple-50"
-                      : "border-neutral-200 bg-white"
+                      : "border-neutral-200 bg-white",
                   )}
                 >
                   <span className="grid h-5 w-5 place-items-center rounded-md bg-gradient-to-br from-purple-100 to-pink-100 text-purple-600">

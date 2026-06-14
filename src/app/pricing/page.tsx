@@ -4,7 +4,8 @@ import PageHero from "@/components/sections/PageHero";
 import Pricing from "@/components/sections/Pricing";
 import AddonPricing from "@/components/sections/AddonPricing";
 import FAQ from "@/components/sections/FAQ";
-import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
+import { Button, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
 
@@ -25,22 +26,17 @@ export default function PricingPage() {
         eyebrow="Pricing"
         title={
           <>
-            初期費用不要、<br className="hidden md:block" />
+            初期費用不要、
+            <br className="hidden md:block" />
             <span className="text-gradient">月額のみ</span>のシンプル料金
           </>
         }
         description="登録から2週間無料でご利用いただけます。アカウント1つで複数アプリの作成・運用が可能です。"
         actions={
           <>
-            <Button
-              href={CTA_LINKS.signup}
-              external={CTA_LINKS.signup.startsWith("http")}
-              variant="primary"
-              size="lg"
-              icon={<ArrowIcon />}
-            >
+            <SignupButton variant="primary" size="lg">
               2週間無料で始める
-            </Button>
+            </SignupButton>
             <Button
               href={CTA_LINKS.spirOfficial}
               external={CTA_LINKS.spirOfficial.startsWith("http")}

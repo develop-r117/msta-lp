@@ -16,7 +16,10 @@ const items = [
 
 export default function MstaFull() {
   return (
-    <section id="msta-full" className="section-padding relative overflow-hidden bg-section-dark">
+    <section
+      id="msta-full"
+      className="section-padding relative overflow-hidden bg-section-dark"
+    >
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <motion.div
           animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
@@ -41,7 +44,9 @@ export default function MstaFull() {
                 <>
                   <span className="text-white">最強のコスパ</span>
                   <span className="text-white">。</span>
-                  <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">エムスタFull</span>
+                  <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">
+                    エムスタFull
+                  </span>
                   <span className="text-white">。</span>
                 </>
               }
@@ -63,8 +68,18 @@ export default function MstaFull() {
                   className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur"
                 >
                   <span className="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-primary-400 to-accent-400 text-primary-900">
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
                     </svg>
                   </span>
                   <span className="text-sm font-semibold">{it}</span>
@@ -93,15 +108,21 @@ export default function MstaFull() {
             className="lg:col-span-5"
           >
             <div className="relative rounded-3xl bg-gradient-to-br from-white/15 to-white/5 p-7 ring-1 ring-white/15 backdrop-blur md:p-9">
-              <p className="text-xs font-bold uppercase tracking-widest text-accent-400">対応イメージ</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-accent-400">
+                対応イメージ
+              </p>
               <ul className="mt-4 space-y-3 text-sm">
-                <BulletWhite label="基盤" value="エムスタを活用、運用も標準CMSへ" />
+                <BulletWhite
+                  label="基盤"
+                  value="エムスタを活用、運用も標準CMSへ"
+                />
                 <BulletWhite label="開発期間" value="スクラッチ比 短縮" />
                 <BulletWhite label="開発費" value="スクラッチ比 低コスト" />
                 <BulletWhite label="柔軟性" value="独自仕様 / 高度UIに対応" />
               </ul>
               <p className="mt-6 text-xs text-on-dark-muted">
-                ※ ローンチ時点では最低限のオンライン相談CTAでスタート。エムスタFull診断コンテンツは順次追加します。
+                ※
+                ローンチ時点では最低限のオンライン相談CTAでスタート。エムスタFull診断コンテンツは順次追加します。
               </p>
             </div>
           </motion.div>
@@ -114,7 +135,9 @@ export default function MstaFull() {
 function BulletWhite({ label, value }: { label: string; value: string }) {
   return (
     <li className="flex items-start justify-between gap-4 border-b border-white/10 pb-3 last:border-b-0 last:pb-0">
-      <span className="text-xs font-semibold uppercase tracking-widest text-accent-400">{label}</span>
+      <span className="text-xs font-semibold uppercase tracking-widest text-accent-400">
+        {label}
+      </span>
       <span className="text-right font-semibold text-white">{value}</span>
     </li>
   );

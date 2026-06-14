@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
+import { Button, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
 
 const baseRow = {
@@ -46,7 +47,8 @@ export default function Pricing() {
             <>
               初期費用不要で、
               <br className="hidden md:block" />
-              <span className="text-gradient">誰でもすぐに</span>ご利用いただけます。
+              <span className="text-gradient">誰でもすぐに</span>
+              ご利用いただけます。
             </>
           }
           description="月額のみのシンプルな料金。最初は無料トライアルで、まずは触ってみてください。"
@@ -62,23 +64,22 @@ export default function Pricing() {
             className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary-500 to-primary-600 p-7 text-white shadow-lg shadow-primary-500/20 md:p-9"
           >
             <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/20 blur-3xl" />
-            <p className="text-xs font-bold uppercase tracking-widest text-white/80">Free Trial</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-white/80">
+              Free Trial
+            </p>
             <p className="mt-2 text-4xl font-black md:text-5xl">2週間無料</p>
             <p className="mt-3 text-sm text-white/90">
               登録から2週間、すべての機能を無料でお試しいただけます。クレジットカード登録不要。
             </p>
             <div className="mt-6">
-              <Button
-                href={CTA_LINKS.signup}
-                external={CTA_LINKS.signup.startsWith("http")}
+              <SignupButton
                 variant="secondary"
                 size="md"
                 fullWidth
-                icon={<ArrowIcon />}
                 className="!text-primary-700"
               >
                 無料で始める
-              </Button>
+              </SignupButton>
             </div>
           </motion.div>
 
@@ -90,13 +91,23 @@ export default function Pricing() {
             transition={{ duration: 0.6, delay: 0.05 }}
             className="rounded-3xl border border-neutral-200 bg-white p-7 shadow-sm md:p-9"
           >
-            <p className="text-xs font-bold uppercase tracking-widest text-neutral-500">Base</p>
-            <p className="mt-2 text-base font-semibold text-neutral-900">{baseRow.title}</p>
-            <p className="mt-3 flex items-baseline gap-1">
-              <span className="text-4xl font-black text-neutral-900 md:text-5xl">¥{baseRow.price}</span>
-              <span className="text-sm font-semibold text-neutral-500">{baseRow.unit}</span>
+            <p className="text-xs font-bold uppercase tracking-widest text-neutral-500">
+              Base
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-neutral-600">{baseRow.description}</p>
+            <p className="mt-2 text-base font-semibold text-neutral-900">
+              {baseRow.title}
+            </p>
+            <p className="mt-3 flex items-baseline gap-1">
+              <span className="text-4xl font-black text-neutral-900 md:text-5xl">
+                ¥{baseRow.price}
+              </span>
+              <span className="text-sm font-semibold text-neutral-500">
+                {baseRow.unit}
+              </span>
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-neutral-600">
+              {baseRow.description}
+            </p>
 
             <div className="mt-6 space-y-2">
               {[
@@ -104,7 +115,10 @@ export default function Pricing() {
                 "プロモード / かんたんモード対応",
                 "管理ダッシュボード標準提供",
               ].map((b) => (
-                <div key={b} className="flex items-start gap-2 text-sm text-neutral-700">
+                <div
+                  key={b}
+                  className="flex items-start gap-2 text-sm text-neutral-700"
+                >
                   <CheckCircle />
                   {b}
                 </div>
@@ -120,8 +134,12 @@ export default function Pricing() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="rounded-3xl border border-neutral-200 bg-white p-7 shadow-sm md:p-9"
           >
-            <p className="text-xs font-bold uppercase tracking-widest text-neutral-500">Support Options</p>
-            <p className="mt-2 text-base font-semibold text-neutral-900">公開・運用に必要なサポートも</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-neutral-500">
+              Support Options
+            </p>
+            <p className="mt-2 text-base font-semibold text-neutral-900">
+              公開・運用に必要なサポートも
+            </p>
             <p className="mt-3 text-sm leading-relaxed text-neutral-600">
               デベロッパー登録、ストア申請代行、テストアプリの発行、素材制作など、公開に必要な各種サポートもご用意しています。
             </p>
@@ -150,19 +168,28 @@ export default function Pricing() {
           </div>
           <ul className="divide-y divide-neutral-100">
             {publishRows.map(({ name, price, unit, notes, icon: Icon }) => (
-              <li key={name} className="flex flex-col gap-3 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+              <li
+                key={name}
+                className="flex flex-col gap-3 px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
+              >
                 <div className="flex items-center gap-3">
                   <span className="grid h-10 w-10 place-items-center rounded-xl bg-neutral-900 text-white">
                     <Icon />
                   </span>
                   <div>
                     <p className="text-sm font-bold text-neutral-900">{name}</p>
-                    <p className="text-xs text-neutral-500">{notes.join(" / ")}</p>
+                    <p className="text-xs text-neutral-500">
+                      {notes.join(" / ")}
+                    </p>
                   </div>
                 </div>
                 <p className="flex items-baseline gap-1">
-                  <span className="text-2xl font-black text-neutral-900">¥{price}</span>
-                  <span className="text-xs font-semibold text-neutral-500">{unit}</span>
+                  <span className="text-2xl font-black text-neutral-900">
+                    ¥{price}
+                  </span>
+                  <span className="text-xs font-semibold text-neutral-500">
+                    {unit}
+                  </span>
                 </p>
               </li>
             ))}
@@ -170,15 +197,9 @@ export default function Pricing() {
         </div>
 
         <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <Button
-            href={CTA_LINKS.signup}
-            external={CTA_LINKS.signup.startsWith("http")}
-            variant="primary"
-            size="lg"
-            icon={<ArrowIcon />}
-          >
+          <SignupButton variant="primary" size="lg">
             2週間無料で始める
-          </Button>
+          </SignupButton>
           <Button
             href={CTA_LINKS.spirOfficial}
             external={CTA_LINKS.spirOfficial.startsWith("http")}
@@ -197,8 +218,18 @@ export default function Pricing() {
 function CheckCircle() {
   return (
     <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary-100 text-primary-700">
-      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+      <svg
+        className="h-3 w-3"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={3}
+          d="M5 13l4 4L19 7"
+        />
       </svg>
     </span>
   );
@@ -206,7 +237,13 @@ function CheckCircle() {
 
 function WebIcon() {
   return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
+    <svg
+      className="h-5 w-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+    >
       <circle cx="12" cy="12" r="9" />
       <path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" />
     </svg>

@@ -92,7 +92,9 @@ export async function getCaseBySlug(slug: string): Promise<CaseEntry | null> {
   return found && !found.draft ? found : null;
 }
 
-export async function getCasesByCategory(category: string): Promise<CaseEntry[]> {
+export async function getCasesByCategory(
+  category: string,
+): Promise<CaseEntry[]> {
   return publishedOnly((await getCmsData()).cases).filter(
     (c) => c.category === category,
   );
@@ -106,7 +108,9 @@ export async function getAllUsecases(): Promise<UsecaseEntry[]> {
 export async function getUsecaseByIndustry(
   industry: string,
 ): Promise<UsecaseEntry | null> {
-  const found = (await getCmsData()).usecases.find((u) => u.industry === industry);
+  const found = (await getCmsData()).usecases.find(
+    (u) => u.industry === industry,
+  );
   return found && !found.draft ? found : null;
 }
 
@@ -118,7 +122,9 @@ export async function getAllHelpCategories(): Promise<HelpCategory[]> {
 export async function getHelpCategoryBySlug(
   slug: string,
 ): Promise<HelpCategory | null> {
-  const found = (await getCmsData()).helpCategories.find((c) => c.slug === slug);
+  const found = (await getCmsData()).helpCategories.find(
+    (c) => c.slug === slug,
+  );
   return found && !found.draft ? found : null;
 }
 
@@ -127,7 +133,9 @@ export async function getAllHelpArticles(): Promise<HelpArticle[]> {
   return publishedOnly((await getCmsData()).helpArticles);
 }
 
-export async function getHelpArticleBySlug(slug: string): Promise<HelpArticle | null> {
+export async function getHelpArticleBySlug(
+  slug: string,
+): Promise<HelpArticle | null> {
   const found = (await getCmsData()).helpArticles.find((a) => a.slug === slug);
   return found && !found.draft ? found : null;
 }

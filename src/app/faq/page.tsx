@@ -38,7 +38,11 @@ export default async function FAQPage() {
     >
       <PageHero
         eyebrow="FAQ"
-        title={<>よくある<span className="text-gradient">ご質問</span></>}
+        title={
+          <>
+            よくある<span className="text-gradient">ご質問</span>
+          </>
+        }
         description="エムスタに関する代表的なご質問をカテゴリ別にまとめています。検索でも該当箇所を素早く確認いただけます。"
       />
       <FAQGroups categories={FAQ_CATEGORIES} enableSearch />

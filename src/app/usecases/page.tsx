@@ -6,6 +6,7 @@ import PageHero from "@/components/sections/PageHero";
 import AppMockShowcase from "@/components/sections/AppMockShowcase";
 import { getAllUsecases } from "@/lib/cms-data";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
 
@@ -29,14 +30,24 @@ export default async function UsecasesPage() {
     >
       <PageHero
         eyebrow="Use cases"
-        title={<>さまざまな業種・<span className="text-gradient">目的に対応</span>。</>}
+        title={
+          <>
+            さまざまな業種・<span className="text-gradient">目的に対応</span>。
+          </>
+        }
         description="エムスタは業種を選ばず、目的に合わせて自由に組み立てられます。各業種の代表的な活用シナリオから、自社プロジェクトのヒントを見つけてください。"
         actions={
           <>
-            <Button href={CTA_LINKS.signup} external={CTA_LINKS.signup.startsWith("http")} variant="primary" size="lg" icon={<ArrowIcon />}>
+            <SignupButton variant="primary" size="lg" icon={<ArrowIcon />}>
               2週間無料で始める
-            </Button>
-            <Button href={CTA_LINKS.spirGeneral} external={CTA_LINKS.spirGeneral.startsWith("http")} variant="secondary" size="lg" icon={<ChatIcon />}>
+            </SignupButton>
+            <Button
+              href={CTA_LINKS.spirGeneral}
+              external={CTA_LINKS.spirGeneral.startsWith("http")}
+              variant="secondary"
+              size="lg"
+              icon={<ChatIcon />}
+            >
               業種別に相談する
             </Button>
           </>
@@ -56,30 +67,73 @@ export default async function UsecasesPage() {
                 >
                   {u.cover ? (
                     <div className="relative aspect-[16/9] overflow-hidden bg-neutral-100">
-                      <Image src={u.cover.url} alt={u.title} fill className="object-cover transition-transform group-hover:scale-105" sizes="(max-width: 768px) 90vw, 45vw" />
+                      <Image
+                        src={u.cover.url}
+                        alt={u.title}
+                        fill
+                        className="object-cover transition-transform group-hover:scale-105"
+                        sizes="(max-width: 768px) 90vw, 45vw"
+                      />
+                      {u.cardOnly ? (
+                        <span className="absolute right-3 top-3 rounded-full bg-sky-500/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur">
+                          Coming soon
+                        </span>
+                      ) : null}
                     </div>
                   ) : null}
                   <div className="flex grow flex-col p-6 md:p-7">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary-700">{u.industry}</span>
-                    <h2 className="mt-2 text-xl font-bold text-neutral-900 group-hover:text-primary-700 md:text-2xl">{u.title}</h2>
-                    <p className="mt-3 text-sm leading-relaxed text-neutral-600">{u.description}</p>
+                    <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-primary-700">
+                      {u.industry}
+                      {u.cardOnly && !u.cover ? (
+                        <span className="rounded-full bg-sky-100 px-2 py-0.5 text-[10px] font-bold tracking-wider text-sky-700">
+                          Coming soon
+                        </span>
+                      ) : null}
+                    </span>
+                    <h2 className="mt-2 text-xl font-bold text-neutral-900 group-hover:text-primary-700 md:text-2xl">
+                      {u.title}
+                    </h2>
+                    <p className="mt-3 text-sm leading-relaxed text-neutral-600">
+                      {u.description}
+                    </p>
 
-                    <p className="mt-5 text-[10px] font-bold uppercase tracking-widest text-neutral-500">活用シナリオ</p>
+                    <p className="mt-5 text-[10px] font-bold uppercase tracking-widest text-neutral-500">
+                      活用シナリオ
+                    </p>
                     <ul className="mt-2 grid gap-1.5 sm:grid-cols-2">
                       {u.scenarios.map((s) => (
-                        <li key={s} className="flex items-center gap-2 rounded-lg bg-neutral-50 px-3 py-1.5 text-xs font-semibold text-neutral-700">
+                        <li
+                          key={s}
+                          className="flex items-center gap-2 rounded-lg bg-neutral-50 px-3 py-1.5 text-xs font-semibold text-neutral-700"
+                        >
                           <span className="h-1 w-1 rounded-full bg-primary-500" />
                           {s}
                         </li>
                       ))}
                     </ul>
 
-                    <span className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-primary-700">
-                      詳しく見る
-                      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </span>
+                    {u.cardOnly ? (
+                      <span className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-sky-600">
+                        詳細は近日公開
+                      </span>
+                    ) : (
+                      <span className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-primary-700">
+                        詳しく見る
+                        <svg
+                          className="h-3.5 w-3.5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13 7l5 5m0 0l-5 5m5-5H6"
+                          />
+                        </svg>
+                      </span>
+                    )}
                   </div>
                 </Link>
               </li>

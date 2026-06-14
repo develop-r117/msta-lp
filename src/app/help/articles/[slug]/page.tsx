@@ -46,11 +46,14 @@ export default async function HelpArticlePage({
   const categoryTitle = getHelpCategoryTitle(article);
 
   const sameCategory = await getHelpArticlesByCategory(categorySlug);
-  const related = (article.relatedArticles?.length
-    ? (
-        await Promise.all(article.relatedArticles.map((r) => getHelpArticleBySlug(r.slug)))
-      ).filter((a): a is NonNullable<typeof a> => a !== null)
-    : sameCategory.filter((a) => a.slug !== article.slug)
+  const related = (
+    article.relatedArticles?.length
+      ? (
+          await Promise.all(
+            article.relatedArticles.map((r) => getHelpArticleBySlug(r.slug)),
+          )
+        ).filter((a): a is NonNullable<typeof a> => a !== null)
+      : sameCategory.filter((a) => a.slug !== article.slug)
   ).slice(0, 4);
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msta.app";

@@ -32,7 +32,10 @@ export const partnerFormSchema = z.object({
 
 export type PartnerFormValues = z.infer<typeof partnerFormSchema>;
 
-const interestOptions: { id: PartnerFormValues["interests"][number]; label: string }[] = [
+const interestOptions: {
+  id: PartnerFormValues["interests"][number];
+  label: string;
+}[] = [
   { id: "create", label: "制作パートナー" },
   { id: "intro", label: "紹介パートナー" },
   { id: "template", label: "テンプレート販売" },
@@ -82,11 +85,23 @@ export default function PartnerForm() {
     return (
       <div className="rounded-3xl border border-primary-200 bg-primary-50 p-7 text-center md:p-9">
         <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-primary-500 text-white">
-          <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+          <svg
+            className="h-7 w-7"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={3}
+              d="M5 13l4 4L19 7"
+            />
           </svg>
         </div>
-        <h3 className="mt-4 text-xl font-bold text-neutral-900">送信が完了しました</h3>
+        <h3 className="mt-4 text-xl font-bold text-neutral-900">
+          送信が完了しました
+        </h3>
         <p className="mt-3 text-sm leading-relaxed text-neutral-700">
           ご登録のメールアドレス宛に、パートナー資料のダウンロードリンクをお送りしました。
           <br />
@@ -97,27 +112,55 @@ export default function PartnerForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm md:p-8">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm md:p-8"
+    >
       <div className="grid gap-4 md:grid-cols-2">
         <Field label="会社名 / 屋号" optional>
-          <input {...register("company")} className={inputClass(false)} placeholder="株式会社サンプル" />
+          <input
+            {...register("company")}
+            className={inputClass(false)}
+            placeholder="株式会社サンプル"
+          />
         </Field>
         <Field label="担当者名" error={errors.name?.message}>
-          <input {...register("name")} className={inputClass(!!errors.name)} placeholder="山田 太郎" />
+          <input
+            {...register("name")}
+            className={inputClass(!!errors.name)}
+            placeholder="山田 太郎"
+          />
         </Field>
 
         <Field label="メールアドレス" error={errors.email?.message}>
-          <input type="email" {...register("email")} className={inputClass(!!errors.email)} placeholder="you@example.com" />
+          <input
+            type="email"
+            {...register("email")}
+            className={inputClass(!!errors.email)}
+            placeholder="you@example.com"
+          />
         </Field>
         <Field label="電話番号" optional>
-          <input {...register("phone")} className={inputClass(false)} placeholder="03-0000-0000" />
+          <input
+            {...register("phone")}
+            className={inputClass(false)}
+            placeholder="03-0000-0000"
+          />
         </Field>
 
         <Field label="業種" optional>
-          <input {...register("industry")} className={inputClass(false)} placeholder="制作会社 / 開発会社など" />
+          <input
+            {...register("industry")}
+            className={inputClass(false)}
+            placeholder="制作会社 / 開発会社など"
+          />
         </Field>
         <Field label="WebサイトURL" optional error={errors.websiteUrl?.message}>
-          <input {...register("websiteUrl")} className={inputClass(!!errors.websiteUrl)} placeholder="https://example.com" />
+          <input
+            {...register("websiteUrl")}
+            className={inputClass(!!errors.websiteUrl)}
+            placeholder="https://example.com"
+          />
         </Field>
       </div>
 
@@ -143,7 +186,9 @@ export default function PartnerForm() {
           ))}
         </div>
         {errors.interests ? (
-          <p className="mt-2 text-xs text-red-600">{errors.interests.message as string}</p>
+          <p className="mt-2 text-xs text-red-600">
+            {errors.interests.message as string}
+          </p>
         ) : null}
       </fieldset>
 
@@ -160,7 +205,12 @@ export default function PartnerForm() {
               key={c.id}
               className="flex cursor-pointer items-center gap-2.5 rounded-xl border border-neutral-200 px-4 py-3 text-sm transition-colors hover:border-primary-300 hover:bg-primary-50/40"
             >
-              <input type="radio" value={c.id} {...register("consult")} className="h-4 w-4 accent-primary-600" />
+              <input
+                type="radio"
+                value={c.id}
+                {...register("consult")}
+                className="h-4 w-4 accent-primary-600"
+              />
               <span className="font-medium text-neutral-700">{c.label}</span>
             </label>
           ))}
@@ -223,9 +273,13 @@ function Field({
       <span className="flex items-center gap-2 text-xs font-semibold text-neutral-700">
         {label}
         {optional ? (
-          <span className="rounded-full bg-neutral-100 px-1.5 py-0.5 text-[10px] font-medium text-neutral-500">任意</span>
+          <span className="rounded-full bg-neutral-100 px-1.5 py-0.5 text-[10px] font-medium text-neutral-500">
+            任意
+          </span>
         ) : (
-          <span className="rounded-full bg-primary-100 px-1.5 py-0.5 text-[10px] font-medium text-primary-700">必須</span>
+          <span className="rounded-full bg-primary-100 px-1.5 py-0.5 text-[10px] font-medium text-primary-700">
+            必須
+          </span>
         )}
       </span>
       <div className="mt-1.5">{children}</div>

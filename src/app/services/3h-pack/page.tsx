@@ -26,7 +26,12 @@ export default function ThreeHPackPage() {
       <PageHero
         eyebrow="3h pack"
         variant="dark"
-        title={<>3時間で、まずアプリを<span className="text-gradient">かたちに</span>。</>}
+        title={
+          <>
+            3時間で、まずアプリを<span className="text-gradient">かたちに</span>
+            。
+          </>
+        }
         description="事前にヒアリングシートをご提出いただき、当日オンラインで詳細をお聞きしながら、公式チームがリアルタイムでアプリを制作。最短その日にアプリが完成します。"
         actions={
           <>
@@ -39,7 +44,13 @@ export default function ThreeHPackPage() {
             >
               3hパックを予約する
             </Button>
-            <Button href="/services/official" variant="secondary" size="lg" icon={<ArrowIcon />} className="!border-white/0 !bg-white !text-neutral-900">
+            <Button
+              href="/services/official"
+              variant="secondary"
+              size="lg"
+              icon={<ArrowIcon />}
+              className="!border-white/0 !bg-white !text-neutral-900"
+            >
               じっくり制作したい場合
             </Button>
           </>
@@ -52,13 +63,25 @@ export default function ThreeHPackPage() {
             <span className="inline-flex items-center rounded-full bg-white/15 px-3.5 py-1.5 text-xs font-bold ring-1 ring-white/30">
               ローンチ記念半額
             </span>
-            <h2 className="mt-5 text-3xl font-black md:text-4xl">¥35,000 / 回</h2>
-            <p className="mt-2 text-sm font-semibold text-white/80">通常 ¥70,000 → ローンチ期間中の半額</p>
+            <h2 className="mt-5 text-3xl font-black md:text-4xl">
+              ¥35,000 / 回
+            </h2>
+            <p className="mt-2 text-sm font-semibold text-white/80">
+              通常 ¥70,000 → ローンチ期間中の半額
+            </p>
             <ul className="mt-6 grid gap-2 text-sm md:grid-cols-2">
-              <li className="rounded-xl bg-white/10 px-4 py-3 ring-1 ring-white/20">事前ヒアリングシートをご提供</li>
-              <li className="rounded-xl bg-white/10 px-4 py-3 ring-1 ring-white/20">当日オンライン3時間でリアルタイム制作</li>
-              <li className="rounded-xl bg-white/10 px-4 py-3 ring-1 ring-white/20">標準機能の組み合わせで完結</li>
-              <li className="rounded-xl bg-white/10 px-4 py-3 ring-1 ring-white/20">当日中の完成を目指します</li>
+              <li className="rounded-xl bg-white/10 px-4 py-3 ring-1 ring-white/20">
+                事前ヒアリングシートをご提供
+              </li>
+              <li className="rounded-xl bg-white/10 px-4 py-3 ring-1 ring-white/20">
+                当日オンライン3時間でリアルタイム制作
+              </li>
+              <li className="rounded-xl bg-white/10 px-4 py-3 ring-1 ring-white/20">
+                標準機能の組み合わせで完結
+              </li>
+              <li className="rounded-xl bg-white/10 px-4 py-3 ring-1 ring-white/20">
+                当日中の完成を目指します
+              </li>
             </ul>
             <div className="mt-7">
               <Button
@@ -76,13 +99,30 @@ export default function ThreeHPackPage() {
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {[
               { step: "01", title: "予約", desc: "Spirで日時を選択" },
-              { step: "02", title: "事前準備", desc: "ヒアリングシートにご記入" },
-              { step: "03", title: "当日制作", desc: "オンラインで一緒に作って公開" },
+              {
+                step: "02",
+                title: "事前準備",
+                desc: "ヒアリングシートにご記入",
+              },
+              {
+                step: "03",
+                title: "当日制作",
+                desc: "オンラインで一緒に作って公開",
+              },
             ].map((s) => (
-              <div key={s.step} className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
-                <span className="text-xs font-bold uppercase tracking-widest text-primary-700">{s.step}</span>
-                <p className="mt-2 text-lg font-bold text-neutral-900">{s.title}</p>
-                <p className="mt-1.5 text-sm leading-relaxed text-neutral-600">{s.desc}</p>
+              <div
+                key={s.step}
+                className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm"
+              >
+                <span className="text-xs font-bold uppercase tracking-widest text-primary-700">
+                  {s.step}
+                </span>
+                <p className="mt-2 text-lg font-bold text-neutral-900">
+                  {s.title}
+                </p>
+                <p className="mt-1.5 text-sm leading-relaxed text-neutral-600">
+                  {s.desc}
+                </p>
               </div>
             ))}
           </div>

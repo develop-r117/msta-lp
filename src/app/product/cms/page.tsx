@@ -7,7 +7,8 @@ import CmsLifecycle from "@/components/sections/CmsLifecycle";
 import CmsCapabilityMatrix from "@/components/sections/CmsCapabilityMatrix";
 import CmsScreenshotTour from "@/components/sections/CmsScreenshotTour";
 import CmsRelatedFeatures from "@/components/sections/CmsRelatedFeatures";
-import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
+import { Button, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
 
@@ -29,19 +30,18 @@ export default function CMSPage() {
     >
       <PageHero
         eyebrow="CMS / Dashboard"
-        title={<>アプリは、<span className="text-gradient">リリースしてからが本番。</span></>}
+        title={
+          <>
+            アプリは、
+            <span className="text-gradient">リリースしてからが本番。</span>
+          </>
+        }
         description="情報更新・通知配信・データ収集・分析・改善—リリース後の運用に必要なすべてを、1つの管理画面で。エムスタは強力なCMSを最初から標準搭載しています。"
         actions={
           <>
-            <Button
-              href={CTA_LINKS.signup}
-              external={CTA_LINKS.signup.startsWith("http")}
-              variant="primary"
-              size="lg"
-              icon={<ArrowIcon />}
-            >
+            <SignupButton variant="primary" size="lg">
               CMSを2週間無料で試す
-            </Button>
+            </SignupButton>
             <Button
               href={CTA_LINKS.spirGeneral}
               external={CTA_LINKS.spirGeneral.startsWith("http")}

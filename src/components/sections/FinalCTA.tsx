@@ -1,12 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button, ArrowIcon, DownloadIcon, ChatIcon } from "@/components/ui/Button";
+import { Button, DownloadIcon, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
 
 export default function FinalCTA() {
   return (
-    <section id="final-cta" className="section-padding relative overflow-hidden bg-neutral-900 text-white">
+    <section
+      id="final-cta"
+      className="section-padding relative overflow-hidden bg-neutral-900 text-white"
+    >
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <motion.div
           animate={{ x: [0, 60, 0], y: [0, 30, 0] }}
@@ -64,15 +68,9 @@ export default function FinalCTA() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mt-10 flex flex-wrap justify-center gap-3"
         >
-          <Button
-            href={CTA_LINKS.signup}
-            external={CTA_LINKS.signup.startsWith("http")}
-            variant="primary"
-            size="lg"
-            icon={<ArrowIcon />}
-          >
+          <SignupButton variant="primary" size="lg">
             2週間無料で始める
-          </Button>
+          </SignupButton>
           <Button
             href="#partner-doc"
             variant="secondary"

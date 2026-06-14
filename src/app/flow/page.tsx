@@ -3,7 +3,8 @@ import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import Flow from "@/components/sections/Flow";
 import PricingSummary from "@/components/sections/PricingSummary";
-import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
+import { Button, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
 
@@ -22,19 +23,17 @@ export default function FlowPage() {
     >
       <PageHero
         eyebrow="Onboarding flow"
-        title={<>まずは<span className="text-gradient">無料</span>で始められます。</>}
+        title={
+          <>
+            まずは<span className="text-gradient">無料</span>で始められます。
+          </>
+        }
         description="セルフ構築でも、公式チームによる制作でも。最短ステップで運用開始まで進めます。"
         actions={
           <>
-            <Button
-              href={CTA_LINKS.signup}
-              external={CTA_LINKS.signup.startsWith("http")}
-              variant="primary"
-              size="lg"
-              icon={<ArrowIcon />}
-            >
+            <SignupButton variant="primary" size="lg">
               2週間無料で始める
-            </Button>
+            </SignupButton>
             <Button
               href={CTA_LINKS.spirOfficial}
               external={CTA_LINKS.spirOfficial.startsWith("http")}

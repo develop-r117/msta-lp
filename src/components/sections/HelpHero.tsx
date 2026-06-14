@@ -40,12 +40,32 @@ export default function HelpHero({ categories }: Props) {
         <p className="mt-4 text-sm leading-relaxed text-white/85 md:text-base">
           エムスタの使い方・運用ノウハウ・トラブル対応をまとめた公式ヘルプセンターです。
         </p>
-        <form onSubmit={onSubmit} className="mt-8" role="search" aria-label="ヘルプ検索">
-          <label htmlFor="help-search" className="sr-only">ヘルプ記事を検索</label>
+        <form
+          onSubmit={onSubmit}
+          className="mt-8"
+          role="search"
+          aria-label="ヘルプ検索"
+        >
+          <label htmlFor="help-search" className="sr-only">
+            ヘルプ記事を検索
+          </label>
           <div className="relative mx-auto max-w-2xl">
-            <span aria-hidden className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-neutral-400">
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m21 21-4.3-4.3M16.5 11A5.5 5.5 0 1 1 5.5 11a5.5 5.5 0 0 1 11 0Z" />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-neutral-400"
+            >
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="m21 21-4.3-4.3M16.5 11A5.5 5.5 0 1 1 5.5 11a5.5 5.5 0 0 1 11 0Z"
+                />
               </svg>
             </span>
             <input
@@ -73,8 +93,18 @@ export default function HelpHero({ categories }: Props) {
                 className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-bold text-white backdrop-blur transition hover:bg-white/20"
               >
                 {c.title}
-                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                <svg
+                  className="h-3 w-3"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
                 </svg>
               </Link>
             </li>

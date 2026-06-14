@@ -37,7 +37,9 @@ function listDirNames(dir: string): string[] {
     .map((d) => d.name);
 }
 
-function readMdoc(filepath: string): { data: Frontmatter; body: string } | null {
+function readMdoc(
+  filepath: string,
+): { data: Frontmatter; body: string } | null {
   if (!existsSync(filepath)) return null;
   const raw = readFileSync(filepath, "utf-8");
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
@@ -66,7 +68,9 @@ function asString(v: unknown, fallback = ""): string {
 }
 
 function asStringArray(v: unknown): string[] {
-  return Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : [];
+  return Array.isArray(v)
+    ? v.filter((x): x is string => typeof x === "string")
+    : [];
 }
 
 function asNumber(v: unknown, fallback = 0): number {
@@ -121,6 +125,8 @@ function dumpUsecases(): UsecaseEntry[] {
       scenarios: asStringArray(data.scenarios),
       activeFeatures: asStringArray(data.activeFeatures),
       cover: cover ? { url: cover } : undefined,
+      draft: asBoolean(data.draft) || undefined,
+      cardOnly: asBoolean(data.cardOnly) || undefined,
       body: renderMdocBody(body),
       bodySource: body || undefined,
     });
@@ -187,13 +193,13 @@ function dumpFAQ(): FAQCategory[] {
   return (data.categories ?? []).map((cat) => ({
     id: asString(cat.id),
     label: asString(cat.label),
-    items: (cat.items as Array<Record<string, unknown>> | undefined ?? []).map(
-      (item) => ({
-        id: asString(item.id),
-        question: asString(item.question),
-        answer: asString(item.answer),
-      }),
-    ),
+    items: (
+      (cat.items as Array<Record<string, unknown>> | undefined) ?? []
+    ).map((item) => ({
+      id: asString(item.id),
+      question: asString(item.question),
+      answer: asString(item.answer),
+    })),
   }));
 }
 

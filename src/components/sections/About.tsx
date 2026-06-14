@@ -40,15 +40,30 @@ export default function About() {
                 単に「コードを書かずに作れる」だけのツールではありません。
                 <br />
                 同じようなクオリティのアプリを、従来よりも数段低いリテラシーで構築・運用できること。
-                <span className="font-semibold text-neutral-900">それがエムスタの価値です。</span>
+                <span className="font-semibold text-neutral-900">
+                  それがエムスタの価値です。
+                </span>
               </p>
 
               <ul className="mt-6 space-y-3">
                 {highlights.map((h) => (
-                  <li key={h} className="flex items-start gap-3 text-sm text-neutral-700 md:text-base">
+                  <li
+                    key={h}
+                    className="flex items-start gap-3 text-sm text-neutral-700 md:text-base"
+                  >
                     <span className="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary-100 text-primary-700">
-                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      <svg
+                        className="h-3 w-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={3}
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     </span>
                     <span>{h}</span>
@@ -69,13 +84,19 @@ export default function About() {
               <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-primary-500/20 blur-3xl" />
               <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-accent-500/20 blur-3xl" />
 
-              <p className="text-xs font-semibold uppercase tracking-widest text-white/60">All in one</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-white/60">
+                All in one
+              </p>
               <h3 className="mt-3 text-2xl font-bold leading-tight md:text-3xl">
-                アプリを作る。<br />
-                運用する。改善する。<br />
+                アプリを作る。
+                <br />
+                運用する。改善する。
+                <br />
                 収益化する。
               </h3>
-              <p className="mt-3 text-sm text-white/70">そのすべてを一つの場所で。</p>
+              <p className="mt-3 text-sm text-white/70">
+                そのすべてを一つの場所で。
+              </p>
 
               <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {pillars.map((p) => (

@@ -4,8 +4,8 @@ import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import About from "@/components/sections/About";
 import Intro3 from "@/components/sections/Intro3";
-import { Button, ArrowIcon, DownloadIcon } from "@/components/ui/Button";
-import { CTA_LINKS } from "@/lib/sections";
+import { Button, DownloadIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -51,7 +51,15 @@ export default function ProductPage() {
     >
       <PageHero
         eyebrow="Product"
-        title={<>真のノーコード × 最強CMSを備えた、<br className="hidden md:block"/><span className="text-gradient">次世代型アプリ制作プラットフォーム</span></>}
+        title={
+          <>
+            真のノーコード × 最強CMSを備えた、
+            <br className="hidden md:block" />
+            <span className="text-gradient">
+              次世代型アプリ制作プラットフォーム
+            </span>
+          </>
+        }
         description={
           <>
             エムスタは、Webアプリ・iOSアプリ・Androidアプリを、CMS付きで構築・運用できるアプリ制作プラットフォームです。
@@ -61,16 +69,15 @@ export default function ProductPage() {
         }
         actions={
           <>
-            <Button
-              href={CTA_LINKS.signup}
-              external={CTA_LINKS.signup.startsWith("http")}
-              variant="primary"
-              size="lg"
-              icon={<ArrowIcon />}
-            >
+            <SignupButton variant="primary" size="lg">
               2週間無料で始める
-            </Button>
-            <Button href="/partners/document" variant="secondary" size="lg" icon={<DownloadIcon />}>
+            </SignupButton>
+            <Button
+              href="/partners/document"
+              variant="secondary"
+              size="lg"
+              icon={<DownloadIcon />}
+            >
               パートナー資料DL
             </Button>
           </>
@@ -82,7 +89,9 @@ export default function ProductPage() {
 
       <section className="section-padding bg-neutral-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-neutral-900 md:text-3xl">プロダクト構成</h2>
+          <h2 className="text-2xl font-bold text-neutral-900 md:text-3xl">
+            プロダクト構成
+          </h2>
           <p className="mt-3 text-sm text-neutral-600 md:text-base">
             プロダクトは大きく5つの軸で構成されています。各ページで詳細を確認できます。
           </p>
@@ -94,12 +103,26 @@ export default function ProductPage() {
                   className="group flex items-start justify-between gap-4 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-md"
                 >
                   <div>
-                    <p className="text-base font-bold text-neutral-900 group-hover:text-primary-700">{p.title}</p>
-                    <p className="mt-1.5 text-sm leading-relaxed text-neutral-600">{p.desc}</p>
+                    <p className="text-base font-bold text-neutral-900 group-hover:text-primary-700">
+                      {p.title}
+                    </p>
+                    <p className="mt-1.5 text-sm leading-relaxed text-neutral-600">
+                      {p.desc}
+                    </p>
                   </div>
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-neutral-100 text-neutral-500 transition-colors group-hover:bg-primary-100 group-hover:text-primary-700">
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
                     </svg>
                   </span>
                 </Link>

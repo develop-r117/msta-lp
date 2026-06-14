@@ -42,6 +42,11 @@ export type UsecaseEntry = {
   bodySource?: string;
   /** true の場合は下書き(非公開)。公開ページには表示されない。 */
   draft?: boolean;
+  /**
+   * true の場合は「カード表示のみ」。一覧ページにはカード(Coming soon タグ付き)
+   * として表示されるが、詳細ページにアクセスすると Coming soon 表示になる。
+   */
+  cardOnly?: boolean;
   publishedAt?: string;
   updatedAt?: string;
 };
@@ -89,8 +94,12 @@ export type FAQCategory = {
   draft?: boolean;
 };
 
-function helpCategoryFromArticle(a: HelpArticle): { slug: string; title: string } {
-  if (typeof a.category === "string") return { slug: a.category, title: a.category };
+function helpCategoryFromArticle(a: HelpArticle): {
+  slug: string;
+  title: string;
+} {
+  if (typeof a.category === "string")
+    return { slug: a.category, title: a.category };
   return a.category;
 }
 

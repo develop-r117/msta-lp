@@ -17,13 +17,34 @@ const headers: { key: Permission; label: string; color: string }[] = [
 ];
 
 const rows: Row[] = [
-  { feature: "アカウント全体管理", values: { 管: true, 編: false, 投: false, 閲: false, 外: false } },
-  { feature: "アプリの追加 / 削除", values: { 管: true, 編: false, 投: false, 閲: false, 外: false } },
-  { feature: "画面構成・機能追加", values: { 管: true, 編: true, 投: false, 閲: false, 外: false } },
-  { feature: "投稿・コンテンツ更新", values: { 管: true, 編: true, 投: true, 閲: false, 外: false } },
-  { feature: "プッシュ通知配信", values: { 管: true, 編: true, 投: true, 閲: false, 外: false } },
-  { feature: "ダッシュボード閲覧", values: { 管: true, 編: true, 投: true, 閲: true, 外: false } },
-  { feature: "外部パートナー権限付与", values: { 管: true, 編: false, 投: false, 閲: false, 外: true } },
+  {
+    feature: "アカウント全体管理",
+    values: { 管: true, 編: false, 投: false, 閲: false, 外: false },
+  },
+  {
+    feature: "アプリの追加 / 削除",
+    values: { 管: true, 編: false, 投: false, 閲: false, 外: false },
+  },
+  {
+    feature: "画面構成・機能追加",
+    values: { 管: true, 編: true, 投: false, 閲: false, 外: false },
+  },
+  {
+    feature: "投稿・コンテンツ更新",
+    values: { 管: true, 編: true, 投: true, 閲: false, 外: false },
+  },
+  {
+    feature: "プッシュ通知配信",
+    values: { 管: true, 編: true, 投: true, 閲: false, 外: false },
+  },
+  {
+    feature: "ダッシュボード閲覧",
+    values: { 管: true, 編: true, 投: true, 閲: true, 外: false },
+  },
+  {
+    feature: "外部パートナー権限付与",
+    values: { 管: true, 編: false, 投: false, 閲: false, 外: true },
+  },
 ];
 
 export default function TeamRoles() {
@@ -32,7 +53,12 @@ export default function TeamRoles() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Team & roles"
-          title={<>チームでも、組織でも、<span className="text-gradient">安全に運用</span>できる。</>}
+          title={
+            <>
+              チームでも、組織でも、
+              <span className="text-gradient">安全に運用</span>できる。
+            </>
+          }
           description="役割に応じて権限を分けられるため、セキュリティを担保しながら運用できます。アカウント内に複数のアプリを作成でき、アプリごとに権限を付与することも可能です。"
         />
 
@@ -44,12 +70,19 @@ export default function TeamRoles() {
                   権限ロール
                 </th>
                 {headers.map((h) => (
-                  <th key={h.key} className="border-b border-neutral-200 px-3 py-4 text-center">
+                  <th
+                    key={h.key}
+                    className="border-b border-neutral-200 px-3 py-4 text-center"
+                  >
                     <div className="flex flex-col items-center gap-1.5">
-                      <span className={`grid h-7 w-7 place-items-center rounded-full ${h.color} text-[10px] font-bold text-white`}>
+                      <span
+                        className={`grid h-7 w-7 place-items-center rounded-full ${h.color} text-[10px] font-bold text-white`}
+                      >
                         {h.key}
                       </span>
-                      <span className="text-[11px] font-semibold text-neutral-700">{h.label}</span>
+                      <span className="text-[11px] font-semibold text-neutral-700">
+                        {h.label}
+                      </span>
                     </div>
                   </th>
                 ))}
@@ -68,8 +101,18 @@ export default function TeamRoles() {
                     <td key={h.key} className="px-3 py-4 text-center">
                       {r.values[h.key] ? (
                         <span className="grid h-6 w-6 place-items-center rounded-full bg-primary-100 text-primary-700 ring-1 ring-primary-200 mx-auto">
-                          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                          <svg
+                            className="h-3.5 w-3.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={3}
+                              d="M5 13l4 4L19 7"
+                            />
                           </svg>
                         </span>
                       ) : (
@@ -84,7 +127,8 @@ export default function TeamRoles() {
         </div>
 
         <p className="mt-6 text-xs text-neutral-500">
-          ※ 表は代表的な例です。アプリごと / 機能ごとに、実際の権限はより細かく設定可能です。
+          ※ 表は代表的な例です。アプリごと /
+          機能ごとに、実際の権限はより細かく設定可能です。
         </p>
       </div>
     </section>

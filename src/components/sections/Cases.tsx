@@ -31,8 +31,17 @@ export default function Cases({
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Customer cases"
-          title={title ?? <>導入<span className="text-gradient">事例</span></>}
-          description={description ?? "医療・店舗・教育・コミュニティまで、業種・目的を問わず多数の事例をエムスタ上で運用しています。"}
+          title={
+            title ?? (
+              <>
+                導入<span className="text-gradient">事例</span>
+              </>
+            )
+          }
+          description={
+            description ??
+            "医療・店舗・教育・コミュニティまで、業種・目的を問わず多数の事例をエムスタ上で運用しています。"
+          }
         />
 
         <div className="mt-12">
@@ -77,7 +86,13 @@ export default function Cases({
   );
 }
 
-function CaseCard({ c, showDetailLink }: { c: CaseEntry; showDetailLink: boolean }) {
+function CaseCard({
+  c,
+  showDetailLink,
+}: {
+  c: CaseEntry;
+  showDetailLink: boolean;
+}) {
   const cover = c.cover?.url ?? "/screenshots/2.png";
   const Wrapper = showDetailLink
     ? ({ children }: { children: React.ReactNode }) => (
@@ -117,10 +132,14 @@ function CaseCard({ c, showDetailLink }: { c: CaseEntry; showDetailLink: boolean
         <h3 className="text-base font-bold leading-snug text-neutral-900 group-hover:text-primary-700">
           {c.title}
         </h3>
-        <p className="mt-2 text-xs leading-relaxed text-neutral-600">{c.summary}</p>
+        <p className="mt-2 text-xs leading-relaxed text-neutral-600">
+          {c.summary}
+        </p>
 
         <div className="mt-4">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">活用機能</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">
+            活用機能
+          </p>
           <div className="mt-1.5 flex flex-wrap gap-1.5">
             {c.activeFeatures.map((f) => (
               <span
@@ -134,8 +153,12 @@ function CaseCard({ c, showDetailLink }: { c: CaseEntry; showDetailLink: boolean
         </div>
 
         <div className="mt-4">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">導入効果</p>
-          <p className="mt-1 text-xs font-semibold text-neutral-800">{c.result}</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">
+            導入効果
+          </p>
+          <p className="mt-1 text-xs font-semibold text-neutral-800">
+            {c.result}
+          </p>
         </div>
 
         {c.customerVoice ? (
@@ -152,8 +175,18 @@ function CaseCard({ c, showDetailLink }: { c: CaseEntry; showDetailLink: boolean
           ) : (
             <span className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-primary-700">
               詳細を見る
-              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              <svg
+                className="h-3.5 w-3.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
               </svg>
             </span>
           )

@@ -10,9 +10,9 @@ export default function ScrollSpyNav() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const sections = NAV_SECTIONS.map((s) => document.getElementById(s.id)).filter(
-      (el): el is HTMLElement => el !== null,
-    );
+    const sections = NAV_SECTIONS.map((s) =>
+      document.getElementById(s.id),
+    ).filter((el): el is HTMLElement => el !== null);
 
     const observer = new IntersectionObserver(
       (entries) => {

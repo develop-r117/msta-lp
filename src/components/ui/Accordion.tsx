@@ -49,8 +49,18 @@ export default function Accordion({ items, className, initialOpenId }: Props) {
                 className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-neutral-100 text-neutral-500"
                 aria-hidden
               >
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v14M5 12h14" />
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 5v14M5 12h14"
+                  />
                 </svg>
               </motion.span>
             </button>

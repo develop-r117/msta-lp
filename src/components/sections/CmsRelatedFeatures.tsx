@@ -23,7 +23,11 @@ export default function CmsRelatedFeatures() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Linked features"
-          title={<>CMSと<span className="text-gradient">連動する主要機能</span>。</>}
+          title={
+            <>
+              CMSと<span className="text-gradient">連動する主要機能</span>。
+            </>
+          }
           description="CMSは単独機能ではなく、運用に必要な機能群と密接に連動します。代表的な9機能を紹介します。"
         />
 
@@ -57,8 +61,18 @@ export default function CmsRelatedFeatures() {
             className="inline-flex items-center gap-1 text-sm font-bold text-primary-700 underline-offset-4 hover:underline"
           >
             全機能一覧を見る
-            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            <svg
+              className="h-3.5 w-3.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 7l5 5m0 0l-5 5m5-5H6"
+              />
             </svg>
           </Link>
         </div>

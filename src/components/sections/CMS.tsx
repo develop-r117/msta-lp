@@ -4,8 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Tabs, { type TabItem } from "@/components/ui/Tabs";
-import { Button, ArrowIcon } from "@/components/ui/Button";
-import { CTA_LINKS } from "@/lib/sections";
+import { SignupButton } from "@/components/ui/SignupButton";
 
 const cmsCheckList = [
   "プログラミング不要で日々の情報更新",
@@ -71,7 +70,12 @@ export default function CMS() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Built-in CMS"
-          title={<>アプリは、<span className="text-gradient">リリースしてからが本番。</span></>}
+          title={
+            <>
+              アプリは、
+              <span className="text-gradient">リリースしてからが本番。</span>
+            </>
+          }
           description="エムスタは、アプリを作るだけでなく、リリース後の更新・運用まで管理できるCMSを標準提供します。プログラミング不要で、管理画面から日々の情報更新や運用管理が可能です。"
         />
 
@@ -102,13 +106,28 @@ export default function CMS() {
             className="lg:col-span-5"
           >
             <div className="rounded-3xl border border-neutral-200 bg-white p-7 shadow-sm">
-              <h3 className="text-lg font-bold text-neutral-900">CMSでできること</h3>
+              <h3 className="text-lg font-bold text-neutral-900">
+                CMSでできること
+              </h3>
               <ul className="mt-4 space-y-3">
                 {cmsCheckList.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm text-neutral-700">
+                  <li
+                    key={item}
+                    className="flex items-start gap-3 text-sm text-neutral-700"
+                  >
                     <span className="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary-500 text-white">
-                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      <svg
+                        className="h-3 w-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={3}
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     </span>
                     {item}
@@ -117,16 +136,9 @@ export default function CMS() {
               </ul>
 
               <div className="mt-7">
-                <Button
-                  href={CTA_LINKS.signup}
-                  external={CTA_LINKS.signup.startsWith("http")}
-                  variant="primary"
-                  size="md"
-                  fullWidth
-                  icon={<ArrowIcon />}
-                >
+                <SignupButton variant="primary" size="md" fullWidth>
                   2週間無料で始める
-                </Button>
+                </SignupButton>
               </div>
             </div>
           </motion.div>
@@ -153,11 +165,19 @@ function CmsTabPanel({
     <div className="grid items-center gap-8 rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm md:p-8 lg:grid-cols-12">
       <div className="lg:col-span-7">
         <div className="relative overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100">
-          <Image src={image} alt={title} width={1200} height={760} className="h-auto w-full" />
+          <Image
+            src={image}
+            alt={title}
+            width={1200}
+            height={760}
+            className="h-auto w-full"
+          />
         </div>
       </div>
       <div className="lg:col-span-5">
-        <h4 className="text-xl font-bold text-neutral-900 md:text-2xl">{title}</h4>
+        <h4 className="text-xl font-bold text-neutral-900 md:text-2xl">
+          {title}
+        </h4>
         <ul className="mt-4 space-y-2.5 text-sm text-neutral-600">
           {bullets.map((b) => (
             <li key={b} className="flex items-start gap-2">

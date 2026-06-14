@@ -67,7 +67,9 @@ export function getHelpArticleBySlug(slug: string): HelpArticle | null {
 }
 
 export function getHelpArticlesByCategory(categorySlug: string): HelpArticle[] {
-  return data.helpArticles.filter((a) => getHelpCategorySlug(a) === categorySlug);
+  return data.helpArticles.filter(
+    (a) => getHelpCategorySlug(a) === categorySlug,
+  );
 }
 
 export function searchHelpArticles(q: string): HelpArticle[] {

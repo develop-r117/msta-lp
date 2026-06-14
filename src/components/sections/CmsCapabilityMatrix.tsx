@@ -52,7 +52,12 @@ export default function CmsCapabilityMatrix() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Capability comparison"
-          title={<>「アプリだけ」と<span className="text-gradient">「エムスタCMS同梱」</span>の違い。</>}
+          title={
+            <>
+              「アプリだけ」と
+              <span className="text-gradient">「エムスタCMS同梱」</span>の違い。
+            </>
+          }
           description="リリース後の運用にどれだけ違いが出るのか。代表的な6つの観点で比較しました。"
         />
 
@@ -60,8 +65,12 @@ export default function CmsCapabilityMatrix() {
           <table className="w-full border-collapse text-left text-sm">
             <thead>
               <tr className="bg-neutral-900 text-xs font-bold uppercase tracking-widest text-white">
-                <th scope="col" className="px-4 py-4 md:px-6">観点</th>
-                <th scope="col" className="px-4 py-4 md:px-6">アプリだけ</th>
+                <th scope="col" className="px-4 py-4 md:px-6">
+                  観点
+                </th>
+                <th scope="col" className="px-4 py-4 md:px-6">
+                  アプリだけ
+                </th>
                 <th scope="col" className="px-4 py-4 md:px-6">
                   <span className="inline-flex items-center gap-2">
                     <span className="inline-block h-2 w-2 rounded-full bg-accent-400" />
@@ -76,9 +85,14 @@ export default function CmsCapabilityMatrix() {
                   key={r.topic}
                   className={i % 2 === 0 ? "bg-white" : "bg-neutral-50"}
                 >
-                  <th scope="row" className="px-4 py-4 align-top text-xs font-bold text-neutral-900 md:px-6 md:text-sm">
+                  <th
+                    scope="row"
+                    className="px-4 py-4 align-top text-xs font-bold text-neutral-900 md:px-6 md:text-sm"
+                  >
                     {r.topic}
-                    <p className="mt-1 text-[11px] font-normal text-neutral-500">{r.description}</p>
+                    <p className="mt-1 text-[11px] font-normal text-neutral-500">
+                      {r.description}
+                    </p>
                   </th>
                   <td className="px-4 py-4 align-top text-xs leading-relaxed text-neutral-600 md:px-6 md:text-sm">
                     {r.appOnly}
@@ -86,8 +100,18 @@ export default function CmsCapabilityMatrix() {
                   <td className="px-4 py-4 align-top text-xs leading-relaxed text-neutral-800 md:px-6 md:text-sm">
                     <span className="inline-flex items-start gap-2">
                       <span className="mt-0.5 inline-grid h-4 w-4 shrink-0 place-items-center rounded-full bg-primary-500 text-white">
-                        <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        <svg
+                          className="h-2.5 w-2.5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={3}
+                            d="M5 13l4 4L19 7"
+                          />
                         </svg>
                       </span>
                       {r.msta}

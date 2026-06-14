@@ -5,10 +5,7 @@ import HelpHero from "@/components/sections/HelpHero";
 import HelpCategoryGrid from "@/components/sections/HelpCategoryGrid";
 import HelpArticleList from "@/components/sections/HelpArticleList";
 import HelpSearchResults from "@/components/sections/HelpSearchResults";
-import {
-  getAllHelpArticles,
-  getAllHelpCategories,
-} from "@/lib/cms-data";
+import { getAllHelpArticles, getAllHelpCategories } from "@/lib/cms-data";
 import { buildMetadata } from "@/lib/seo";
 
 export const runtime = "edge";

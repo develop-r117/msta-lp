@@ -14,26 +14,51 @@ const groups: UsecaseGroup[] = [
   {
     id: "shop",
     label: "店舗・施設",
-    description: "会員アプリ・予約・クーポン・来店促進など、店舗運営をまるごと支援。",
-    items: ["会員アプリ", "予約アプリ", "クーポン配信", "来店管理", "イベント", "コンテンツ配信"],
+    description:
+      "会員アプリ・予約・クーポン・来店促進など、店舗運営をまるごと支援。",
+    items: [
+      "会員アプリ",
+      "予約アプリ",
+      "クーポン配信",
+      "来店管理",
+      "イベント",
+      "コンテンツ配信",
+    ],
   },
   {
     id: "edu",
     label: "教育・スクール",
     description: "学習・お知らせ・出欠・コミュニティの中心となるアプリ。",
-    items: ["学習アプリ", "お知らせ配信", "資料共有", "出欠管理", "コミュニティ運営"],
+    items: [
+      "学習アプリ",
+      "お知らせ配信",
+      "資料共有",
+      "出欠管理",
+      "コミュニティ運営",
+    ],
   },
   {
     id: "med",
     label: "医療・団体",
     description: "会員向けの安全な情報インフラを構築。",
-    items: ["会員向け情報インフラ", "災害時連絡", "アンケート", "ファイル共有", "行事予定"],
+    items: [
+      "会員向け情報インフラ",
+      "災害時連絡",
+      "アンケート",
+      "ファイル共有",
+      "行事予定",
+    ],
   },
   {
     id: "creator",
     label: "クリエイター・コミュニティ",
     description: "ファンとの距離を近づけ、限定情報や告知の場として活用。",
-    items: ["ファンコミュニティ", "コンテンツ配信", "会員限定情報", "イベント告知"],
+    items: [
+      "ファンコミュニティ",
+      "コンテンツ配信",
+      "会員限定情報",
+      "イベント告知",
+    ],
   },
   {
     id: "biz",
@@ -48,7 +73,9 @@ const tabs: TabItem<string>[] = groups.map((g) => ({
   label: g.label,
   content: (
     <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm md:p-8">
-      <p className="text-sm leading-relaxed text-neutral-700 md:text-base">{g.description}</p>
+      <p className="text-sm leading-relaxed text-neutral-700 md:text-base">
+        {g.description}
+      </p>
       <ul className="mt-5 grid gap-2 sm:grid-cols-2 md:grid-cols-3">
         {g.items.map((it) => (
           <li
@@ -70,7 +97,12 @@ export default function Usecases() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Use cases"
-          title={<>さまざまな業種・<span className="text-gradient">目的に対応</span>。</>}
+          title={
+            <>
+              さまざまな業種・<span className="text-gradient">目的に対応</span>
+              。
+            </>
+          }
           description="店舗・教育・医療・クリエイター・社内利用まで。エムスタは業種を選ばず、目的に合わせて自由に組み立てられます。"
         />
         <div className="mt-12">

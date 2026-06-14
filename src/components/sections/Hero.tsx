@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button, ArrowIcon, DownloadIcon, ChatIcon } from "@/components/ui/Button";
+import { Button, DownloadIcon, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import HeroDemo from "@/components/sections/HeroDemo";
 import { CTA_LINKS } from "@/lib/sections";
 
@@ -111,15 +112,9 @@ export default function Hero() {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="mt-8 flex flex-wrap gap-3"
             >
-              <Button
-                href={CTA_LINKS.signup}
-                external={CTA_LINKS.signup.startsWith("http")}
-                variant="primary"
-                size="lg"
-                icon={<ArrowIcon />}
-              >
+              <SignupButton variant="primary" size="lg">
                 2週間無料で始める
-              </Button>
+              </SignupButton>
               <Button
                 href="#partner-doc"
                 variant="secondary"
@@ -173,8 +168,18 @@ export default function Hero() {
 function CheckIcon() {
   return (
     <span className="grid h-5 w-5 place-items-center rounded-full bg-primary-100 text-primary-700">
-      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+      <svg
+        className="h-3 w-3"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={3}
+          d="M5 13l4 4L19 7"
+        />
       </svg>
     </span>
   );
@@ -182,7 +187,13 @@ function CheckIcon() {
 
 function WebIcon() {
   return (
-    <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+    <svg
+      className="h-3.5 w-3.5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
       <circle cx="12" cy="12" r="9" />
       <path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" />
     </svg>

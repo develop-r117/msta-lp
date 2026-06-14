@@ -34,16 +34,20 @@ function AnimatedKv() {
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
-      threshold: 0.25,
-    });
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      {
+        threshold: 0.25,
+      },
+    );
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
   const [pageVisible, setPageVisible] = useState(true);
   useEffect(() => {
-    const onVisibility = () => setPageVisible(document.visibilityState === "visible");
+    const onVisibility = () =>
+      setPageVisible(document.visibilityState === "visible");
     document.addEventListener("visibilitychange", onVisibility);
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
@@ -52,17 +56,20 @@ function AnimatedKv() {
 
   // 開発時の視覚検証用: ?demoPhase=<id> でフェーズを固定できる
   const frozenIndex = useMemo(() => {
-    if (process.env.NODE_ENV === "production" || typeof window === "undefined") return -1;
+    if (process.env.NODE_ENV === "production" || typeof window === "undefined")
+      return -1;
     const id = new URLSearchParams(window.location.search).get("demoPhase");
     return id ? PHASES.findIndex((p) => p.id === id) : -1;
   }, []);
 
-  const [phaseIndex, setPhaseIndex] = useState(frozenIndex >= 0 ? frozenIndex : 0);
+  const [phaseIndex, setPhaseIndex] = useState(
+    frozenIndex >= 0 ? frozenIndex : 0,
+  );
   useEffect(() => {
     if (!active || frozenIndex >= 0) return;
     const timer = setTimeout(
       () => setPhaseIndex((i) => (i + 1) % PHASES.length),
-      PHASES[phaseIndex].duration
+      PHASES[phaseIndex].duration,
     );
     return () => clearTimeout(timer);
   }, [active, phaseIndex, frozenIndex]);

@@ -13,7 +13,12 @@ type Args = {
 /**
  * 各ページが共通してOG・Twitter・canonicalを揃えるためのヘルパ。
  */
-export function buildMetadata({ title, description, path, ogImage }: Args): Metadata {
+export function buildMetadata({
+  title,
+  description,
+  path,
+  ogImage,
+}: Args): Metadata {
   const url = `${baseUrl}${path}`;
   const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
   return {

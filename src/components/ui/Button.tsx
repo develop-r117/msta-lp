@@ -15,8 +15,7 @@ const variantStyles: Record<Variant, string> = {
     "bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/25 hover:shadow-xl hover:shadow-primary-500/35",
   secondary:
     "bg-white text-neutral-800 border-2 border-neutral-200 hover:border-primary-300 hover:text-primary-700 shadow-md",
-  tertiary:
-    "bg-neutral-900 text-white hover:bg-neutral-800 shadow-md",
+  tertiary: "bg-neutral-900 text-white hover:bg-neutral-800 shadow-md",
   ghost:
     "bg-transparent text-neutral-700 hover:text-primary-700 hover:bg-primary-50/60",
   partner:
@@ -55,97 +54,117 @@ type Props = AnchorProps | ButtonProps;
 const baseClass =
   "group relative inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-200 disabled:opacity-50 disabled:cursor-not-allowed";
 
-export const Button = forwardRef<HTMLElement, Props>(function Button(props, ref) {
-  const {
-    variant = "primary",
-    size = "md",
-    className,
-    icon,
-    iconPosition = "right",
-    fullWidth,
-    children,
-    ...rest
-  } = props as CommonProps & Record<string, unknown>;
+export const Button = forwardRef<HTMLElement, Props>(
+  function Button(props, ref) {
+    const {
+      variant = "primary",
+      size = "md",
+      className,
+      icon,
+      iconPosition = "right",
+      fullWidth,
+      children,
+      ...rest
+    } = props as CommonProps & Record<string, unknown>;
 
-  const composed = cn(
-    baseClass,
-    variantStyles[variant],
-    sizeStyles[size],
-    fullWidth && "w-full",
-    className,
-  );
+    const composed = cn(
+      baseClass,
+      variantStyles[variant],
+      sizeStyles[size],
+      fullWidth && "w-full",
+      className,
+    );
 
-  const content = (
-    <>
-      {icon && iconPosition === "left" ? (
-        <span className="inline-flex shrink-0">{icon}</span>
-      ) : null}
-      <span>{children}</span>
-      {icon && iconPosition === "right" ? (
-        <span className="inline-flex shrink-0 transition-transform group-hover:translate-x-0.5">
-          {icon}
-        </span>
-      ) : null}
-    </>
-  );
+    const content = (
+      <>
+        {icon && iconPosition === "left" ? (
+          <span className="inline-flex shrink-0">{icon}</span>
+        ) : null}
+        <span>{children}</span>
+        {icon && iconPosition === "right" ? (
+          <span className="inline-flex shrink-0 transition-transform group-hover:translate-x-0.5">
+            {icon}
+          </span>
+        ) : null}
+      </>
+    );
 
-  if ("href" in props && props.href) {
-    const { href, external, ...anchorRest } = rest as Omit<AnchorProps, keyof CommonProps>;
-    if (external || /^https?:/.test(href)) {
+    if ("href" in props && props.href) {
+      const { href, external, ...anchorRest } = rest as Omit<
+        AnchorProps,
+        keyof CommonProps
+      >;
+      if (external || /^https?:/.test(href)) {
+        return (
+          <motion.a
+            ref={ref as React.Ref<HTMLAnchorElement>}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className={composed}
+            {...anchorRest}
+          >
+            {content}
+          </motion.a>
+        );
+      }
       return (
-        <motion.a
+        <MotionLink
           ref={ref as React.Ref<HTMLAnchorElement>}
           href={href}
-          target="_blank"
-          rel="noopener noreferrer"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           className={composed}
           {...anchorRest}
         >
           {content}
-        </motion.a>
+        </MotionLink>
       );
     }
+
+    const buttonRest = rest as Omit<ButtonProps, keyof CommonProps>;
     return (
-      <MotionLink
-        ref={ref as React.Ref<HTMLAnchorElement>}
-        href={href}
+      <motion.button
+        ref={ref as React.Ref<HTMLButtonElement>}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         className={composed}
-        {...anchorRest}
+        {...buttonRest}
       >
         {content}
-      </MotionLink>
+      </motion.button>
     );
-  }
-
-  const buttonRest = rest as Omit<ButtonProps, keyof CommonProps>;
-  return (
-    <motion.button
-      ref={ref as React.Ref<HTMLButtonElement>}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className={composed}
-      {...buttonRest}
-    >
-      {content}
-    </motion.button>
-  );
-});
+  },
+);
 
 export function ArrowIcon() {
   return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+    <svg
+      className="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M13 7l5 5m0 0l-5 5m5-5H6"
+      />
     </svg>
   );
 }
 
 export function DownloadIcon() {
   return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg
+      className="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -158,7 +177,12 @@ export function DownloadIcon() {
 
 export function ChatIcon() {
   return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg
+      className="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"

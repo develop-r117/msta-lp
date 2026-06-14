@@ -48,7 +48,11 @@ export default function FAQ() {
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="FAQ"
-          title={<>よくある<span className="text-gradient">ご質問</span></>}
+          title={
+            <>
+              よくある<span className="text-gradient">ご質問</span>
+            </>
+          }
           description="制作 / 公開 / パートナーに関する代表的な質問をまとめました。"
         />
 

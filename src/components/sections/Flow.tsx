@@ -3,25 +3,41 @@
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Tabs, { type TabItem } from "@/components/ui/Tabs";
-import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
+import { Button, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
 
 const selfSteps = [
   { title: "アカウント登録", description: "メールアドレスで即時登録。" },
-  { title: "2週間無料トライアル開始", description: "全機能を試せる無料期間がスタート。" },
-  { title: "アプリ作成", description: "テンプレート / 標準機能を組み合わせて構築。" },
+  {
+    title: "2週間無料トライアル開始",
+    description: "全機能を試せる無料期間がスタート。",
+  },
+  {
+    title: "アプリ作成",
+    description: "テンプレート / 標準機能を組み合わせて構築。",
+  },
   {
     title: "プレビュー確認",
     description: "SP / タブレット / PCに標準でレスポンシブ対応",
   },
   { title: "公開設定", description: "ドメイン・ストア提出情報を設定。" },
-  { title: "Web / iOS / Androidで公開", description: "そのまま公開・配信を開始。" },
+  {
+    title: "Web / iOS / Androidで公開",
+    description: "そのまま公開・配信を開始。",
+  },
 ];
 
 const officialSteps = [
-  { title: "お問い合わせ", description: "オンライン相談 or 資料DLからスタート。" },
+  {
+    title: "お問い合わせ",
+    description: "オンライン相談 or 資料DLからスタート。",
+  },
   { title: "ヒアリング", description: "目的・必要機能・ご予算を確認。" },
-  { title: "プラン選定", description: "オフィシャル制作 / 3hパック / Fullから提案。" },
+  {
+    title: "プラン選定",
+    description: "オフィシャル制作 / 3hパック / Fullから提案。",
+  },
   { title: "制作開始", description: "公式チームでアプリ制作を進行。" },
   { title: "テスト確認", description: "ご担当者と一緒に動作 / 内容を確認。" },
   { title: "公開申請", description: "ストア申請・ドメイン設定をサポート。" },
@@ -32,12 +48,16 @@ const tabs: TabItem<"self" | "official">[] = [
   {
     id: "self",
     label: "セルフ構築",
-    content: <Steps steps={selfSteps} accent="from-primary-500 to-primary-600" />,
+    content: (
+      <Steps steps={selfSteps} accent="from-primary-500 to-primary-600" />
+    ),
   },
   {
     id: "official",
     label: "オフィシャル制作",
-    content: <Steps steps={officialSteps} accent="from-accent-500 to-accent-600" />,
+    content: (
+      <Steps steps={officialSteps} accent="from-accent-500 to-accent-600" />
+    ),
   },
 ];
 
@@ -47,7 +67,11 @@ export default function Flow() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Onboarding flow"
-          title={<>まずは<span className="text-gradient">無料</span>で始められます。</>}
+          title={
+            <>
+              まずは<span className="text-gradient">無料</span>で始められます。
+            </>
+          }
           description="セルフ構築でも、公式チーム制作でも。最短ステップで運用開始まで進めます。"
         />
 
@@ -56,15 +80,9 @@ export default function Flow() {
         </div>
 
         <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <Button
-            href={CTA_LINKS.signup}
-            external={CTA_LINKS.signup.startsWith("http")}
-            variant="primary"
-            size="lg"
-            icon={<ArrowIcon />}
-          >
+          <SignupButton variant="primary" size="lg">
             2週間無料で始める
-          </Button>
+          </SignupButton>
           <Button
             href={CTA_LINKS.spirOfficial}
             external={CTA_LINKS.spirOfficial.startsWith("http")}
@@ -104,7 +122,9 @@ function Steps({
             STEP {String(i + 1).padStart(2, "0")}
           </span>
           <p className="mt-3 text-base font-bold text-neutral-900">{s.title}</p>
-          <p className="mt-1 text-sm leading-relaxed text-neutral-600">{s.description}</p>
+          <p className="mt-1 text-sm leading-relaxed text-neutral-600">
+            {s.description}
+          </p>
         </motion.li>
       ))}
     </ol>

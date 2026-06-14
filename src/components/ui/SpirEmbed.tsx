@@ -17,7 +17,13 @@ type Props = {
  * - embedCode（CMSで貼り付けた埋め込みHTML）があればそれを優先して描画する。
  * - なければurlをiframeで表示し、どちらも無ければfallbackを表示する。
  */
-export default function SpirEmbed({ url, embedCode, title = "オンライン相談カレンダー", className, fallback }: Props) {
+export default function SpirEmbed({
+  url,
+  embedCode,
+  title = "オンライン相談カレンダー",
+  className,
+  fallback,
+}: Props) {
   if (embedCode?.trim()) {
     return (
       <div
@@ -43,7 +49,9 @@ export default function SpirEmbed({ url, embedCode, title = "オンライン相�
             <span className="mb-2 inline-block rounded-full bg-neutral-200 px-3 py-1 text-xs font-semibold text-neutral-700">
               Spir埋め込み予定
             </span>
-            <p>カレンダーURLが設定されると、ここに直接予約フォームが表示されます。</p>
+            <p>
+              カレンダーURLが設定されると、ここに直接予約フォームが表示されます。
+            </p>
           </>
         )}
       </div>
@@ -51,7 +59,12 @@ export default function SpirEmbed({ url, embedCode, title = "オンライン相�
   }
 
   return (
-    <div className={cn("overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm", className)}>
+    <div
+      className={cn(
+        "overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm",
+        className,
+      )}
+    >
       <iframe
         src={url}
         title={title}

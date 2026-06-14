@@ -15,7 +15,9 @@ import { cn } from "@/lib/cn";
 const tabs: TabItem<FeatureCategoryId>[] = FEATURE_CATEGORIES.map((c) => ({
   id: c.id,
   label: c.label,
-  content: <FeatureGrid features={FEATURES.filter((f) => f.category === c.id)} />,
+  content: (
+    <FeatureGrid features={FEATURES.filter((f) => f.category === c.id)} />
+  ),
 }));
 
 export default function Features() {
@@ -24,7 +26,12 @@ export default function Features() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="All-in-one features"
-          title={<>アプリ運用に必要な機能を、<span className="text-gradient">標準搭載</span>。</>}
+          title={
+            <>
+              アプリ運用に必要な機能を、
+              <span className="text-gradient">標準搭載</span>。
+            </>
+          }
           description="情報発信・会員管理・コミュニケーション・予約・分析・拡張まで。標準機能を組み合わせるだけで、業種を問わず実用レベルのアプリが形になります。各機能の詳細ページもご覧いただけます。"
         />
         <div className="mt-14">
@@ -58,8 +65,18 @@ export function FeatureGrid({ features }: { features: Feature[] }) {
             </p>
             <span className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-primary-700">
               詳細を見る
-              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              <svg
+                className="h-3 w-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
               </svg>
             </span>
           </Link>
@@ -69,7 +86,13 @@ export function FeatureGrid({ features }: { features: Feature[] }) {
   );
 }
 
-export function BillingBadge({ billing, className }: { billing: Feature["billing"]; className?: string }) {
+export function BillingBadge({
+  billing,
+  className,
+}: {
+  billing: Feature["billing"];
+  className?: string;
+}) {
   const styles: Record<Feature["billing"], string> = {
     default: "bg-primary-50 text-primary-700",
     "free-add": "bg-emerald-50 text-emerald-700",
@@ -108,7 +131,13 @@ export function FeatureIconSvg({ category }: { category: FeatureCategoryId }) {
     }
   })();
   return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+    <svg
+      className="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.8}
+    >
       <path strokeLinecap="round" strokeLinejoin="round" d={path} />
     </svg>
   );

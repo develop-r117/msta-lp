@@ -3,6 +3,7 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
 
@@ -46,16 +47,27 @@ export default function ServicesPage() {
     >
       <PageHero
         eyebrow="Services"
-        title={<>不安があれば、<span className="text-gradient">公式チーム</span>と一緒に。</>}
+        title={
+          <>
+            不安があれば、<span className="text-gradient">公式チーム</span>
+            と一緒に。
+          </>
+        }
         description="エムスタはセルフ構築だけでなく、公式チームによる制作代行・伴走サービスもご用意しています。スピード・品質・要件に応じて最適な選択肢を。"
         actions={
           <>
-            <Button href={CTA_LINKS.spirOfficial} external={CTA_LINKS.spirOfficial.startsWith("http")} variant="primary" size="lg" icon={<ChatIcon />}>
+            <Button
+              href={CTA_LINKS.spirOfficial}
+              external={CTA_LINKS.spirOfficial.startsWith("http")}
+              variant="primary"
+              size="lg"
+              icon={<ChatIcon />}
+            >
               サービスを相談する
             </Button>
-            <Button href={CTA_LINKS.signup} external={CTA_LINKS.signup.startsWith("http")} variant="secondary" size="lg" icon={<ArrowIcon />}>
+            <SignupButton variant="secondary" size="lg" icon={<ArrowIcon />}>
               まずは2週間無料を試す
-            </Button>
+            </SignupButton>
           </>
         }
       />
@@ -74,14 +86,32 @@ export default function ServicesPage() {
                       {s.badge}
                     </span>
                   ) : null}
-                  <p className="text-lg font-bold text-neutral-900 group-hover:text-primary-700">{s.title}</p>
-                  <p className="mt-2 text-2xl font-black text-neutral-900">{s.price}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-neutral-600">{s.desc}</p>
-                  <p className="mt-4 text-xs font-semibold text-neutral-500">向いている方: {s.audience}</p>
+                  <p className="text-lg font-bold text-neutral-900 group-hover:text-primary-700">
+                    {s.title}
+                  </p>
+                  <p className="mt-2 text-2xl font-black text-neutral-900">
+                    {s.price}
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-neutral-600">
+                    {s.desc}
+                  </p>
+                  <p className="mt-4 text-xs font-semibold text-neutral-500">
+                    向いている方: {s.audience}
+                  </p>
                   <span className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-primary-700">
                     詳しく見る
-                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    <svg
+                      className="h-3.5 w-3.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
                     </svg>
                   </span>
                 </Link>

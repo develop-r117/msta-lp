@@ -158,7 +158,12 @@ export const PHASES: Phase[] = [
 
   /* ===== シーン2: ビジュアルエディタ（ホーム - ブロック編集） ===== */
   // アクセス: 「ビジュアルエディタモード」トグルをONにする
-  { id: "v-to-toggle", duration: 800, cursor: VE_TOGGLE, patch: { buildSaved: false } },
+  {
+    id: "v-to-toggle",
+    duration: 800,
+    cursor: VE_TOGGLE,
+    patch: { buildSaved: false },
+  },
   {
     id: "v-click-toggle",
     duration: 500,

@@ -64,7 +64,10 @@ export async function PUT(req: Request) {
   const kv = getCmsKv();
   if (!kv) {
     return Response.json(
-      { error: "KV が利用できない環境です (ローカル開発では Keystatic をご利用ください)。" },
+      {
+        error:
+          "KV が利用できない環境です (ローカル開発では Keystatic をご利用ください)。",
+      },
       { status: 500 },
     );
   }
@@ -76,7 +79,10 @@ export async function PUT(req: Request) {
     return Response.json({ error: "不正なリクエストです。" }, { status: 400 });
   }
   if (!COLLECTIONS.includes(payload.collection)) {
-    return Response.json({ error: "不明なコレクションです。" }, { status: 400 });
+    return Response.json(
+      { error: "不明なコレクションです。" },
+      { status: 400 },
+    );
   }
 
   // 最新を読み直して read-modify-write (短命キャッシュを避けるため KV を直接読む)
@@ -87,7 +93,10 @@ export async function PUT(req: Request) {
     const list = data[payload.collection] as Array<{ id: string }>;
     const next = list.filter((x) => x.id !== payload.id);
     if (next.length === list.length) {
-      return Response.json({ error: "対象が見つかりません。" }, { status: 404 });
+      return Response.json(
+        { error: "対象が見つかりません。" },
+        { status: 404 },
+      );
     }
     (data[payload.collection] as unknown) = next;
   } else if (payload.action === "upsert") {
@@ -115,7 +124,11 @@ export async function PUT(req: Request) {
     if (payload.collection === "helpArticles") {
       const cat = item.category as { slug?: string } | string | undefined;
       const slug =
-        typeof cat === "string" ? cat : typeof cat?.slug === "string" ? cat.slug : "";
+        typeof cat === "string"
+          ? cat
+          : typeof cat?.slug === "string"
+            ? cat.slug
+            : "";
       const found = data.helpCategories.find((c) => c.slug === slug);
       item.category = { slug, title: found?.title ?? slug };
     }

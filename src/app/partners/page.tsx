@@ -24,11 +24,25 @@ export default function PartnersPage() {
       <PageHero
         variant="dark"
         eyebrow="Partner program"
-        title={<>エムスタ上で、<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">アプリビジネス</span>を始める。</>}
+        title={
+          <>
+            エムスタ上で、
+            <br className="hidden md:block" />
+            <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">
+              アプリビジネス
+            </span>
+            を始める。
+          </>
+        }
         description="制作会社・開発会社・代理店・クリエイターの方向けの制度です。アプリ制作の継続収益化、テンプレート・コンポーネント販売、クライアント案件の効率化を支援します。"
         actions={
           <>
-            <Button href="/partners/document" variant="partner" size="lg" icon={<DownloadIcon />}>
+            <Button
+              href="/partners/document"
+              variant="partner"
+              size="lg"
+              icon={<DownloadIcon />}
+            >
               パートナー資料DL
             </Button>
             <Button

@@ -16,7 +16,13 @@ export type {
 
 export { getHelpCategorySlug, getHelpCategoryTitle } from "./content-types";
 
-import type { CaseEntry, UsecaseEntry, HelpCategory, HelpArticle, FAQCategory } from "./content-types";
+import type {
+  CaseEntry,
+  UsecaseEntry,
+  HelpCategory,
+  HelpArticle,
+  FAQCategory,
+} from "./content-types";
 
 const reader = createReader(process.cwd(), keystaticConfig);
 
@@ -32,13 +38,19 @@ async function renderBody(
 
 /* ===== Cases ===== */
 
-export async function fetchCases(opts?: { limit?: number }): Promise<CaseEntry[]> {
+export async function fetchCases(opts?: {
+  limit?: number;
+}): Promise<CaseEntry[]> {
   const slugs = await reader.collections.cases.list();
   const entries = await Promise.all(
     slugs.map(async (dirSlug) => {
-      const raw = await reader.collections.cases.read(dirSlug, { resolveLinkedFiles: true });
+      const raw = await reader.collections.cases.read(dirSlug, {
+        resolveLinkedFiles: true,
+      });
       if (!raw) return null;
-      const body = await renderBody(raw.body as unknown as (() => Promise<unknown>) | undefined);
+      const body = await renderBody(
+        raw.body as unknown as (() => Promise<unknown>) | undefined,
+      );
       return {
         id: dirSlug,
         slug: raw.slug ?? dirSlug,
@@ -60,7 +72,9 @@ export async function fetchCases(opts?: { limit?: number }): Promise<CaseEntry[]
   return opts?.limit ? result.slice(0, opts.limit) : result;
 }
 
-export async function fetchCasesByCategory(category: string): Promise<CaseEntry[]> {
+export async function fetchCasesByCategory(
+  category: string,
+): Promise<CaseEntry[]> {
   const all = await fetchCases();
   return all.filter((c) => c.category === category);
 }
@@ -76,9 +90,13 @@ export async function fetchUsecases(): Promise<UsecaseEntry[]> {
   const slugs = await reader.collections.usecases.list();
   const entries = await Promise.all(
     slugs.map(async (dirSlug) => {
-      const raw = await reader.collections.usecases.read(dirSlug, { resolveLinkedFiles: true });
+      const raw = await reader.collections.usecases.read(dirSlug, {
+        resolveLinkedFiles: true,
+      });
       if (!raw) return null;
-      const body = await renderBody(raw.body as unknown as (() => Promise<unknown>) | undefined);
+      const body = await renderBody(
+        raw.body as unknown as (() => Promise<unknown>) | undefined,
+      );
       return {
         id: dirSlug,
         industry: raw.industry ?? dirSlug,
@@ -87,6 +105,8 @@ export async function fetchUsecases(): Promise<UsecaseEntry[]> {
         scenarios: [...(raw.scenarios ?? [])],
         activeFeatures: [...(raw.activeFeatures ?? [])],
         cover: raw.cover ? { url: raw.cover } : undefined,
+        draft: (raw as { draft?: boolean }).draft || undefined,
+        cardOnly: (raw as { cardOnly?: boolean }).cardOnly || undefined,
         body,
       } satisfies UsecaseEntry;
     }),
@@ -94,7 +114,9 @@ export async function fetchUsecases(): Promise<UsecaseEntry[]> {
   return entries.filter((e): e is NonNullable<typeof e> => e !== null);
 }
 
-export async function fetchUsecaseByIndustry(industry: string): Promise<UsecaseEntry | null> {
+export async function fetchUsecaseByIndustry(
+  industry: string,
+): Promise<UsecaseEntry | null> {
   const all = await fetchUsecases();
   return all.find((u) => u.industry === industry) ?? null;
 }
@@ -122,7 +144,9 @@ export async function fetchHelpCategories(): Promise<HelpCategory[]> {
     .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 }
 
-export async function fetchHelpCategoryBySlug(slug: string): Promise<HelpCategory | null> {
+export async function fetchHelpCategoryBySlug(
+  slug: string,
+): Promise<HelpCategory | null> {
   const all = await fetchHelpCategories();
   return all.find((c) => c.slug === slug) ?? null;
 }
@@ -136,9 +160,13 @@ async function readAllHelpArticles(): Promise<HelpArticle[]> {
   const slugs = await reader.collections.helpArticles.list();
   const entries = await Promise.all(
     slugs.map(async (dirSlug) => {
-      const raw = await reader.collections.helpArticles.read(dirSlug, { resolveLinkedFiles: true });
+      const raw = await reader.collections.helpArticles.read(dirSlug, {
+        resolveLinkedFiles: true,
+      });
       if (!raw) return null;
-      const body = await renderBody(raw.body as unknown as (() => Promise<unknown>) | undefined);
+      const body = await renderBody(
+        raw.body as unknown as (() => Promise<unknown>) | undefined,
+      );
       const catSlug = raw.categorySlug ?? "";
       return {
         id: dirSlug,
@@ -167,7 +195,9 @@ type HelpArticleFilter = {
   limit?: number;
 };
 
-export async function fetchHelpArticles(filter: HelpArticleFilter = {}): Promise<HelpArticle[]> {
+export async function fetchHelpArticles(
+  filter: HelpArticleFilter = {},
+): Promise<HelpArticle[]> {
   let arr = await readAllHelpArticles();
   const { categorySlug, q, limit } = filter;
 
@@ -187,7 +217,9 @@ export async function fetchHelpArticles(filter: HelpArticleFilter = {}): Promise
   return limit ? arr.slice(0, limit) : arr;
 }
 
-export async function fetchHelpArticleBySlug(slug: string): Promise<HelpArticle | null> {
+export async function fetchHelpArticleBySlug(
+  slug: string,
+): Promise<HelpArticle | null> {
   const all = await readAllHelpArticles();
   return all.find((a) => a.slug === slug) ?? null;
 }

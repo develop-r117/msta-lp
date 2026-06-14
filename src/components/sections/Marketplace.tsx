@@ -15,7 +15,10 @@ const items = [
 
 export default function Marketplace() {
   return (
-    <section id="marketplace" className="section-padding relative bg-section-dark">
+    <section
+      id="marketplace"
+      className="section-padding relative bg-section-dark"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Marketplace"
@@ -23,7 +26,10 @@ export default function Marketplace() {
             <>
               機能・テンプレート・コンポーネントが
               <br className="hidden md:block" />
-              <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">流通するエコシステム</span>へ。
+              <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">
+                流通するエコシステム
+              </span>
+              へ。
             </>
           }
           description="エムスタは、オフィシャル提供の公式機能だけでなく、パートナーが制作した機能・テンプレート・デザインアセットなどを流通させ、ユーザーと制作者の双方が価値を生み出せるエコシステムを構築していきます。"
@@ -50,13 +56,17 @@ export default function Marketplace() {
 
         <div className="card-on-dark mt-10 grid gap-6 rounded-3xl p-7 md:grid-cols-2 md:p-9">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-accent-400">ユーザー</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-accent-400">
+              ユーザー
+            </p>
             <p className="mt-2 text-base font-semibold text-white">
               必要な機能を、必要なタイミングで追加できる。
             </p>
           </div>
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-accent-400">パートナー</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-accent-400">
+              パートナー
+            </p>
             <p className="mt-2 text-base font-semibold text-white">
               自社の技術やデザインを、エムスタ上で販売できる。
             </p>

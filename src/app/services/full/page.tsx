@@ -23,7 +23,9 @@ export const metadata = buildMetadata({
 const FULL_CASE_SLUGS = ["tsuya-factory", "fb-scout"];
 
 export default async function FullPage() {
-  const fullCases = (await getAllCases()).filter((c) => FULL_CASE_SLUGS.includes(c.slug));
+  const fullCases = (await getAllCases()).filter((c) =>
+    FULL_CASE_SLUGS.includes(c.slug),
+  );
 
   return (
     <SiteShell
@@ -38,7 +40,15 @@ export default async function FullPage() {
       <PageHero
         variant="dark"
         eyebrow="Msta Full"
-        title={<>独自要件にも、<span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">スクラッチ品質</span>で。</>}
+        title={
+          <>
+            独自要件にも、
+            <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">
+              スクラッチ品質
+            </span>
+            で。
+          </>
+        }
         description="エムスタをベースに、独自のUI・独自の機能・既存システムのリプレイスにも対応するスクラッチ寄りの受託開発。標準機能だけでは難しい要件をお持ちの方に。"
         actions={
           <>
@@ -68,7 +78,11 @@ export default async function FullPage() {
         <Cases
           initialCases={fullCases}
           variant="grid"
-          title={<>エムスタFullの<span className="text-gradient">導入事例</span></>}
+          title={
+            <>
+              エムスタFullの<span className="text-gradient">導入事例</span>
+            </>
+          }
           description="独自要件・大型案件で、エムスタFullを採用いただいた事例をご紹介します。"
         />
       ) : (
@@ -86,8 +100,18 @@ export default async function FullPage() {
                 className="inline-flex items-center gap-1 text-sm font-bold text-primary-700 underline-offset-4 hover:underline"
               >
                 エムスタFullに直接相談する
-                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                <svg
+                  className="h-3.5 w-3.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
                 </svg>
               </Link>
             </div>

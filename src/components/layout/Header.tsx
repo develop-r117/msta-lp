@@ -5,8 +5,8 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Button, ArrowIcon, DownloadIcon } from "@/components/ui/Button";
-import { CTA_LINKS } from "@/lib/sections";
+import { Button, DownloadIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { PRIMARY_NAV, type NavGroup } from "@/lib/navigation";
 import { cn } from "@/lib/cn";
 
@@ -47,11 +47,17 @@ export default function Header() {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        scrolled || mobileOpen ? "glass shadow-md shadow-neutral-900/5" : "bg-transparent",
+        scrolled || mobileOpen
+          ? "glass shadow-md shadow-neutral-900/5"
+          : "bg-transparent",
       )}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 md:h-20 lg:px-8">
-        <Link href="/" className="group flex items-center" aria-label="エムスタ ホーム">
+        <Link
+          href="/"
+          className="group flex items-center"
+          aria-label="エムスタ ホーム"
+        >
           <Image
             src="/logo.png"
             alt="エムスタ"
@@ -71,7 +77,9 @@ export default function Header() {
                   group={g}
                   active={openId === g.id}
                   pathname={pathname}
-                  onToggle={() => setOpenId((cur) => (cur === g.id ? null : g.id))}
+                  onToggle={() =>
+                    setOpenId((cur) => (cur === g.id ? null : g.id))
+                  }
                 />
                 <AnimatePresence>
                   {openId === g.id && g.children ? (
@@ -91,9 +99,13 @@ export default function Header() {
                               onClick={() => setOpenId(null)}
                               className="flex flex-col gap-0.5 rounded-xl px-3.5 py-2.5 transition-colors hover:bg-primary-50/60"
                             >
-                              <span className="text-sm font-bold text-neutral-900">{c.label}</span>
+                              <span className="text-sm font-bold text-neutral-900">
+                                {c.label}
+                              </span>
                               {c.description ? (
-                                <span className="text-xs text-neutral-500">{c.description}</span>
+                                <span className="text-xs text-neutral-500">
+                                  {c.description}
+                                </span>
                               ) : null}
                             </Link>
                           </li>
@@ -119,16 +131,12 @@ export default function Header() {
           >
             資料DL
           </Button>
-          <Button
-            href={CTA_LINKS.signup}
-            external={CTA_LINKS.signup.startsWith("http")}
+          <SignupButton
             variant="primary"
             size="sm"
-            icon={<ArrowIcon />}
+            compact
             className="hidden lg:inline-flex"
-          >
-            2週間無料で始める
-          </Button>
+          />
 
           <button
             type="button"
@@ -137,17 +145,29 @@ export default function Header() {
             onClick={() => setMobileOpen((v) => !v)}
             className="grid h-10 w-10 place-items-center rounded-full text-neutral-700 transition-colors hover:bg-neutral-100 lg:hidden"
           >
-            <motion.div animate={mobileOpen ? "open" : "closed"} className="flex h-6 w-6 flex-col items-center justify-center">
+            <motion.div
+              animate={mobileOpen ? "open" : "closed"}
+              className="flex h-6 w-6 flex-col items-center justify-center"
+            >
               <motion.span
-                variants={{ closed: { rotate: 0, y: -4 }, open: { rotate: 45, y: 1 } }}
+                variants={{
+                  closed: { rotate: 0, y: -4 },
+                  open: { rotate: 45, y: 1 },
+                }}
                 className="block h-0.5 w-5 origin-center bg-neutral-800"
               />
               <motion.span
-                variants={{ closed: { opacity: 1, y: 0 }, open: { opacity: 0, y: 0 } }}
+                variants={{
+                  closed: { opacity: 1, y: 0 },
+                  open: { opacity: 0, y: 0 },
+                }}
                 className="my-1 block h-0.5 w-5 bg-neutral-800"
               />
               <motion.span
-                variants={{ closed: { rotate: 0, y: 4 }, open: { rotate: -45, y: -7 } }}
+                variants={{
+                  closed: { rotate: 0, y: 4 },
+                  open: { rotate: -45, y: -7 },
+                }}
                 className="block h-0.5 w-5 origin-center bg-neutral-800"
               />
             </motion.div>
@@ -168,7 +188,10 @@ export default function Header() {
             <div className="mx-auto max-h-[80vh] max-w-7xl overflow-y-auto px-4 py-4 sm:px-6">
               <ul className="flex flex-col">
                 {PRIMARY_NAV.map((g) => (
-                  <li key={g.id} className="border-b border-neutral-100 py-1.5 last:border-b-0">
+                  <li
+                    key={g.id}
+                    className="border-b border-neutral-100 py-1.5 last:border-b-0"
+                  >
                     {g.href ? (
                       <Link
                         href={g.href}
@@ -180,8 +203,18 @@ export default function Header() {
                       <details className="group">
                         <summary className="flex cursor-pointer list-none items-center justify-between rounded-xl px-3 py-3 text-sm font-bold text-neutral-900 transition-colors hover:bg-neutral-50">
                           {g.label}
-                          <svg className="h-4 w-4 text-neutral-500 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          <svg
+                            className="h-4 w-4 text-neutral-500 transition-transform group-open:rotate-180"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 9l-7 7-7-7"
+                            />
                           </svg>
                         </summary>
                         <ul className="ml-2 mt-1 flex flex-col gap-0.5 border-l border-neutral-200 pl-3">
@@ -193,7 +226,9 @@ export default function Header() {
                               >
                                 <span className="font-semibold">{c.label}</span>
                                 {c.description ? (
-                                  <span className="block text-[11px] text-neutral-500">{c.description}</span>
+                                  <span className="block text-[11px] text-neutral-500">
+                                    {c.description}
+                                  </span>
                                 ) : null}
                               </Link>
                             </li>
@@ -226,7 +261,9 @@ function NavTrigger({
   const isCurrent =
     !!pathname &&
     (group.href === pathname ||
-      (group.children?.some((c) => pathname === c.href || pathname.startsWith(c.href + "/"))));
+      group.children?.some(
+        (c) => pathname === c.href || pathname.startsWith(c.href + "/"),
+      ));
 
   if (group.href) {
     return (
@@ -234,7 +271,9 @@ function NavTrigger({
         href={group.href}
         className={cn(
           "relative inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors",
-          isCurrent ? "text-primary-700" : "text-neutral-700 hover:text-primary-700",
+          isCurrent
+            ? "text-primary-700"
+            : "text-neutral-700 hover:text-primary-700",
         )}
         aria-current={isCurrent ? "page" : undefined}
       >
@@ -250,7 +289,9 @@ function NavTrigger({
       aria-expanded={active}
       className={cn(
         "relative inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors",
-        active || isCurrent ? "text-primary-700" : "text-neutral-700 hover:text-primary-700",
+        active || isCurrent
+          ? "text-primary-700"
+          : "text-neutral-700 hover:text-primary-700",
       )}
     >
       {group.label}
@@ -262,7 +303,12 @@ function NavTrigger({
         viewBox="0 0 24 24"
         stroke="currentColor"
       >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M19 9l-7 7-7-7"
+        />
       </motion.svg>
     </button>
   );

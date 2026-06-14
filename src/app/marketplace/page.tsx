@@ -2,8 +2,8 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import Marketplace from "@/components/sections/Marketplace";
-import { Button, ArrowIcon, DownloadIcon } from "@/components/ui/Button";
-import { CTA_LINKS } from "@/lib/sections";
+import { Button, DownloadIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -22,23 +22,34 @@ export default function MarketplacePage() {
       <PageHero
         variant="dark"
         eyebrow="Marketplace"
-        title={<>テンプレ・コンポーネントが<br className="hidden md:block" /><span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">流通する場所</span>へ。</>}
+        title={
+          <>
+            テンプレ・コンポーネントが
+            <br className="hidden md:block" />
+            <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">
+              流通する場所
+            </span>
+            へ。
+          </>
+        }
         description="エムスタは単なる制作ツールではなく、流通プラットフォームを目指します。テンプレート・コンポーネント・機能アドオンが、作り手と使い手の間で循環するマーケットプレイス構想を進めています。"
         actions={
           <>
-            <Button href="/partners/document" variant="partner" size="lg" icon={<DownloadIcon />}>
+            <Button
+              href="/partners/document"
+              variant="partner"
+              size="lg"
+              icon={<DownloadIcon />}
+            >
               出品 / 制作側として参加
             </Button>
-            <Button
-              href={CTA_LINKS.signup}
-              external={CTA_LINKS.signup.startsWith("http")}
+            <SignupButton
               variant="secondary"
               size="lg"
-              icon={<ArrowIcon />}
               className="!bg-white/10 !text-white !border-white/20 hover:!bg-white/20 hover:!text-white"
             >
               利用側として2週間無料で
-            </Button>
+            </SignupButton>
           </>
         }
       />

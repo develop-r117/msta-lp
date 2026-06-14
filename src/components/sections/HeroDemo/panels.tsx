@@ -60,7 +60,9 @@ export function ModePill() {
       <span className="rounded-full bg-primary-600 px-3 py-1 text-[11px] font-bold text-white">
         かんたん
       </span>
-      <span className="px-3 py-1 text-[11px] font-bold text-neutral-500">プロ</span>
+      <span className="px-3 py-1 text-[11px] font-bold text-neutral-500">
+        プロ
+      </span>
     </div>
   );
 }
@@ -81,7 +83,7 @@ export function AiPanel({
       transition={{ type: "spring", stiffness: 300, damping: 18 }}
       className={cn(
         "absolute -right-2 -top-5 hidden rounded-2xl bg-neutral-900 px-4 py-3 text-white shadow-xl sm:block",
-        active && "ring-2 ring-accent-400"
+        active && "ring-2 ring-accent-400",
       )}
     >
       <div className="flex items-center gap-2">
@@ -129,7 +131,7 @@ export function CmsPanel({ active = false }: { active?: boolean }) {
       transition={{ type: "spring", stiffness: 300, damping: 18 }}
       className={cn(
         "absolute -left-4 bottom-16 z-40 hidden rounded-2xl bg-white px-4 py-3 shadow-xl ring-1 ring-neutral-200 sm:block",
-        active && "ring-2 ring-primary-400"
+        active && "ring-2 ring-primary-400",
       )}
     >
       <div className="flex items-center gap-2">
@@ -140,7 +142,9 @@ export function CmsPanel({ active = false }: { active?: boolean }) {
           <div className="text-[10px] font-semibold uppercase tracking-wider text-neutral-500">
             CMS
           </div>
-          <div className="text-sm font-bold text-neutral-900">投稿・通知を更新</div>
+          <div className="text-sm font-bold text-neutral-900">
+            投稿・通知を更新
+          </div>
         </div>
       </div>
     </motion.div>
@@ -151,7 +155,13 @@ export function CmsPanel({ active = false }: { active?: boolean }) {
  * 保存成功ダイアログ（実UIの SaveSuccessDialog のデフォルメ）。
  * 緑チェック + 「保存しました」。親（ダッシュボード領域）に absolute 配置。
  */
-export function SaveDialog({ show, message }: { show: boolean; message: string }) {
+export function SaveDialog({
+  show,
+  message,
+}: {
+  show: boolean;
+  message: string;
+}) {
   return (
     <AnimatePresence>
       {show && (
@@ -172,7 +182,12 @@ export function SaveDialog({ show, message }: { show: boolean; message: string }
             <motion.span
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 400, damping: 16, delay: 0.1 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 16,
+                delay: 0.1,
+              }}
               className="grid h-7 w-7 place-items-center rounded-full bg-green-100 text-green-600"
             >
               <svg
@@ -182,11 +197,19 @@ export function SaveDialog({ show, message }: { show: boolean; message: string }
                 stroke="currentColor"
                 strokeWidth={3}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </motion.span>
-            <span className="text-[11px] font-bold text-neutral-900">保存しました</span>
-            <span className="text-center text-[8px] leading-snug text-neutral-500">{message}</span>
+            <span className="text-[11px] font-bold text-neutral-900">
+              保存しました
+            </span>
+            <span className="text-center text-[8px] leading-snug text-neutral-500">
+              {message}
+            </span>
           </motion.div>
         </motion.div>
       )}
@@ -232,7 +255,10 @@ export function Caret({ className }: { className?: string }) {
     <motion.span
       animate={{ opacity: [1, 1, 0, 0] }}
       transition={{ duration: 0.9, repeat: Infinity, times: [0, 0.5, 0.5, 1] }}
-      className={cn("ml-px inline-block w-px self-stretch bg-current align-middle", className)}
+      className={cn(
+        "ml-px inline-block w-px self-stretch bg-current align-middle",
+        className,
+      )}
     />
   );
 }
@@ -241,7 +267,13 @@ export function Caret({ className }: { className?: string }) {
 export function CloseGlyph() {
   return (
     <span className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-neutral-100 text-neutral-400">
-      <svg className="h-2 w-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+      <svg
+        className="h-2 w-2"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={3}
+      >
         <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
       </svg>
     </span>
@@ -250,7 +282,13 @@ export function CloseGlyph() {
 
 function EditorIcon() {
   return (
-    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <svg
+      className="h-3 w-3"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -262,15 +300,31 @@ function EditorIcon() {
 
 function CmsIcon() {
   return (
-    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h10M4 18h7" />
+    <svg
+      className="h-5 w-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4 6h16M4 10h16M4 14h10M4 18h7"
+      />
     </svg>
   );
 }
 
 function SparkIcon() {
   return (
-    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+    <svg
+      className="h-5 w-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.8}
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"

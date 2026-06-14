@@ -46,12 +46,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
       priority: 0.7,
     }));
-    const helpCategoryEntries: MetadataRoute.Sitemap = helpCategories.map((c) => ({
-      url: `${baseUrl}/help/${c.slug}`,
-      lastModified: c.updatedAt ? new Date(c.updatedAt) : now,
-      changeFrequency: "weekly" as const,
-      priority: 0.6,
-    }));
+    const helpCategoryEntries: MetadataRoute.Sitemap = helpCategories.map(
+      (c) => ({
+        url: `${baseUrl}/help/${c.slug}`,
+        lastModified: c.updatedAt ? new Date(c.updatedAt) : now,
+        changeFrequency: "weekly" as const,
+        priority: 0.6,
+      }),
+    );
     const helpArticleEntries: MetadataRoute.Sitemap = helpArticles.map((a) => ({
       url: `${baseUrl}/help/articles/${a.slug}`,
       lastModified: a.updatedAt ? new Date(a.updatedAt) : now,
@@ -65,7 +67,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...helpArticleEntries,
     ];
   } catch (e) {
-    console.warn("[sitemap] failed to load microCMS entries, returning static only", e);
+    console.warn(
+      "[sitemap] failed to load microCMS entries, returning static only",
+      e,
+    );
   }
 
   return [...staticEntries, ...featureEntries, ...dynamicEntries];

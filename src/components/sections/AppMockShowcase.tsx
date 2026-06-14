@@ -16,12 +16,32 @@ type AppMock = {
 };
 
 const MOCKS: AppMock[] = [
-  { industry: "店舗", label: "店舗アプリ", accent: "from-primary-400 to-primary-600" },
-  { industry: "スクール / 教育", label: "教育アプリ", accent: "from-accent-400 to-accent-600" },
-  { industry: "会員制サービス", label: "会員アプリ", accent: "from-emerald-400 to-emerald-600" },
-  { industry: "コミュニティ", label: "コミュニティアプリ", accent: "from-violet-400 to-violet-600" },
+  {
+    industry: "店舗",
+    label: "店舗アプリ",
+    accent: "from-primary-400 to-primary-600",
+  },
+  {
+    industry: "スクール / 教育",
+    label: "教育アプリ",
+    accent: "from-accent-400 to-accent-600",
+  },
+  {
+    industry: "会員制サービス",
+    label: "会員アプリ",
+    accent: "from-emerald-400 to-emerald-600",
+  },
+  {
+    industry: "コミュニティ",
+    label: "コミュニティアプリ",
+    accent: "from-violet-400 to-violet-600",
+  },
   { industry: "予約", label: "予約アプリ", accent: "from-sky-400 to-sky-600" },
-  { industry: "業界特化", label: "業界特化アプリ", accent: "from-rose-400 to-rose-600" },
+  {
+    industry: "業界特化",
+    label: "業界特化アプリ",
+    accent: "from-rose-400 to-rose-600",
+  },
 ];
 
 function PhoneMock({ mock }: { mock: AppMock }) {
@@ -42,7 +62,9 @@ function PhoneMock({ mock }: { mock: AppMock }) {
           ) : (
             // プレースホルダ（素材到着までの完成イメージ枠）
             <div className="flex h-full flex-col">
-              <div className={`bg-gradient-to-br ${mock.accent} px-3 pb-6 pt-7`}>
+              <div
+                className={`bg-gradient-to-br ${mock.accent} px-3 pb-6 pt-7`}
+              >
                 <div className="h-2.5 w-1/2 rounded-full bg-white/70" />
                 <div className="mt-2 h-2 w-2/3 rounded-full bg-white/40" />
               </div>

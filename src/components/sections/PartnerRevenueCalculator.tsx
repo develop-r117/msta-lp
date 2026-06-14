@@ -72,10 +72,14 @@ export default function PartnerRevenueCalculator() {
             Revenue share calculator
           </p>
           <h2 className="mt-3 text-3xl font-bold leading-tight text-white md:text-4xl">
-            <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">月額シェア</span>を、ランク別にシミュレーション。
+            <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">
+              月額シェア
+            </span>
+            を、ランク別にシミュレーション。
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-on-dark-muted md:text-base">
-            「Webのみ」「iOS+Android」「Web+iOS+Android」の3パターン × Bronze〜Legend のランク別に、月額シェア額の試算をご覧いただけます。
+            「Webのみ」「iOS+Android」「Web+iOS+Android」の3パターン ×
+            Bronze〜Legend のランク別に、月額シェア額の試算をご覧いただけます。
           </p>
         </div>
 
@@ -94,10 +98,14 @@ export default function PartnerRevenueCalculator() {
                   Case {i + 1}
                 </p>
                 <h3 className="mt-1.5 text-xl font-bold">{c.label}</h3>
-                <p className="mt-2 text-xs text-on-dark-muted">{c.description}</p>
+                <p className="mt-2 text-xs text-on-dark-muted">
+                  {c.description}
+                </p>
                 <p className="mt-4 text-3xl font-black">
                   {yen(c.baseFee)}
-                  <span className="ml-1 text-xs font-semibold text-on-dark-muted">/ 月（クライアント支払い）</span>
+                  <span className="ml-1 text-xs font-semibold text-on-dark-muted">
+                    / 月（クライアント支払い）
+                  </span>
                 </p>
               </header>
 
@@ -109,7 +117,9 @@ export default function PartnerRevenueCalculator() {
                   {c.breakdown.map((b) => (
                     <li key={b.item} className="flex justify-between">
                       <span>{b.item}</span>
-                      <span className="font-semibold text-white">{yen(b.amount)}</span>
+                      <span className="font-semibold text-white">
+                        {yen(b.amount)}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -127,7 +137,11 @@ export default function PartnerRevenueCalculator() {
                         <span
                           className={`grid h-5 w-5 place-items-center rounded-md bg-gradient-to-br ${r.color} text-white`}
                         >
-                          <svg className="h-2.5 w-2.5" fill="currentColor" viewBox="0 0 24 24">
+                          <svg
+                            className="h-2.5 w-2.5"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
                             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77 5.82 21.02 7 14.14 2 9.27l6.91-1.01L12 2z" />
                           </svg>
                         </span>
@@ -146,13 +160,15 @@ export default function PartnerRevenueCalculator() {
                 <div className="mt-5 rounded-xl bg-accent-400/10 px-3 py-3 text-xs text-accent-300 ring-1 ring-accent-400/20">
                   <p className="font-bold">10件運用時 (Goldの場合)</p>
                   <p className="mt-1">
-                    月額 {yen(c.baseFee * 0.25 * 10)} / 年間 {yen(c.baseFee * 0.25 * 10 * 12)}
+                    月額 {yen(c.baseFee * 0.25 * 10)} / 年間{" "}
+                    {yen(c.baseFee * 0.25 * 10 * 12)}
                   </p>
                 </div>
                 <div className="mt-2 rounded-xl bg-primary-400/10 px-3 py-3 text-xs text-primary-300 ring-1 ring-primary-400/20">
                   <p className="font-bold">30件運用時 (Goldの場合)</p>
                   <p className="mt-1">
-                    月額 {yen(c.baseFee * 0.25 * 30)} / 年間 {yen(c.baseFee * 0.25 * 30 * 12)}
+                    月額 {yen(c.baseFee * 0.25 * 30)} / 年間{" "}
+                    {yen(c.baseFee * 0.25 * 30 * 12)}
                   </p>
                 </div>
               </div>
@@ -161,9 +177,10 @@ export default function PartnerRevenueCalculator() {
         </div>
 
         <p className="mt-8 text-center text-xs text-on-dark-muted">
-          ※ 還元率は公開アプリ実績・契約条件により変動します。詳細はパートナー資料をご確認ください。
-          <br />
-          ※ 上記は1アプリあたりのシェア額です。複数件運用時は累積で増えていきます。
+          ※
+          還元率は公開アプリ実績・契約条件により変動します。詳細はパートナー資料をご確認ください。
+          <br />※
+          上記は1アプリあたりのシェア額です。複数件運用時は累積で増えていきます。
         </p>
       </div>
     </section>

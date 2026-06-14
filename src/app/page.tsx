@@ -6,7 +6,12 @@ import BottomCTA from "@/components/layout/BottomCTA";
 import Hero from "@/components/sections/Hero";
 import Intro3 from "@/components/sections/Intro3";
 import About from "@/components/sections/About";
-import { TwoPathSplit, ProductGrid, PartnerStrip, ServiceMix } from "@/components/sections/HomeDigest";
+import {
+  TwoPathSplit,
+  ProductGrid,
+  PartnerStrip,
+  ServiceMix,
+} from "@/components/sections/HomeDigest";
 import Pricing from "@/components/sections/Pricing";
 import Cases from "@/components/sections/Cases";
 import FAQ from "@/components/sections/FAQ";

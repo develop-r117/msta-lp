@@ -4,7 +4,8 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import { BillingBadge, FeatureIconSvg } from "@/components/sections/Features";
-import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
+import { Button, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
 import {
   getFeature,
@@ -16,7 +17,11 @@ import { buildMetadata } from "@/lib/seo";
 
 export const runtime = "edge";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const f = getFeature(slug);
   if (!f) {
@@ -33,7 +38,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   });
 }
 
-export default async function FeatureDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function FeatureDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const feature = getFeature(slug);
   if (!feature) notFound();
@@ -75,15 +84,9 @@ export default async function FeatureDetailPage({ params }: { params: Promise<{ 
         description={feature.summary}
         actions={
           <>
-            <Button
-              href={CTA_LINKS.signup}
-              external={CTA_LINKS.signup.startsWith("http")}
-              variant="primary"
-              size="lg"
-              icon={<ArrowIcon />}
-            >
+            <SignupButton variant="primary" size="lg">
               この機能を試す
-            </Button>
+            </SignupButton>
             <Button
               href={CTA_LINKS.spirGeneral}
               external={CTA_LINKS.spirGeneral.startsWith("http")}
@@ -101,13 +104,28 @@ export default async function FeatureDetailPage({ params }: { params: Promise<{ 
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-6 md:grid-cols-2">
             <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm md:p-8">
-              <h2 className="text-base font-bold text-neutral-900 md:text-lg">主な機能</h2>
+              <h2 className="text-base font-bold text-neutral-900 md:text-lg">
+                主な機能
+              </h2>
               <ul className="mt-4 space-y-3">
                 {feature.keyCapabilities.map((k) => (
-                  <li key={k} className="flex items-start gap-2.5 text-sm text-neutral-700">
+                  <li
+                    key={k}
+                    className="flex items-start gap-2.5 text-sm text-neutral-700"
+                  >
                     <span className="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary-500 text-white">
-                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      <svg
+                        className="h-3 w-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={3}
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     </span>
                     {k}
@@ -119,7 +137,9 @@ export default async function FeatureDetailPage({ params }: { params: Promise<{ 
             <div className="flex flex-col gap-6">
               {feature.screens?.length ? (
                 <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm md:p-8">
-                  <h2 className="text-base font-bold text-neutral-900 md:text-lg">管理画面</h2>
+                  <h2 className="text-base font-bold text-neutral-900 md:text-lg">
+                    管理画面
+                  </h2>
                   <ul className="mt-4 flex flex-wrap gap-2">
                     {feature.screens.map((s) => (
                       <li
@@ -134,9 +154,12 @@ export default async function FeatureDetailPage({ params }: { params: Promise<{ 
               ) : null}
 
               <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm md:p-8">
-                <h2 className="text-base font-bold text-neutral-900 md:text-lg">提供区分</h2>
+                <h2 className="text-base font-bold text-neutral-900 md:text-lg">
+                  提供区分
+                </h2>
                 <p className="mt-3 text-sm text-neutral-700">
-                  この機能は <strong>{BILLING_LABELS[feature.billing]}</strong> で提供されます。
+                  この機能は <strong>{BILLING_LABELS[feature.billing]}</strong>{" "}
+                  で提供されます。
                 </p>
                 {feature.relatedSettings?.length ? (
                   <ul className="mt-3 space-y-1.5 text-xs text-neutral-500">
@@ -150,8 +173,18 @@ export default async function FeatureDetailPage({ params }: { params: Promise<{ 
                   className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-primary-700 underline-offset-4 hover:underline"
                 >
                   料金詳細を見る
-                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  <svg
+                    className="h-3.5 w-3.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
                   </svg>
                 </Link>
               </div>
@@ -160,7 +193,9 @@ export default async function FeatureDetailPage({ params }: { params: Promise<{ 
 
           {feature.audiences?.length ? (
             <div className="mt-8 rounded-3xl bg-neutral-50 p-6 ring-1 ring-neutral-100 md:p-8">
-              <h2 className="text-base font-bold text-neutral-900 md:text-lg">向いている業種・シーン</h2>
+              <h2 className="text-base font-bold text-neutral-900 md:text-lg">
+                向いている業種・シーン
+              </h2>
               <ul className="mt-3 flex flex-wrap gap-2">
                 {feature.audiences.map((a) => (
                   <li
@@ -176,7 +211,9 @@ export default async function FeatureDetailPage({ params }: { params: Promise<{ 
 
           {related.length > 0 ? (
             <div className="mt-12">
-              <h2 className="text-xl font-bold text-neutral-900 md:text-2xl">関連機能</h2>
+              <h2 className="text-xl font-bold text-neutral-900 md:text-2xl">
+                関連機能
+              </h2>
               <ul className="mt-5 grid gap-3 md:grid-cols-3">
                 {related.map((r) => (
                   <li key={r.slug}>
@@ -208,8 +245,18 @@ export default async function FeatureDetailPage({ params }: { params: Promise<{ 
               href="/product/features"
               className="inline-flex items-center gap-1 text-sm font-bold text-primary-700 underline-offset-4 hover:underline"
             >
-              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 17l-5-5m0 0l5-5m-5 5h18" />
+              <svg
+                className="h-3.5 w-3.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 17l-5-5m0 0l5-5m-5 5h18"
+                />
               </svg>
               全機能一覧へ戻る
             </Link>

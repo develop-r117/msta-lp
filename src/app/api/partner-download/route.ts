@@ -30,7 +30,10 @@ export async function POST(req: Request) {
   try {
     json = await req.json();
   } catch {
-    return NextResponse.json({ error: "リクエストの形式が不正です" }, { status: 400 });
+    return NextResponse.json(
+      { error: "リクエストの形式が不正です" },
+      { status: 400 },
+    );
   }
 
   const parsed = partnerFormSchema.safeParse(json);
@@ -51,12 +54,16 @@ export async function POST(req: Request) {
   const env = getServerEnv();
   const resend = getResend();
 
-  const interestList = data.interests.map((i) => interestLabels[i] ?? i).join(" / ");
+  const interestList = data.interests
+    .map((i) => interestLabels[i] ?? i)
+    .join(" / ");
   const consultText = data.consult === "yes" ? "希望する" : "希望しない";
 
   // If Resend key is missing, succeed silently (frontend still works)
   if (!resend) {
-    console.warn("[partner-download] Resend not configured; submission accepted without email send.");
+    console.warn(
+      "[partner-download] Resend not configured; submission accepted without email send.",
+    );
     return NextResponse.json({ ok: true, emailed: false });
   }
 
@@ -119,7 +126,10 @@ export async function POST(req: Request) {
   } catch (e) {
     console.error("[partner-download] email send threw", e);
     return NextResponse.json(
-      { error: "メール送信中にエラーが発生しました。時間をおいて再度お試しください。" },
+      {
+        error:
+          "メール送信中にエラーが発生しました。時間をおいて再度お試しください。",
+      },
       { status: 500 },
     );
   }

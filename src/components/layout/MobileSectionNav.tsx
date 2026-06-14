@@ -23,9 +23,9 @@ export default function MobileSectionNav() {
   }, [open]);
 
   useEffect(() => {
-    const sections = NAV_SECTIONS.map((s) => document.getElementById(s.id)).filter(
-      (el): el is HTMLElement => el !== null,
-    );
+    const sections = NAV_SECTIONS.map((s) =>
+      document.getElementById(s.id),
+    ).filter((el): el is HTMLElement => el !== null);
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries
@@ -71,7 +71,9 @@ export default function MobileSectionNav() {
               <span className="grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-primary-500 to-accent-500 text-[10px] font-bold text-white">
                 {active.navNumber}
               </span>
-              <span className="text-sm font-semibold text-neutral-900">{active.fullLabel}</span>
+              <span className="text-sm font-semibold text-neutral-900">
+                {active.fullLabel}
+              </span>
             </span>
             <motion.svg
               animate={{ rotate: open ? 180 : 0 }}
@@ -81,7 +83,12 @@ export default function MobileSectionNav() {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
             </motion.svg>
           </button>
 

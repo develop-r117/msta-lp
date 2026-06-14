@@ -44,16 +44,26 @@ export default function Carousel({
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-  const scrollTo = useCallback((idx: number) => emblaApi?.scrollTo(idx), [emblaApi]);
+  const scrollTo = useCallback(
+    (idx: number) => emblaApi?.scrollTo(idx),
+    [emblaApi],
+  );
 
   return (
-    <div className={cn("relative", className)} aria-label={ariaLabel} role="region">
+    <div
+      className={cn("relative", className)}
+      aria-label={ariaLabel}
+      role="region"
+    >
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-4 md:gap-6">
           {children.map((c, i) => (
             <div
               key={i}
-              className={cn("min-w-0 shrink-0 grow-0 basis-[85%] sm:basis-[60%] md:basis-[42%] lg:basis-[32%]", slideClassName)}
+              className={cn(
+                "min-w-0 shrink-0 grow-0 basis-[85%] sm:basis-[60%] md:basis-[42%] lg:basis-[32%]",
+                slideClassName,
+              )}
             >
               {c}
             </div>
@@ -73,12 +83,16 @@ export default function Carousel({
                   onClick={() => scrollTo(i)}
                   className={cn(
                     "h-2 rounded-full transition-all",
-                    selected === i ? "w-6 bg-primary-500" : "w-2 bg-neutral-300 hover:bg-neutral-400",
+                    selected === i
+                      ? "w-6 bg-primary-500"
+                      : "w-2 bg-neutral-300 hover:bg-neutral-400",
                   )}
                 />
               ))}
             </div>
-          ) : <span />}
+          ) : (
+            <span />
+          )}
           <div className="flex gap-2">
             <button
               type="button"
@@ -86,8 +100,18 @@ export default function Carousel({
               onClick={scrollPrev}
               className="grid h-10 w-10 place-items-center rounded-full border border-neutral-200 bg-white text-neutral-600 shadow-sm transition hover:bg-neutral-50 hover:text-primary-600"
             >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
             </button>
             <button
@@ -96,8 +120,18 @@ export default function Carousel({
               onClick={scrollNext}
               className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md transition hover:shadow-lg"
             >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>

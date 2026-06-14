@@ -13,13 +13,16 @@ import { cn } from "@/lib/cn";
  * /product/features 一覧用の検索＋カテゴリフィルタ付きカタログ。
  */
 export default function FeaturesCatalog() {
-  const [activeCategory, setActiveCategory] = useState<FeatureCategoryId | "all">("all");
+  const [activeCategory, setActiveCategory] = useState<
+    FeatureCategoryId | "all"
+  >("all");
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return FEATURES.filter((f) => {
-      const inCategory = activeCategory === "all" || f.category === activeCategory;
+      const inCategory =
+        activeCategory === "all" || f.category === activeCategory;
       if (!inCategory) return false;
       if (!q) return true;
       return (
@@ -34,11 +37,26 @@ export default function FeaturesCatalog() {
     <section className="section-padding bg-neutral-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <label className="sr-only" htmlFor="feature-search">機能を検索</label>
+          <label className="sr-only" htmlFor="feature-search">
+            機能を検索
+          </label>
           <div className="relative max-w-2xl">
-            <span aria-hidden className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400">
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m21 21-4.3-4.3M16.5 11A5.5 5.5 0 1 1 5.5 11a5.5 5.5 0 0 1 11 0Z" />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="m21 21-4.3-4.3M16.5 11A5.5 5.5 0 1 1 5.5 11a5.5 5.5 0 0 1 11 0Z"
+                />
               </svg>
             </span>
             <input

@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button, ArrowIcon, DownloadIcon, ChatIcon } from "@/components/ui/Button";
+import { Button, DownloadIcon, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
 
 type Audience = "general" | "agency" | "both";
@@ -28,7 +29,12 @@ const descs: Record<Audience, string> = {
   both: "2週間無料トライアル、パートナー資料、オンライン相談から、最適な入り口を選んでください。",
 };
 
-export default function BottomCTA({ audience = "both", title, description, className }: Props) {
+export default function BottomCTA({
+  audience = "both",
+  title,
+  description,
+  className,
+}: Props) {
   const heading = title ?? titles[audience];
   const desc = description ?? descs[audience];
 
@@ -99,28 +105,17 @@ export default function BottomCTA({ audience = "both", title, description, class
               >
                 オンラインで相談する
               </Button>
-              <Button
-                href={CTA_LINKS.signup}
-                external={CTA_LINKS.signup.startsWith("http")}
+              <SignupButton
                 variant="ghost"
                 size="lg"
-                icon={<ArrowIcon />}
                 className="!text-white hover:!bg-white/10"
               >
                 2週間無料を試す
-              </Button>
+              </SignupButton>
             </>
           ) : (
             <>
-              <Button
-                href={CTA_LINKS.signup}
-                external={CTA_LINKS.signup.startsWith("http")}
-                variant="primary"
-                size="lg"
-                icon={<ArrowIcon />}
-              >
-                2週間無料で始める
-              </Button>
+              <SignupButton variant="primary" size="lg" />
               <Button
                 href="/partners/document"
                 variant="secondary"

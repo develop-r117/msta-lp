@@ -18,7 +18,16 @@ export default function UGC() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Co-creation"
-          title={<>一緒に創る。<br className="hidden md:block" />だから、<span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">進化し続ける。</span></>}
+          title={
+            <>
+              一緒に創る。
+              <br className="hidden md:block" />
+              だから、
+              <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">
+                進化し続ける。
+              </span>
+            </>
+          }
           description="エムスタは、ユーザー・代理店・制作パートナーからのフィードバックをもとに進化していく共創型プロダクトです。バグ報告や改善提案を専用のAIエージェントで受け付け、プロダクト改善に反映。有効な改善提案には、パートナーへのレベニューシェア還元や評価制度の仕組みを提供いたします。"
           tone="dark"
         />
@@ -35,8 +44,18 @@ export default function UGC() {
             >
               <div className="flex items-start gap-3">
                 <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-accent-400/20 text-accent-300 ring-1 ring-accent-400/30">
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  <svg
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                 </span>
                 <p className="text-sm font-semibold text-white">{p}</p>

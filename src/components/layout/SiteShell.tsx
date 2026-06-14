@@ -31,7 +31,11 @@ export default function SiteShell({
       {breadcrumbs ? <Breadcrumb items={breadcrumbs} /> : null}
       <main>{children}</main>
       {hideBottomCTA ? null : (
-        <BottomCTA audience={audience} title={bottomCtaTitle} description={bottomCtaDescription} />
+        <BottomCTA
+          audience={audience}
+          title={bottomCtaTitle}
+          description={bottomCtaDescription}
+        />
       )}
       <Footer />
       <FloatingCTA />

@@ -48,7 +48,9 @@ export default function PageHero({
             transition={{ duration: 0.5 }}
             className={cn(
               "inline-block rounded-full px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-widest",
-              isDark ? "bg-white/10 text-white/80 ring-1 ring-white/20" : "bg-primary-50 text-primary-700",
+              isDark
+                ? "bg-white/10 text-white/80 ring-1 ring-white/20"
+                : "bg-primary-50 text-primary-700",
             )}
           >
             {eyebrow}

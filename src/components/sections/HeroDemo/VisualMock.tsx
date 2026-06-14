@@ -17,9 +17,17 @@ export default function VisualMock({ state }: { state: DemoState }) {
       {/* タイトル行 */}
       <div className="flex shrink-0 items-center gap-1.5 border-b border-neutral-100 px-3 py-1.5">
         <CanvasIcon className="h-3 w-3 text-purple-500" />
-        <span className="text-[10px] font-bold text-neutral-800">ホーム - ブロック編集</span>
+        <span className="text-[10px] font-bold text-neutral-800">
+          ホーム - ブロック編集
+        </span>
         <span className="ml-auto grid h-4 w-4 place-items-center rounded-full bg-neutral-100 text-neutral-400">
-          <svg className="h-2 w-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+          <svg
+            className="h-2 w-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={3}
+          >
             <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
           </svg>
         </span>
@@ -63,7 +71,7 @@ export default function VisualMock({ state }: { state: DemoState }) {
             "inline-flex items-center gap-0.5 rounded-md border px-1.5 py-0.5 text-[7px] font-bold transition-colors",
             state.veBlockAdded
               ? "border-pink-300 bg-pink-50 text-pink-600"
-              : "border-neutral-200 text-neutral-300"
+              : "border-neutral-200 text-neutral-300",
           )}
         >
           <MagicGlyph className="h-1.5 w-1.5" />
@@ -180,13 +188,22 @@ export default function VisualMock({ state }: { state: DemoState }) {
 
       {/* 保存成功ダイアログ（エディタ領域の中央に表示） */}
       <div className="absolute inset-y-0 left-0 right-[28%]">
-        <SaveDialog show={state.veSaved} message="ホーム画面を実機アプリに公開しました。" />
+        <SaveDialog
+          show={state.veSaved}
+          message="ホーム画面を実機アプリに公開しました。"
+        />
       </div>
     </div>
   );
 }
 
-function PropGroup({ label, children }: { label: string; children: React.ReactNode }) {
+function PropGroup({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
     <div>
       <div className="text-[6px] font-semibold text-neutral-400">{label}</div>
@@ -208,7 +225,13 @@ function PropField({ k, v }: { k: string; v: string }) {
 
 function CanvasIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2.2}
+    >
       <rect x="3" y="3" width="18" height="18" rx="2" />
       <path strokeLinecap="round" d="M3 9h18M9 9v12" />
     </svg>
@@ -217,7 +240,13 @@ function CanvasIcon({ className }: { className?: string }) {
 
 function MagicGlyph({ className }: { className?: string }) {
   return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.4}>
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2.4}
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -229,7 +258,13 @@ function MagicGlyph({ className }: { className?: string }) {
 
 function PhoneTinyGlyph() {
   return (
-    <svg className="h-2 w-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.4}>
+    <svg
+      className="h-2 w-2"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2.4}
+    >
       <rect x="7" y="2" width="10" height="20" rx="2" />
       <path d="M11 18h2" strokeLinecap="round" />
     </svg>
@@ -238,7 +273,11 @@ function PhoneTinyGlyph() {
 
 function DropGlyph() {
   return (
-    <svg className="h-1.5 w-1.5 shrink-0 text-neutral-400" viewBox="0 0 24 24" fill="currentColor">
+    <svg
+      className="h-1.5 w-1.5 shrink-0 text-neutral-400"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
       <path d="M5 9l7 7 7-7H5z" />
     </svg>
   );
@@ -246,7 +285,11 @@ function DropGlyph() {
 
 function ChevronGlyph() {
   return (
-    <svg className="h-1.5 w-1.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+    <svg
+      className="h-1.5 w-1.5 shrink-0"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
       <path d="M8 5l8 7-8 7V5z" />
     </svg>
   );

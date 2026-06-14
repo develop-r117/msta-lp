@@ -32,12 +32,36 @@ export const PRIMARY_NAV: NavGroup[] = [
     label: "プロダクト",
     audience: "general",
     children: [
-      { href: "/product", label: "エムスタとは", description: "真のノーコード × 最強CMS" },
-      { href: "/product/cms", label: "CMS / 管理ダッシュボード", description: "リリース後の運用までカバー" },
-      { href: "/product/modes", label: "かんたん / プロモード", description: "初心者にもプロにも" },
-      { href: "/product/features", label: "全機能一覧", description: "情報発信から拡張まで" },
-      { href: "/product/ai", label: "AI / エージェント", description: "制作と運用を支援するAI" },
-      { href: "/product/team", label: "チーム運用 / 権限", description: "組織でも安全に運用" },
+      {
+        href: "/product",
+        label: "エムスタとは",
+        description: "真のノーコード × 最強CMS",
+      },
+      {
+        href: "/product/cms",
+        label: "CMS / 管理ダッシュボード",
+        description: "リリース後の運用までカバー",
+      },
+      {
+        href: "/product/modes",
+        label: "かんたん / プロモード",
+        description: "初心者にもプロにも",
+      },
+      {
+        href: "/product/features",
+        label: "全機能一覧",
+        description: "情報発信から拡張まで",
+      },
+      {
+        href: "/product/ai",
+        label: "AI / エージェント",
+        description: "制作と運用を支援するAI",
+      },
+      {
+        href: "/product/team",
+        label: "チーム運用 / 権限",
+        description: "組織でも安全に運用",
+      },
     ],
   },
   {
@@ -45,8 +69,13 @@ export const PRIMARY_NAV: NavGroup[] = [
     label: "事例",
     audience: "both",
     children: [
-      { href: "/cases", label: "導入事例", description: "業種・目的別の事例集" },
-      { href: "/usecases", label: "ユースケース", description: "業種ごとの活用シナリオ" },
+      {
+        href: "/cases",
+        label: "導入事例",
+        description: "業種・目的別の事例集",
+      },
+      // ユースケースは一旦非公開化のためコメントアウト
+      // { href: "/usecases", label: "ユースケース", description: "業種ごとの活用シナリオ" },
     ],
   },
   {
@@ -60,9 +89,21 @@ export const PRIMARY_NAV: NavGroup[] = [
     label: "サービス",
     audience: "agency",
     children: [
-      { href: "/services/official", label: "オフィシャル制作", description: "公式チームによる代行" },
-      { href: "/services/3h-pack", label: "3hパック", description: "ローンチ記念半額" },
-      { href: "/services/full", label: "エムスタFull", description: "独自要件・スクラッチ対応" },
+      {
+        href: "/services/official",
+        label: "オフィシャル制作",
+        description: "公式チームによる代行",
+      },
+      {
+        href: "/services/3h-pack",
+        label: "3hパック",
+        description: "ローンチ記念半額",
+      },
+      {
+        href: "/services/full",
+        label: "エムスタFull",
+        description: "独自要件・スクラッチ対応",
+      },
     ],
   },
   {
@@ -71,8 +112,16 @@ export const PRIMARY_NAV: NavGroup[] = [
     audience: "agency",
     priority: 1,
     children: [
-      { href: "/partners", label: "パートナープログラム", description: "アプリビジネスを始める" },
-      { href: "/partners/document", label: "資料ダウンロード", description: "制度概要を入手" },
+      {
+        href: "/partners",
+        label: "パートナープログラム",
+        description: "アプリビジネスを始める",
+      },
+      {
+        href: "/partners/document",
+        label: "資料ダウンロード",
+        description: "制度概要を入手",
+      },
     ],
   },
   {
@@ -82,8 +131,16 @@ export const PRIMARY_NAV: NavGroup[] = [
     children: [
       // ヘルプセンターは一旦非公開化のためコメントアウト
       // { href: "/help", label: "ヘルプセンター", description: "使い方・運用・トラブル対応" },
-      { href: "/faq", label: "よくある質問", description: "FAQをまとめてチェック" },
-      { href: "/contact", label: "お問い合わせ", description: "ご相談・ご質問はこちら" },
+      {
+        href: "/faq",
+        label: "よくある質問",
+        description: "FAQをまとめてチェック",
+      },
+      {
+        href: "/contact",
+        label: "お問い合わせ",
+        description: "ご相談・ご質問はこちら",
+      },
     ],
   },
 ];
@@ -112,7 +169,8 @@ export const FOOTER_SITEMAP: FooterColumn[] = [
     title: "活用シーン",
     links: [
       { href: "/cases", label: "導入事例" },
-      { href: "/usecases", label: "業種別ユースケース" },
+      // ユースケースは一旦非公開化のためコメントアウト
+      // { href: "/usecases", label: "業種別ユースケース" },
       { href: "/marketplace", label: "マーケットプレイス" },
       { href: "/community", label: "UGC / 共創" },
     ],

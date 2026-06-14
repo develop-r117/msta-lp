@@ -23,8 +23,14 @@ export default config({
       path: "content/cases/*",
       format: { contentField: "body" },
       schema: {
-        title: fields.text({ label: "タイトル", validation: { isRequired: true } }),
-        slug: fields.text({ label: "スラッグ", validation: { isRequired: true } }),
+        title: fields.text({
+          label: "タイトル",
+          validation: { isRequired: true },
+        }),
+        slug: fields.text({
+          label: "スラッグ",
+          validation: { isRequired: true },
+        }),
         draft: fields.checkbox({
           label: "下書き (非公開)",
           description: "オンにすると公開ページには表示されません。",
@@ -36,8 +42,15 @@ export default config({
             "オンにすると一覧には Coming soon タグ付きのカードで表示され、詳細ページは Coming soon 表示になります。",
           defaultValue: false,
         }),
-        category: fields.text({ label: "カテゴリ", validation: { isRequired: true } }),
-        summary: fields.text({ label: "概要", multiline: true, validation: { isRequired: true } }),
+        category: fields.text({
+          label: "カテゴリ",
+          validation: { isRequired: true },
+        }),
+        summary: fields.text({
+          label: "概要",
+          multiline: true,
+          validation: { isRequired: true },
+        }),
         intro: fields.text({ label: "リード文（詳細冒頭）", multiline: true }),
         cover: fields.image({
           label: "カバー画像",
@@ -48,7 +61,11 @@ export default config({
           label: "利用機能",
           itemLabel: (props) => props.value,
         }),
-        result: fields.text({ label: "導入成果", multiline: true, validation: { isRequired: true } }),
+        result: fields.text({
+          label: "導入成果",
+          multiline: true,
+          validation: { isRequired: true },
+        }),
         customerVoice: fields.text({ label: "お客様の声", multiline: true }),
         body: fields.markdoc({ label: "本文" }),
       },
@@ -60,9 +77,25 @@ export default config({
       path: "content/usecases/*",
       format: { contentField: "body" },
       schema: {
-        industry: fields.text({ label: "業種キー", validation: { isRequired: true } }),
-        title: fields.text({ label: "タイトル", validation: { isRequired: true } }),
-        description: fields.text({ label: "説明", multiline: true, validation: { isRequired: true } }),
+        industry: fields.text({
+          label: "業種キー",
+          validation: { isRequired: true },
+        }),
+        title: fields.text({
+          label: "タイトル",
+          validation: { isRequired: true },
+        }),
+        cardOnly: fields.checkbox({
+          label: "カード表示のみ (詳細は Coming soon)",
+          description:
+            "オンにすると一覧には Coming soon タグ付きのカードで表示され、詳細ページは Coming soon 表示になります。",
+          defaultValue: false,
+        }),
+        description: fields.text({
+          label: "説明",
+          multiline: true,
+          validation: { isRequired: true },
+        }),
         scenarios: fields.array(fields.text({ label: "シナリオ" }), {
           label: "活用シナリオ",
           itemLabel: (props) => props.value,
@@ -86,9 +119,19 @@ export default config({
       path: "content/help-categories/*",
       format: { data: "json" },
       schema: {
-        slug: fields.text({ label: "スラッグ", validation: { isRequired: true } }),
-        title: fields.text({ label: "タイトル", validation: { isRequired: true } }),
-        description: fields.text({ label: "説明", multiline: true, validation: { isRequired: true } }),
+        slug: fields.text({
+          label: "スラッグ",
+          validation: { isRequired: true },
+        }),
+        title: fields.text({
+          label: "タイトル",
+          validation: { isRequired: true },
+        }),
+        description: fields.text({
+          label: "説明",
+          multiline: true,
+          validation: { isRequired: true },
+        }),
         iconKey: fields.text({ label: "アイコンキー" }),
         order: fields.integer({ label: "表示順", defaultValue: 99 }),
       },
@@ -100,10 +143,23 @@ export default config({
       path: "content/help-articles/*",
       format: { contentField: "body" },
       schema: {
-        slug: fields.text({ label: "スラッグ", validation: { isRequired: true } }),
-        title: fields.text({ label: "タイトル", validation: { isRequired: true } }),
-        summary: fields.text({ label: "概要", multiline: true, validation: { isRequired: true } }),
-        categorySlug: fields.text({ label: "カテゴリスラッグ", validation: { isRequired: true } }),
+        slug: fields.text({
+          label: "スラッグ",
+          validation: { isRequired: true },
+        }),
+        title: fields.text({
+          label: "タイトル",
+          validation: { isRequired: true },
+        }),
+        summary: fields.text({
+          label: "概要",
+          multiline: true,
+          validation: { isRequired: true },
+        }),
+        categorySlug: fields.text({
+          label: "カテゴリスラッグ",
+          validation: { isRequired: true },
+        }),
         tags: fields.array(fields.text({ label: "タグ" }), {
           label: "タグ",
           itemLabel: (props) => props.value,
@@ -135,19 +191,23 @@ export default config({
         }),
         spirOfficial: fields.text({
           label: "オフィシャル制作 予約リンクURL",
-          description: "オフィシャル制作相談ボタンの遷移先。外部URLは別タブで開きます。",
+          description:
+            "オフィシャル制作相談ボタンの遷移先。外部URLは別タブで開きます。",
         }),
         spirThreeHour: fields.text({
           label: "3hパック 予約リンクURL",
-          description: "3hパック予約・相談ボタンの遷移先。外部URLは別タブで開きます。",
+          description:
+            "3hパック予約・相談ボタンの遷移先。外部URLは別タブで開きます。",
         }),
         spirFull: fields.text({
           label: "エムスタFull 予約リンクURL",
-          description: "エムスタFull相談ボタンの遷移先。外部URLは別タブで開きます。",
+          description:
+            "エムスタFull相談ボタンの遷移先。外部URLは別タブで開きます。",
         }),
         spirPartner: fields.text({
           label: "パートナー制度 予約リンクURL",
-          description: "パートナー相談ボタンの遷移先。外部URLは別タブで開きます。",
+          description:
+            "パートナー相談ボタンの遷移先。外部URLは別タブで開きます。",
         }),
         generalCalendarEmbed: fields.text({
           label: "一般相談カレンダー Spir埋込コード",
@@ -165,15 +225,34 @@ export default config({
       schema: {
         categories: fields.array(
           fields.object({
-            id: fields.text({ label: "カテゴリID", validation: { isRequired: true } }),
-            label: fields.text({ label: "カテゴリ名", validation: { isRequired: true } }),
+            id: fields.text({
+              label: "カテゴリID",
+              validation: { isRequired: true },
+            }),
+            label: fields.text({
+              label: "カテゴリ名",
+              validation: { isRequired: true },
+            }),
             items: fields.array(
               fields.object({
-                id: fields.text({ label: "質問ID", validation: { isRequired: true } }),
-                question: fields.text({ label: "質問", validation: { isRequired: true } }),
-                answer: fields.text({ label: "回答", multiline: true, validation: { isRequired: true } }),
+                id: fields.text({
+                  label: "質問ID",
+                  validation: { isRequired: true },
+                }),
+                question: fields.text({
+                  label: "質問",
+                  validation: { isRequired: true },
+                }),
+                answer: fields.text({
+                  label: "回答",
+                  multiline: true,
+                  validation: { isRequired: true },
+                }),
               }),
-              { label: "質問一覧", itemLabel: (props) => props.fields.question.value },
+              {
+                label: "質問一覧",
+                itemLabel: (props) => props.fields.question.value,
+              },
             ),
           }),
           { label: "カテゴリ", itemLabel: (props) => props.fields.label.value },

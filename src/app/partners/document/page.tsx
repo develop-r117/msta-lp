@@ -26,7 +26,13 @@ export default function PartnerDocumentPage() {
     >
       <PageHero
         eyebrow="Partner document"
-        title={<>パートナー制度の<br className="hidden md:block" /><span className="text-gradient">資料をダウンロード</span></>}
+        title={
+          <>
+            パートナー制度の
+            <br className="hidden md:block" />
+            <span className="text-gradient">資料をダウンロード</span>
+          </>
+        }
         description="制度の概要、レベニュー条件、申請の流れ、サポート体制までをまとめたPDFをメールでお送りします。"
         actions={
           <Button

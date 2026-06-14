@@ -12,7 +12,10 @@ export async function POST(req: Request) {
   const password = getAdminPassword();
   if (!password) {
     return Response.json(
-      { error: "ADMIN_PASSWORD が未設定です。Cloudflare Pages の環境変数を設定してください。" },
+      {
+        error:
+          "ADMIN_PASSWORD が未設定です。Cloudflare Pages の環境変数を設定してください。",
+      },
       { status: 500 },
     );
   }

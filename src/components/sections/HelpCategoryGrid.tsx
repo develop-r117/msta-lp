@@ -8,8 +8,10 @@ type Props = {
 };
 
 const ICON_PATHS: Record<string, string> = {
-  rocket: "M5 13l4 4L19 7M12 2C7 2 4 6 4 10c0 4 5 9 8 12 3-3 8-8 8-12 0-4-3-8-8-8z",
-  billing: "M3 10h18M3 14h18M5 6h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z",
+  rocket:
+    "M5 13l4 4L19 7M12 2C7 2 4 6 4 10c0 4 5 9 8 12 3-3 8-8 8-12 0-4-3-8-8-8z",
+  billing:
+    "M3 10h18M3 14h18M5 6h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z",
   build: "M14.7 6.3a1 1 0 011.4 0l1.6 1.6a1 1 0 010 1.4L9 18.5 4 19l.5-5z",
   ops: "M3 12h4l3-9 4 18 3-9h4",
   warn: "M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z",
@@ -48,7 +50,11 @@ export default function HelpCategoryGrid({ categories, articles }: Props) {
                         stroke="currentColor"
                         strokeWidth={1.8}
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" d={path} />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d={path}
+                        />
                       </svg>
                     </span>
                     <span className="rounded-full bg-neutral-100 px-2.5 py-1 text-[11px] font-bold text-neutral-600">
@@ -63,8 +69,18 @@ export default function HelpCategoryGrid({ categories, articles }: Props) {
                   </p>
                   <span className="mt-5 inline-flex items-center gap-1 text-xs font-bold text-primary-700">
                     記事を見る
-                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    <svg
+                      className="h-3 w-3"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
                     </svg>
                   </span>
                 </Link>

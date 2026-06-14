@@ -39,16 +39,39 @@ export type Feature = {
   relatedSlugs?: string[];
 };
 
-export const FEATURE_CATEGORIES: { id: FeatureCategoryId; label: string; description: string }[] =
-  [
-    { id: "broadcast", label: "情報発信", description: "プッシュ・メール・ポップアップなど、ユーザーに届ける機能" },
-    { id: "members", label: "会員管理", description: "会員基盤、ランク、課金、権限の管理" },
-    { id: "comm", label: "コミュニケーション", description: "チャット・問い合わせ・アンケート・クーポン" },
-    { id: "content", label: "コンテンツ", description: "投稿・固定・ギャラリー・ファイル・地図" },
-    { id: "ops", label: "業務支援", description: "予約・スタンプ・EC・分析" },
-    { id: "ext", label: "拡張・連携", description: "AI・広告・外部連携" },
-    { id: "build", label: "アプリ構築", description: "導線・モバイルUI・公開・機能設定" },
-  ];
+export const FEATURE_CATEGORIES: {
+  id: FeatureCategoryId;
+  label: string;
+  description: string;
+}[] = [
+  {
+    id: "broadcast",
+    label: "情報発信",
+    description: "プッシュ・メール・ポップアップなど、ユーザーに届ける機能",
+  },
+  {
+    id: "members",
+    label: "会員管理",
+    description: "会員基盤、ランク、課金、権限の管理",
+  },
+  {
+    id: "comm",
+    label: "コミュニケーション",
+    description: "チャット・問い合わせ・アンケート・クーポン",
+  },
+  {
+    id: "content",
+    label: "コンテンツ",
+    description: "投稿・固定・ギャラリー・ファイル・地図",
+  },
+  { id: "ops", label: "業務支援", description: "予約・スタンプ・EC・分析" },
+  { id: "ext", label: "拡張・連携", description: "AI・広告・外部連携" },
+  {
+    id: "build",
+    label: "アプリ構築",
+    description: "導線・モバイルUI・公開・機能設定",
+  },
+];
 
 export const BILLING_LABELS: Record<FeatureBilling, string> = {
   default: "初期搭載",
@@ -64,7 +87,8 @@ export const FEATURES: Feature[] = [
     category: "broadcast",
     billing: "default",
     icon: "broadcast",
-    summary: "通常プッシュと誕生日プッシュの自動配信で、ユーザーへの再訪を促進。アプリ内リンク指定にも対応。",
+    summary:
+      "通常プッシュと誕生日プッシュの自動配信で、ユーザーへの再訪を促進。アプリ内リンク指定にも対応。",
     keyCapabilities: [
       "通常プッシュ送信（即時 / 予約）",
       "誕生日プッシュの自動配信",
@@ -82,14 +106,22 @@ export const FEATURES: Feature[] = [
     category: "broadcast",
     billing: "paid",
     icon: "broadcast",
-    summary: "テンプレート・配信グループ・ドメイン認証まで揃った本格的なメールキャンペーン。SPF認証で到達率を高めます。",
+    summary:
+      "テンプレート・配信グループ・ドメイン認証まで揃った本格的なメールキャンペーン。SPF認証で到達率を高めます。",
     keyCapabilities: [
       "配信一覧・新規配信の作成",
       "テンプレート管理",
       "配信グループのセグメント",
       "送信設定とドメイン（SPF）認証",
     ],
-    screens: ["配信一覧", "新規配信", "テンプレート", "配信グループ", "メール設定", "ドメイン認証"],
+    screens: [
+      "配信一覧",
+      "新規配信",
+      "テンプレート",
+      "配信グループ",
+      "メール設定",
+      "ドメイン認証",
+    ],
     relatedSettings: ["有償オプション 初期¥3,000 / 月¥980"],
     audiences: ["店舗", "BtoBサービス", "教育"],
     relatedSlugs: ["push-notifications", "members", "analytics"],
@@ -100,7 +132,8 @@ export const FEATURES: Feature[] = [
     category: "broadcast",
     billing: "default",
     icon: "broadcast",
-    summary: "アプリ内ポップアップで、お知らせ・キャンペーン・重要告知を確実に届けます。",
+    summary:
+      "アプリ内ポップアップで、お知らせ・キャンペーン・重要告知を確実に届けます。",
     keyCapabilities: [
       "ポップアップの新規作成・編集",
       "表示タイミング・表示回数の制御",
@@ -116,7 +149,8 @@ export const FEATURES: Feature[] = [
     category: "broadcast",
     billing: "free-add",
     icon: "broadcast",
-    summary: "公式SNSへの導線をアプリ内に集約。ユーザーがフォローしやすい一元管理を実現します。",
+    summary:
+      "公式SNSへの導線をアプリ内に集約。ユーザーがフォローしやすい一元管理を実現します。",
     keyCapabilities: [
       "各種SNSへのリンクをまとめて配置",
       "アイコン・順序のカスタマイズ",
@@ -134,14 +168,21 @@ export const FEATURES: Feature[] = [
     category: "members",
     billing: "default",
     icon: "members",
-    summary: "会員の登録・ログイン・規約・ログイン後コンテンツまで、アプリ会員基盤を一元管理します。",
+    summary:
+      "会員の登録・ログイン・規約・ログイン後コンテンツまで、アプリ会員基盤を一元管理します。",
     keyCapabilities: [
       "会員一覧 / 新規 / 編集",
       "登録フローのカスタマイズ",
       "ログイン後表示コンテンツ設定",
       "利用規約・プライバシーポリシーの管理",
     ],
-    screens: ["会員一覧", "会員登録設定", "ログインコンテンツ設定", "利用規約設定", "プライバシー設定"],
+    screens: [
+      "会員一覧",
+      "会員登録設定",
+      "ログインコンテンツ設定",
+      "利用規約設定",
+      "プライバシー設定",
+    ],
     audiences: ["全業種"],
     relatedSlugs: ["member-ranks-iap", "chat", "push-notifications"],
   },
@@ -151,7 +192,8 @@ export const FEATURES: Feature[] = [
     category: "members",
     billing: "paid",
     icon: "members",
-    summary: "App Store / Google Play の課金を活用し、会員ランクごとに機能アクセスをコントロール。",
+    summary:
+      "App Store / Google Play の課金を活用し、会員ランクごとに機能アクセスをコントロール。",
     keyCapabilities: [
       "会員ランクの定義",
       "機能ごとのアクセス制御",
@@ -171,7 +213,8 @@ export const FEATURES: Feature[] = [
     category: "comm",
     billing: "paid",
     icon: "comm",
-    summary: "ユーザーとのリアルタイムチャット。通報モデレーション、設定もすべて管理画面から。",
+    summary:
+      "ユーザーとのリアルタイムチャット。通報モデレーション、設定もすべて管理画面から。",
     keyCapabilities: [
       "1対1リアルタイムチャット",
       "通報受付とモデレーション",
@@ -189,7 +232,8 @@ export const FEATURES: Feature[] = [
     category: "comm",
     billing: "paid",
     icon: "comm",
-    summary: "カスタマイズ可能な問い合わせフォームと管理者通知をワンセットで提供します。",
+    summary:
+      "カスタマイズ可能な問い合わせフォームと管理者通知をワンセットで提供します。",
     keyCapabilities: [
       "フォームの項目カスタマイズ",
       "問い合わせ内容の一覧管理",
@@ -221,7 +265,8 @@ export const FEATURES: Feature[] = [
     category: "comm",
     billing: "paid",
     icon: "comm",
-    summary: "クーポンの発行・配布・利用管理で、来店促進やリピートをサポートします。",
+    summary:
+      "クーポンの発行・配布・利用管理で、来店促進やリピートをサポートします。",
     keyCapabilities: [
       "クーポンの発行・配布",
       "利用状況のトラッキング",
@@ -239,7 +284,8 @@ export const FEATURES: Feature[] = [
     category: "content",
     billing: "default",
     icon: "content",
-    summary: "記事・お知らせなどの投稿型コンテンツを、カテゴリ管理・AI制作と組み合わせて運用。",
+    summary:
+      "記事・お知らせなどの投稿型コンテンツを、カテゴリ管理・AI制作と組み合わせて運用。",
     keyCapabilities: [
       "記事の追加 / 編集 / 公開設定",
       "カテゴリ・タグでの整理",
@@ -256,7 +302,8 @@ export const FEATURES: Feature[] = [
     category: "content",
     billing: "default",
     icon: "content",
-    summary: "店舗情報・サービス案内など、変更頻度の少ないページ群を導線エディタと組み合わせて構築。",
+    summary:
+      "店舗情報・サービス案内など、変更頻度の少ないページ群を導線エディタと組み合わせて構築。",
     keyCapabilities: [
       "固定ページの追加・編集",
       "カテゴリ管理",
@@ -288,7 +335,8 @@ export const FEATURES: Feature[] = [
     category: "content",
     billing: "free-add",
     icon: "content",
-    summary: "写真をアルバム形式でアプリに掲載。イベントレポートや作品集として活用できます。",
+    summary:
+      "写真をアルバム形式でアプリに掲載。イベントレポートや作品集として活用できます。",
     keyCapabilities: [
       "アルバム作成と画像アップロード",
       "順序のカスタマイズ",
@@ -304,7 +352,8 @@ export const FEATURES: Feature[] = [
     category: "content",
     billing: "free-add",
     icon: "content",
-    summary: "動画コンテンツのアプリ配信。チュートリアル、店舗紹介、作品集まで幅広く活用。",
+    summary:
+      "動画コンテンツのアプリ配信。チュートリアル、店舗紹介、作品集まで幅広く活用。",
     keyCapabilities: [
       "動画のアップロード / 外部URL指定",
       "アルバム形式の整理",
@@ -320,7 +369,8 @@ export const FEATURES: Feature[] = [
     category: "content",
     billing: "default",
     icon: "content",
-    summary: "PDFや資料、契約書などをアプリで配布。会員限定配信にも対応します。",
+    summary:
+      "PDFや資料、契約書などをアプリで配布。会員限定配信にも対応します。",
     keyCapabilities: [
       "ファイルのアップロード",
       "公開範囲の設定",
@@ -336,12 +386,9 @@ export const FEATURES: Feature[] = [
     category: "content",
     billing: "paid",
     icon: "content",
-    summary: "FAQ・よくある質問を、カテゴリ別に整理してアプリ内表示。問い合わせ削減に貢献。",
-    keyCapabilities: [
-      "Q&Aの追加・編集",
-      "カテゴリ管理",
-      "アプリ内検索対応",
-    ],
+    summary:
+      "FAQ・よくある質問を、カテゴリ別に整理してアプリ内表示。問い合わせ削減に貢献。",
+    keyCapabilities: ["Q&Aの追加・編集", "カテゴリ管理", "アプリ内検索対応"],
     screens: ["Q&A一覧", "カテゴリ管理"],
     audiences: ["全業種"],
     relatedSlugs: ["inquiry-forms", "cms-static"],
@@ -352,7 +399,8 @@ export const FEATURES: Feature[] = [
     category: "content",
     billing: "default",
     icon: "content",
-    summary: "外部Webサイト・LP・ECページなどを、アプリ内のWebViewで表示できます。",
+    summary:
+      "外部Webサイト・LP・ECページなどを、アプリ内のWebViewで表示できます。",
     keyCapabilities: [
       "外部URLの設定",
       "ヘッダー・タイトルのカスタマイズ",
@@ -368,7 +416,8 @@ export const FEATURES: Feature[] = [
     category: "content",
     billing: "paid",
     icon: "content",
-    summary: "地図上に拠点・スポット・ユーザー投稿を配置できるGPS連動コンテンツ。",
+    summary:
+      "地図上に拠点・スポット・ユーザー投稿を配置できるGPS連動コンテンツ。",
     keyCapabilities: [
       "地点・タグの登録と編集",
       "ユーザー投稿スポットの管理",
@@ -387,7 +436,8 @@ export const FEATURES: Feature[] = [
     category: "ops",
     billing: "default",
     icon: "ops",
-    summary: "運用ウィジェットを集約した管理ホーム。各機能へワンクリックでアクセスできます。",
+    summary:
+      "運用ウィジェットを集約した管理ホーム。各機能へワンクリックでアクセスできます。",
     keyCapabilities: [
       "ウィジェットによる運用指標の可視化",
       "各機能へのショートカット",
@@ -403,7 +453,8 @@ export const FEATURES: Feature[] = [
     category: "ops",
     billing: "paid",
     icon: "ops",
-    summary: "スタンプカードと特典で、来店・リピート・購買を後押し。手動付与にも対応。",
+    summary:
+      "スタンプカードと特典で、来店・リピート・購買を後押し。手動付与にも対応。",
     keyCapabilities: [
       "スタンプカード設計",
       "特典の発行 / 利用管理",
@@ -420,7 +471,8 @@ export const FEATURES: Feature[] = [
     category: "ops",
     billing: "paid",
     icon: "ops",
-    summary: "シンプル予約とフル予約の2モード。メニュー・グループ・予約枠まできめ細かく設計可能。",
+    summary:
+      "シンプル予約とフル予約の2モード。メニュー・グループ・予約枠まできめ細かく設計可能。",
     keyCapabilities: [
       "予約メニュー / グループ / 枠の設定",
       "予約一覧・キャンセル管理",
@@ -437,14 +489,23 @@ export const FEATURES: Feature[] = [
     category: "ops",
     billing: "paid",
     icon: "ops",
-    summary: "アプリ内EC機能。Stripe決済、ポイント、ギフト、レビュー、在庫アラートまで完備。",
+    summary:
+      "アプリ内EC機能。Stripe決済、ポイント、ギフト、レビュー、在庫アラートまで完備。",
     keyCapabilities: [
       "商品 / カテゴリ / 注文管理",
       "Stripe Connect連携",
       "ポイント / ギフト / クーポン",
       "在庫アラート / 売上レポート",
     ],
-    screens: ["商品", "注文", "顧客", "レビュー", "ポイント", "Stripe連携", "売上レポート"],
+    screens: [
+      "商品",
+      "注文",
+      "顧客",
+      "レビュー",
+      "ポイント",
+      "Stripe連携",
+      "売上レポート",
+    ],
     relatedSettings: ["有償アドオン 月¥1,980 / 初期費用0円"],
     audiences: ["EC", "店舗", "コミュニティ"],
     relatedSlugs: ["coupons", "stamps", "analytics"],
@@ -455,14 +516,22 @@ export const FEATURES: Feature[] = [
     category: "ops",
     billing: "default",
     icon: "ops",
-    summary: "登録・利用・DL・スタンプ・GA4連携まで、運用データを多角的に可視化します。",
+    summary:
+      "登録・利用・DL・スタンプ・GA4連携まで、運用データを多角的に可視化します。",
     keyCapabilities: [
       "サマリー / DAU・MAU",
       "新規登録・利用停止トラッキング",
       "ダウンロード分析",
       "スタンプ分析 / GA4連携",
     ],
-    screens: ["サマリー", "アクティブユーザー", "新規登録", "ダウンロード", "スタンプ分析", "GA設定"],
+    screens: [
+      "サマリー",
+      "アクティブユーザー",
+      "新規登録",
+      "ダウンロード",
+      "スタンプ分析",
+      "GA設定",
+    ],
     audiences: ["全業種"],
     relatedSlugs: ["ga-analytics", "stamps", "members"],
   },
@@ -474,7 +543,8 @@ export const FEATURES: Feature[] = [
     category: "ext",
     billing: "free-add",
     icon: "ext",
-    summary: "AIによる画像生成。AIプラン枠で利用量を管理し、運用に必要な画像を素早く準備できます。",
+    summary:
+      "AIによる画像生成。AIプラン枠で利用量を管理し、運用に必要な画像を素早く準備できます。",
     keyCapabilities: [
       "AIによる画像生成",
       "AIプラン枠での利用管理",
@@ -490,7 +560,8 @@ export const FEATURES: Feature[] = [
     category: "ext",
     billing: "free-add",
     icon: "ext",
-    summary: "アプリ導線・記事のAI自動生成。導線エディタや投稿一覧に統合され、運用効率を高めます。",
+    summary:
+      "アプリ導線・記事のAI自動生成。導線エディタや投稿一覧に統合され、運用効率を高めます。",
     keyCapabilities: [
       "導線エディタからのAI生成",
       "投稿コンテンツのAI下書き",
@@ -506,7 +577,8 @@ export const FEATURES: Feature[] = [
     category: "ext",
     billing: "free-add",
     icon: "ext",
-    summary: "Google AdMobを活用したバナー・インタースティシャル・リワード広告で収益化。",
+    summary:
+      "Google AdMobを活用したバナー・インタースティシャル・リワード広告で収益化。",
     keyCapabilities: [
       "AdMobとの接続設定",
       "バナー / インタースティシャル / リワード",
@@ -522,7 +594,8 @@ export const FEATURES: Feature[] = [
     category: "ext",
     billing: "free-add",
     icon: "ext",
-    summary: "GA4 連携でアプリの詳細分析を実施。標準分析と組み合わせて多角的に運用判断。",
+    summary:
+      "GA4 連携でアプリの詳細分析を実施。標準分析と組み合わせて多角的に運用判断。",
     keyCapabilities: [
       "GA4プロパティの接続",
       "イベント設定",
@@ -540,7 +613,8 @@ export const FEATURES: Feature[] = [
     category: "build",
     billing: "default",
     icon: "build",
-    summary: "アプリ内ナビ・画面遷移をビジュアルに設計。AI制作も統合され、ノーコードでUXを構築できます。",
+    summary:
+      "アプリ内ナビ・画面遷移をビジュアルに設計。AI制作も統合され、ノーコードでUXを構築できます。",
     keyCapabilities: [
       "フローノードによる導線設計",
       "メニュー・コンテンツノードの編集",
@@ -556,13 +630,19 @@ export const FEATURES: Feature[] = [
     category: "build",
     billing: "default",
     icon: "build",
-    summary: "ホーム・メニュー・ブランドコンポーネントなど、アプリの見た目を一括コントロール。",
+    summary:
+      "ホーム・メニュー・ブランドコンポーネントなど、アプリの見た目を一括コントロール。",
     keyCapabilities: [
       "トップコンテンツ / メニュー設定",
       "アプリ基本設定（カラー、ロゴ）",
       "ブランドコンポーネントの一括更新（PRO）",
     ],
-    screens: ["トップコンテンツ", "メニュー設定", "アプリ基本設定", "ブランドコンポーネント"],
+    screens: [
+      "トップコンテンツ",
+      "メニュー設定",
+      "アプリ基本設定",
+      "ブランドコンポーネント",
+    ],
     audiences: ["全業種"],
     relatedSlugs: ["flow-editor", "feature-flags"],
   },
@@ -572,7 +652,8 @@ export const FEATURES: Feature[] = [
     category: "build",
     billing: "default",
     icon: "build",
-    summary: "ストア向けビルドを管理画面から実行。ビルド設定とリリースを統合管理できます。",
+    summary:
+      "ストア向けビルドを管理画面から実行。ビルド設定とリリースを統合管理できます。",
     keyCapabilities: [
       "ビルド実行（iOS / Android / Web）",
       "ビルド設定の管理",
@@ -588,7 +669,8 @@ export const FEATURES: Feature[] = [
     category: "build",
     billing: "default",
     icon: "build",
-    summary: "利用する機能モジュールをON/OFF。マーケットプレイスの課金と連動した有償機能管理。",
+    summary:
+      "利用する機能モジュールをON/OFF。マーケットプレイスの課金と連動した有償機能管理。",
     keyCapabilities: [
       "機能モジュールのON/OFF",
       "有償オプションの追加・解除",

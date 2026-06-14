@@ -2,7 +2,13 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import SpirEmbed from "@/components/ui/SpirEmbed";
-import { Button, ArrowIcon, DownloadIcon, ChatIcon } from "@/components/ui/Button";
+import {
+  Button,
+  ArrowIcon,
+  DownloadIcon,
+  ChatIcon,
+} from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS, GENERAL_CALENDAR_EMBED } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
 
@@ -59,14 +65,25 @@ export default function ContactPage() {
     >
       <PageHero
         eyebrow="Contact"
-        title={<>カテゴリーに合わせて、<br className="hidden md:block" /><span className="text-gradient">最適な相談窓口</span>を。</>}
+        title={
+          <>
+            カテゴリーに合わせて、
+            <br className="hidden md:block" />
+            <span className="text-gradient">最適な相談窓口</span>を。
+          </>
+        }
         description="エムスタでは、ご相談内容に合わせてカテゴリ別の予約フォームをご用意しています。お急ぎの方は2週間無料トライアル、または資料DLからもお進みいただけます。"
         actions={
           <>
-            <Button href={CTA_LINKS.signup} external={CTA_LINKS.signup.startsWith("http")} variant="primary" size="lg" icon={<ArrowIcon />}>
+            <SignupButton variant="primary" size="lg" icon={<ArrowIcon />}>
               先に2週間無料を試す
-            </Button>
-            <Button href="/partners/document" variant="secondary" size="lg" icon={<DownloadIcon />}>
+            </SignupButton>
+            <Button
+              href="/partners/document"
+              variant="secondary"
+              size="lg"
+              icon={<DownloadIcon />}
+            >
               パートナー資料DL
             </Button>
           </>
@@ -81,12 +98,20 @@ export default function ContactPage() {
                 key={c.id}
                 className="flex h-full flex-col rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm md:p-7"
               >
-                <p className="text-base font-bold text-neutral-900 md:text-lg">{c.label}</p>
-                <p className="mt-2 grow text-sm leading-relaxed text-neutral-600">{c.description}</p>
+                <p className="text-base font-bold text-neutral-900 md:text-lg">
+                  {c.label}
+                </p>
+                <p className="mt-2 grow text-sm leading-relaxed text-neutral-600">
+                  {c.description}
+                </p>
                 <a
                   href={c.spirUrl}
                   target={c.spirUrl.startsWith("http") ? "_blank" : undefined}
-                  rel={c.spirUrl.startsWith("http") ? "noopener noreferrer" : undefined}
+                  rel={
+                    c.spirUrl.startsWith("http")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
                   className="mt-5 inline-flex items-center justify-center gap-2 rounded-full border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-sm font-bold text-neutral-900 transition-colors hover:bg-neutral-100"
                 >
                   <ChatIcon />
@@ -100,14 +125,20 @@ export default function ContactPage() {
 
       <section className="section-padding bg-neutral-50">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-neutral-900 md:text-3xl">一般相談カレンダー</h2>
+          <h2 className="text-2xl font-bold text-neutral-900 md:text-3xl">
+            一般相談カレンダー
+          </h2>
           <p className="mt-3 text-sm leading-relaxed text-neutral-600 md:text-base">
             まずは話を聞いてみたい方向けの、一般相談用予約フォームです。専用カテゴリのご相談は、上のカード群からカレンダーをご選択ください。
           </p>
           <div className="mt-8">
             <SpirEmbed
               embedCode={GENERAL_CALENDAR_EMBED}
-              url={CTA_LINKS.spirGeneral.startsWith("http") ? CTA_LINKS.spirGeneral : undefined}
+              url={
+                CTA_LINKS.spirGeneral.startsWith("http")
+                  ? CTA_LINKS.spirGeneral
+                  : undefined
+              }
               title="一般相談カレンダー"
             />
           </div>

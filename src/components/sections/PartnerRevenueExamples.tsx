@@ -27,7 +27,8 @@ const examples = [
       { label: "テンプレ販売 / 月", value: "約 ¥30,000" },
       { label: "継続レベニュー / 月", value: "約 ¥6,000" },
     ],
-    highlight: "テンプレート販売 × 継続シェアで、固定費をカバーする副収入源に。",
+    highlight:
+      "テンプレート販売 × 継続シェアで、固定費をカバーする副収入源に。",
     color: "from-neutral-400 to-neutral-600",
   },
   {
@@ -36,7 +37,7 @@ const examples = [
     scenario:
       "オフィシャル制作パートナーとして月10件以上を継続納品。エムスタFullでの大型案件も対応し、既存クライアントの運用も一括管理。",
     numbers: [
-      { label: "制作売上 / 月", value: "¥1,500,000+",  },
+      { label: "制作売上 / 月", value: "¥1,500,000+" },
       { label: "継続レベニュー / 月 (30件)", value: "約 ¥135,000" },
       { label: "年間継続収益", value: "約 ¥1,620,000" },
     ],
@@ -51,7 +52,14 @@ export default function PartnerRevenueExamples() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Revenue examples"
-          title={<>パートナー<span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">収益シミュレーション</span></>}
+          title={
+            <>
+              パートナー
+              <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">
+                収益シミュレーション
+              </span>
+            </>
+          }
           description="パートナーランクと案件数に応じた収益イメージ。制作費に加え、継続課金のレベニューシェアが積み上がります。"
           tone="dark"
         />
@@ -69,12 +77,16 @@ export default function PartnerRevenueExamples() {
               <div className={`h-1.5 bg-gradient-to-r ${ex.color}`} />
               <div className="flex grow flex-col p-6 md:p-7">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-sm font-bold text-white">{ex.persona}</span>
+                  <span className="text-sm font-bold text-white">
+                    {ex.persona}
+                  </span>
                   <span className="inline-flex rounded-full bg-white/10 px-2.5 py-0.5 text-[10px] font-bold text-on-dark-muted">
                     {ex.rank}
                   </span>
                 </div>
-                <p className="mt-3 text-xs leading-relaxed text-on-dark-muted">{ex.scenario}</p>
+                <p className="mt-3 text-xs leading-relaxed text-on-dark-muted">
+                  {ex.scenario}
+                </p>
 
                 <dl className="mt-5 grid gap-2">
                   {ex.numbers.map((n) => (
@@ -82,8 +94,12 @@ export default function PartnerRevenueExamples() {
                       key={n.label}
                       className="flex items-center justify-between rounded-xl bg-white/5 px-4 py-2.5 ring-1 ring-white/10"
                     >
-                      <dt className="text-[11px] font-semibold text-on-dark-muted">{n.label}</dt>
-                      <dd className="text-sm font-black text-accent-400">{n.value}</dd>
+                      <dt className="text-[11px] font-semibold text-on-dark-muted">
+                        {n.label}
+                      </dt>
+                      <dd className="text-sm font-black text-accent-400">
+                        {n.value}
+                      </dd>
                     </div>
                   ))}
                 </dl>
@@ -97,7 +113,8 @@ export default function PartnerRevenueExamples() {
         </ul>
 
         <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-relaxed text-on-dark-muted">
-          ※ 収益はあくまで試算例であり、実際のランク条件・還元率・案件単価は契約内容によって異なります。詳しくはパートナー資料をご確認ください。
+          ※
+          収益はあくまで試算例であり、実際のランク条件・還元率・案件単価は契約内容によって異なります。詳しくはパートナー資料をご確認ください。
         </p>
       </div>
     </section>

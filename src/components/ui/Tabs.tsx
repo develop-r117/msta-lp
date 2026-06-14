@@ -34,7 +34,13 @@ export default function Tabs<T extends string>({
   const [active, setActive] = useState<T>(defaultId ?? items[0].id);
 
   const onKey = (e: KeyboardEvent<HTMLButtonElement>, idx: number) => {
-    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft" && e.key !== "Home" && e.key !== "End") return;
+    if (
+      e.key !== "ArrowRight" &&
+      e.key !== "ArrowLeft" &&
+      e.key !== "Home" &&
+      e.key !== "End"
+    )
+      return;
     e.preventDefault();
     let next = idx;
     if (e.key === "ArrowRight") next = (idx + 1) % items.length;
@@ -95,7 +101,9 @@ export default function Tabs<T extends string>({
                   )}
                 />
               ) : null}
-              <span className="relative z-10 whitespace-nowrap">{item.label}</span>
+              <span className="relative z-10 whitespace-nowrap">
+                {item.label}
+              </span>
             </button>
           );
         })}

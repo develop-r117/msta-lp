@@ -61,7 +61,9 @@ export default async function HelpCategoryPage({
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/80">
             Help category
           </p>
-          <h1 className="mt-3 text-3xl font-bold leading-tight md:text-5xl">{cat.title}</h1>
+          <h1 className="mt-3 text-3xl font-bold leading-tight md:text-5xl">
+            {cat.title}
+          </h1>
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/85 md:text-base">
             {cat.description}
           </p>

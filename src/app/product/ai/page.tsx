@@ -2,7 +2,8 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import AIVision from "@/components/sections/AIVision";
-import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
+import { Button, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
 
@@ -25,19 +26,21 @@ export default function AIPage() {
       <PageHero
         variant="dark"
         eyebrow="AI / Agent"
-        title={<>AIが、<span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">制作と運用</span>を支援する。</>}
+        title={
+          <>
+            AIが、
+            <span className="bg-gradient-to-r from-accent-400 to-primary-400 bg-clip-text text-transparent">
+              制作と運用
+            </span>
+            を支援する。
+          </>
+        }
         description="完全自動化ではなく、制作・運用の工数削減を支援するAI。エムスタでは、アプリ制作の各フェーズでAIによる支援機能を順次搭載していきます。"
         actions={
           <>
-            <Button
-              href={CTA_LINKS.signup}
-              external={CTA_LINKS.signup.startsWith("http")}
-              variant="partner"
-              size="lg"
-              icon={<ArrowIcon />}
-            >
+            <SignupButton variant="partner" size="lg">
               AI支援を体験する
-            </Button>
+            </SignupButton>
             <Button
               href={CTA_LINKS.spirGeneral}
               external={CTA_LINKS.spirGeneral.startsWith("http")}

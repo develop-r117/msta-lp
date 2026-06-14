@@ -11,7 +11,9 @@ type Props = {
 };
 
 export default function FAQGroups({ categories, enableSearch = true }: Props) {
-  const [activeId, setActiveId] = useState<string>(categories[0]?.id ?? "general");
+  const [activeId, setActiveId] = useState<string>(
+    categories[0]?.id ?? "general",
+  );
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
@@ -21,7 +23,9 @@ export default function FAQGroups({ categories, enableSearch = true }: Props) {
     const q = query.toLowerCase();
     const all = categories.flatMap((c) => c.items);
     return all.filter(
-      (it) => it.question.toLowerCase().includes(q) || it.answer.toLowerCase().includes(q),
+      (it) =>
+        it.question.toLowerCase().includes(q) ||
+        it.answer.toLowerCase().includes(q),
     );
   }, [categories, activeId, query]);
 
@@ -30,11 +34,26 @@ export default function FAQGroups({ categories, enableSearch = true }: Props) {
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         {enableSearch ? (
           <div className="mb-8">
-            <label className="sr-only" htmlFor="faq-search">FAQを検索</label>
+            <label className="sr-only" htmlFor="faq-search">
+              FAQを検索
+            </label>
             <div className="relative">
-              <span aria-hidden className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400">
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m21 21-4.3-4.3M16.5 11A5.5 5.5 0 1 1 5.5 11a5.5 5.5 0 0 1 11 0Z" />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400"
+              >
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="m21 21-4.3-4.3M16.5 11A5.5 5.5 0 1 1 5.5 11a5.5 5.5 0 0 1 11 0Z"
+                  />
                 </svg>
               </span>
               <input

@@ -2,7 +2,8 @@ import SiteShell from "@/components/layout/SiteShell";
 import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import TeamRoles from "@/components/sections/TeamRoles";
-import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
+import { Button, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
 
@@ -24,19 +25,18 @@ export default function TeamPage() {
     >
       <PageHero
         eyebrow="Team & roles"
-        title={<>チームでも、組織でも、<span className="text-gradient">安全に運用</span>できる。</>}
+        title={
+          <>
+            チームでも、組織でも、
+            <span className="text-gradient">安全に運用</span>できる。
+          </>
+        }
         description="役割に応じて権限を分けられるため、セキュリティを担保しながら運用できます。アカウント内に複数のアプリを作成でき、アプリごとに権限を付与することも可能です。外部パートナーや制作会社を巻き込んだ運用にも対応可能です。"
         actions={
           <>
-            <Button
-              href={CTA_LINKS.signup}
-              external={CTA_LINKS.signup.startsWith("http")}
-              variant="primary"
-              size="lg"
-              icon={<ArrowIcon />}
-            >
+            <SignupButton variant="primary" size="lg">
               チーム運用を試す
-            </Button>
+            </SignupButton>
             <Button
               href={CTA_LINKS.spirGeneral}
               external={CTA_LINKS.spirGeneral.startsWith("http")}

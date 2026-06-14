@@ -33,7 +33,11 @@ export default function Intro3() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="What you can do"
-          title={<>エムスタで<span className="text-gradient">できること</span></>}
+          title={
+            <>
+              エムスタで<span className="text-gradient">できること</span>
+            </>
+          }
           description="アプリを作り、運用し、ビジネスにする。エムスタが提供する3つの軸。"
         />
 
@@ -47,17 +51,25 @@ export default function Intro3() {
               transition={{ duration: 0.55, delay: i * 0.08 }}
               className="group relative flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white p-7 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${accent}`} />
+              <div
+                className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${accent}`}
+              />
               <div className="flex items-start justify-between">
                 <div
                   className={`grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br ${accent} text-white shadow-md`}
                 >
                   <Icon />
                 </div>
-                <span className="text-xs font-bold tracking-widest text-neutral-400">{no}</span>
+                <span className="text-xs font-bold tracking-widest text-neutral-400">
+                  {no}
+                </span>
               </div>
-              <h3 className="mt-5 text-xl font-bold text-neutral-900">{title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-neutral-600">{body}</p>
+              <h3 className="mt-5 text-xl font-bold text-neutral-900">
+                {title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-neutral-600">
+                {body}
+              </p>
             </motion.article>
           ))}
         </div>
@@ -68,24 +80,54 @@ export default function Intro3() {
 
 function BuildIcon() {
   return (
-    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 7l9-4 9 4-9 4-9-4zm0 5l9 4 9-4M3 17l9 4 9-4" />
+    <svg
+      className="h-7 w-7"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.8}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3 7l9-4 9 4-9 4-9-4zm0 5l9 4 9-4M3 17l9 4 9-4"
+      />
     </svg>
   );
 }
 
 function OperateIcon() {
   return (
-    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h10M4 18h7" />
+    <svg
+      className="h-7 w-7"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.8}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4 6h16M4 10h16M4 14h10M4 18h7"
+      />
     </svg>
   );
 }
 
 function BizIcon() {
   return (
-    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 9l9-7 9 7v11a2 2 0 01-2 2h-4v-7H9v7H5a2 2 0 01-2-2V9z" />
+    <svg
+      className="h-7 w-7"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.8}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3 9l9-7 9 7v11a2 2 0 01-2 2h-4v-7H9v7H5a2 2 0 01-2-2V9z"
+      />
     </svg>
   );
 }

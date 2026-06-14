@@ -3,7 +3,8 @@ import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import Cases from "@/components/sections/Cases";
 import { getAllCases } from "@/lib/cms-data";
-import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
+import { Button, ChatIcon } from "@/components/ui/Button";
+import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
 import { buildMetadata } from "@/lib/seo";
 
@@ -27,19 +28,17 @@ export default async function CasesPage() {
     >
       <PageHero
         eyebrow="Customer cases"
-        title={<>導入<span className="text-gradient">事例</span></>}
+        title={
+          <>
+            導入<span className="text-gradient">事例</span>
+          </>
+        }
         description="医療・店舗・教育・コミュニティまで、エムスタを活用して運用されているアプリの事例集です。各事例の活用機能・効果・お客様の声を掲載しています。"
         actions={
           <>
-            <Button
-              href={CTA_LINKS.signup}
-              external={CTA_LINKS.signup.startsWith("http")}
-              variant="primary"
-              size="lg"
-              icon={<ArrowIcon />}
-            >
+            <SignupButton variant="primary" size="lg">
               同じようなアプリを作る
-            </Button>
+            </SignupButton>
             <Button
               href={CTA_LINKS.spirGeneral}
               external={CTA_LINKS.spirGeneral.startsWith("http")}

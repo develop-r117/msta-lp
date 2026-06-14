@@ -37,9 +37,13 @@ export default function PhoneMock({
           {/* AppBar */}
           <div
             className="shrink-0 px-3 pb-2.5 pt-6"
-            style={{ background: `linear-gradient(135deg, ${BRAND.from}, ${BRAND.to})` }}
+            style={{
+              background: `linear-gradient(135deg, ${BRAND.from}, ${BRAND.to})`,
+            }}
           >
-            <div className="text-[8px] font-bold leading-tight text-white">エムスタアプリ</div>
+            <div className="text-[8px] font-bold leading-tight text-white">
+              エムスタアプリ
+            </div>
             <div className="mt-1 h-1 w-1/2 rounded-full bg-white/50" />
           </div>
 
@@ -65,7 +69,10 @@ export default function PhoneMock({
             </AnimatePresence>
 
             {/* スライダーブロック（既存） */}
-            <motion.div layout className="relative h-11 overflow-hidden rounded-lg bg-neutral-100">
+            <motion.div
+              layout
+              className="relative h-11 overflow-hidden rounded-lg bg-neutral-100"
+            >
               <div
                 className="absolute inset-0 opacity-80"
                 style={{
@@ -110,7 +117,9 @@ export default function PhoneMock({
 
             {/* お知らせセクション */}
             <motion.div layout className="space-y-1 pt-0.5">
-              <div className="text-[7px] font-bold text-neutral-600">お知らせ</div>
+              <div className="text-[7px] font-bold text-neutral-600">
+                お知らせ
+              </div>
               <AnimatePresence initial={false} mode="popLayout">
                 {state.postSaved && (
                   <motion.div
@@ -140,14 +149,20 @@ export default function PhoneMock({
                   </motion.div>
                 )}
               </AnimatePresence>
-              <motion.div layout className="flex items-center gap-1.5 rounded-lg bg-neutral-50 px-1.5 py-1.5">
+              <motion.div
+                layout
+                className="flex items-center gap-1.5 rounded-lg bg-neutral-50 px-1.5 py-1.5"
+              >
                 <span className="h-5 w-5 shrink-0 rounded bg-neutral-200" />
                 <div className="min-w-0 flex-1 space-y-1">
                   <div className="h-1 w-3/4 rounded-full bg-neutral-200" />
                   <div className="h-1 w-1/2 rounded-full bg-neutral-200" />
                 </div>
               </motion.div>
-              <motion.div layout className="flex items-center gap-1.5 rounded-lg bg-neutral-50 px-1.5 py-1.5">
+              <motion.div
+                layout
+                className="flex items-center gap-1.5 rounded-lg bg-neutral-50 px-1.5 py-1.5"
+              >
                 <span className="h-5 w-5 shrink-0 rounded bg-neutral-200" />
                 <div className="min-w-0 flex-1 space-y-1">
                   <div className="h-1 w-2/3 rounded-full bg-neutral-200" />
@@ -159,7 +174,10 @@ export default function PhoneMock({
 
           {/* ボトムナビ */}
           <div className="flex shrink-0 items-center justify-around border-t border-neutral-100 px-2 py-2">
-            <span className="h-3.5 w-3.5 rounded" style={{ backgroundColor: BRAND.from }} />
+            <span
+              className="h-3.5 w-3.5 rounded"
+              style={{ backgroundColor: BRAND.from }}
+            />
             <span className="h-3.5 w-3.5 rounded bg-neutral-200" />
             <span className="h-3.5 w-3.5 rounded bg-neutral-200" />
             <span className="h-3.5 w-3.5 rounded bg-neutral-200" />
@@ -193,7 +211,9 @@ export default function PhoneMock({
               <div className="flex items-center gap-1.5">
                 <span
                   className="grid h-5 w-5 shrink-0 place-items-center rounded-md text-white"
-                  style={{ background: `linear-gradient(135deg, ${BRAND.from}, ${BRAND.to})` }}
+                  style={{
+                    background: `linear-gradient(135deg, ${BRAND.from}, ${BRAND.to})`,
+                  }}
                 >
                   <svg
                     className="h-3 w-3"
@@ -210,7 +230,9 @@ export default function PhoneMock({
                   </svg>
                 </span>
                 <div className="min-w-0">
-                  <div className="truncate text-[8px] font-bold text-neutral-900">{POST_TITLE}</div>
+                  <div className="truncate text-[8px] font-bold text-neutral-900">
+                    {POST_TITLE}
+                  </div>
                   <div className="truncate text-[7px] text-neutral-500">
                     新しいお知らせが届きました
                   </div>
