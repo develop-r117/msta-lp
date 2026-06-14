@@ -27,6 +27,7 @@ export default config({
         slug: fields.text({ label: "スラッグ", validation: { isRequired: true } }),
         category: fields.text({ label: "カテゴリ", validation: { isRequired: true } }),
         summary: fields.text({ label: "概要", multiline: true, validation: { isRequired: true } }),
+        intro: fields.text({ label: "リード文（詳細冒頭）", multiline: true }),
         cover: fields.image({
           label: "カバー画像",
           directory: "public/screenshots",

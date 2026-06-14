@@ -86,6 +86,7 @@ function dumpCases(): CaseEntry[] {
       title: asString(data.title),
       category: asString(data.category),
       summary: asString(data.summary),
+      intro: asString(data.intro) || undefined,
       cover: cover ? { url: cover } : undefined,
       activeFeatures: asStringArray(data.activeFeatures),
       result: asString(data.result),

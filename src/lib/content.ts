@@ -45,6 +45,7 @@ export async function fetchCases(opts?: { limit?: number }): Promise<CaseEntry[]
         title: raw.title ?? "",
         category: raw.category ?? "",
         summary: raw.summary ?? "",
+        intro: raw.intro || undefined,
         cover: raw.cover ? { url: raw.cover } : undefined,
         activeFeatures: [...(raw.activeFeatures ?? [])],
         result: raw.result ?? "",

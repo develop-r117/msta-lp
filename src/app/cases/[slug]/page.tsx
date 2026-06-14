@@ -54,6 +54,17 @@ export default async function CaseDetailPage({ params }: { params: Promise<{ slu
             {entry.title}
           </h1>
           <p className="mt-5 max-w-3xl text-base leading-relaxed text-neutral-600 md:text-lg">{entry.summary}</p>
+          {entry.intro ? (
+            <div className="mt-6 max-w-3xl space-y-4 text-sm leading-relaxed text-neutral-600 md:text-base">
+              {entry.intro
+                .split(/\n{2,}/)
+                .map((p) => p.trim())
+                .filter(Boolean)
+                .map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+            </div>
+          ) : null}
         </header>
 
         {entry.cover ? (

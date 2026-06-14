@@ -10,6 +10,8 @@ export type CaseEntry = {
   title: string;
   category: string;
   summary: string;
+  /** 詳細ページ冒頭のリード文（段落は空行区切り）。任意。 */
+  intro?: string;
   cover?: CaseImage;
   activeFeatures: string[];
   result: string;
