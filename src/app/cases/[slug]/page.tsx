@@ -22,12 +22,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       path: `/cases/${slug}`,
     });
   }
-  return buildMetadata({
+  const base = buildMetadata({
     title: c.title,
     description: c.summary,
     path: `/cases/${c.slug}`,
     ogImage: c.cover?.url,
   });
+  if (c.cardOnly) {
+    return { ...base, robots: { index: false, follow: true } };
+  }
+  return base;
 }
 
 export default async function CaseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -36,6 +40,47 @@ export default async function CaseDetailPage({ params }: { params: Promise<{ slu
   if (!entry) notFound();
 
   const others = (await getAllCases()).filter((c) => c.slug !== entry.slug).slice(0, 3);
+
+  if (entry.cardOnly) {
+    return (
+      <SiteShell
+        breadcrumbs={buildBreadcrumb([
+          { href: "/cases" },
+          { href: `/cases/${entry.slug}`, label: entry.title },
+        ])}
+        audience="both"
+      >
+        <article>
+          <div className="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 lg:px-8">
+            <span className="inline-block rounded-full bg-sky-500/90 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white">
+              Coming soon
+            </span>
+            <h1 className="mt-6 text-3xl font-bold leading-tight text-neutral-900 md:text-4xl">
+              {entry.title}
+            </h1>
+            <p className="mt-5 text-base leading-relaxed text-neutral-600 md:text-lg">
+              この事例の詳細記事は現在準備中です。近日公開予定ですので、もうしばらくお待ちください。
+            </p>
+            <div className="mt-10 flex flex-wrap justify-center gap-3">
+              <Button href="/cases" variant="secondary" size="lg" icon={<ArrowIcon />}>
+                他の事例を見る
+              </Button>
+              <Button
+                href={CTA_LINKS.spirGeneral}
+                external={CTA_LINKS.spirGeneral.startsWith("http")}
+                variant="primary"
+                size="lg"
+                icon={<ChatIcon />}
+              >
+                似た導入を相談する
+              </Button>
+            </div>
+          </div>
+          <RelatedCases items={others} />
+        </article>
+      </SiteShell>
+    );
+  }
 
   return (
     <SiteShell

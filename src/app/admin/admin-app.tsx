@@ -70,6 +70,7 @@ function itemToForm(collection: Collection, item: Record<string, unknown> | null
         customerVoice: c.customerVoice ?? "",
         bodySource: c.bodySource ?? "",
         draft: c.draft ? "1" : "",
+        cardOnly: c.cardOnly ? "1" : "",
       });
       break;
     }
@@ -147,6 +148,7 @@ function formToItem(
         customerVoice: f.customerVoice?.trim() || undefined,
         bodySource: f.bodySource ?? "",
         draft: f.draft === "1",
+        cardOnly: f.cardOnly === "1",
       };
     case "usecases":
       return {
@@ -530,6 +532,11 @@ export default function AdminApp() {
                       公開中
                     </span>
                   )}
+                  {tab === "cases" && item.cardOnly ? (
+                    <span className="shrink-0 rounded-full bg-sky-100 px-2 py-0.5 text-[10px] font-bold text-sky-700">
+                      カードのみ
+                    </span>
+                  ) : null}
                 </p>
                 <p className="truncate text-xs text-neutral-400">{listSub(tab, item)}</p>
               </div>
@@ -636,6 +643,26 @@ function Editor({
     </label>
   );
 
+  const isCardOnly = form.cardOnly === "1";
+  const cardOnlyField = (
+    <label className="flex items-start gap-3 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3">
+      <input
+        type="checkbox"
+        checked={isCardOnly}
+        onChange={(e) => setForm({ ...form, cardOnly: e.target.checked ? "1" : "" })}
+        className="mt-0.5 h-4 w-4 shrink-0 accent-sky-500"
+      />
+      <span className="block">
+        <span className="block text-sm font-bold text-neutral-800">
+          カード表示のみ (詳細は Coming soon)
+        </span>
+        <span className="mt-0.5 block text-[11px] text-neutral-500">
+          チェックすると一覧には Coming soon タグ付きのカードで表示され、詳細ページは Coming soon 表示になります。
+        </span>
+      </span>
+    </label>
+  );
+
   const card = "space-y-4 rounded-2xl border border-neutral-200 bg-white p-6";
 
   switch (collection) {
@@ -644,6 +671,7 @@ function Editor({
         <div className={card}>
           {idField}
           {draftField}
+          {cardOnlyField}
           <Field label="タイトル">
             <input className={inputCls} value={form.title ?? ""} onChange={set("title")} />
           </Field>

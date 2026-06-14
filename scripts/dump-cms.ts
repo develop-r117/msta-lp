@@ -73,6 +73,10 @@ function asNumber(v: unknown, fallback = 0): number {
   return typeof v === "number" ? v : fallback;
 }
 
+function asBoolean(v: unknown): boolean {
+  return v === true || v === "true" || v === 1 || v === "1";
+}
+
 function dumpCases(): CaseEntry[] {
   const dir = "content/cases";
   const out: CaseEntry[] = [];
@@ -92,6 +96,8 @@ function dumpCases(): CaseEntry[] {
       activeFeatures: asStringArray(data.activeFeatures),
       result: asString(data.result),
       customerVoice: asString(data.customerVoice) || undefined,
+      draft: asBoolean(data.draft) || undefined,
+      cardOnly: asBoolean(data.cardOnly) || undefined,
       body: renderMdocBody(body),
       bodySource: body || undefined,
     });

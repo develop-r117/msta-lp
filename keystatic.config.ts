@@ -25,6 +25,17 @@ export default config({
       schema: {
         title: fields.text({ label: "タイトル", validation: { isRequired: true } }),
         slug: fields.text({ label: "スラッグ", validation: { isRequired: true } }),
+        draft: fields.checkbox({
+          label: "下書き (非公開)",
+          description: "オンにすると公開ページには表示されません。",
+          defaultValue: false,
+        }),
+        cardOnly: fields.checkbox({
+          label: "カード表示のみ (詳細は Coming soon)",
+          description:
+            "オンにすると一覧には Coming soon タグ付きのカードで表示され、詳細ページは Coming soon 表示になります。",
+          defaultValue: false,
+        }),
         category: fields.text({ label: "カテゴリ", validation: { isRequired: true } }),
         summary: fields.text({ label: "概要", multiline: true, validation: { isRequired: true } }),
         intro: fields.text({ label: "リード文（詳細冒頭）", multiline: true }),

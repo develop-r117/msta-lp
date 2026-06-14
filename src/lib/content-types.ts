@@ -21,6 +21,11 @@ export type CaseEntry = {
   bodySource?: string;
   /** true の場合は下書き(非公開)。公開ページには表示されない。 */
   draft?: boolean;
+  /**
+   * true の場合は「カード表示のみ」。一覧ページにはカード(Coming soon タグ付き)
+   * として表示されるが、詳細ページにアクセスすると Coming soon 表示になる。
+   */
+  cardOnly?: boolean;
   publishedAt?: string;
   updatedAt?: string;
 };

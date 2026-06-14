@@ -107,6 +107,11 @@ function CaseCard({ c, showDetailLink }: { c: CaseEntry; showDetailLink: boolean
         <span className="absolute left-3 top-3 rounded-full bg-neutral-900/80 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur">
           {c.category}
         </span>
+        {c.cardOnly ? (
+          <span className="absolute right-3 top-3 rounded-full bg-sky-500/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur">
+            Coming soon
+          </span>
+        ) : null}
       </div>
       <div className="flex grow flex-col p-5">
         <h3 className="text-base font-bold leading-snug text-neutral-900 group-hover:text-primary-700">
@@ -140,12 +145,18 @@ function CaseCard({ c, showDetailLink }: { c: CaseEntry; showDetailLink: boolean
         ) : null}
 
         {showDetailLink ? (
-          <span className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-primary-700">
-            詳細を見る
-            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </span>
+          c.cardOnly ? (
+            <span className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-sky-600">
+              詳細は近日公開
+            </span>
+          ) : (
+            <span className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-primary-700">
+              詳細を見る
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </span>
+          )
         ) : null}
       </div>
     </Wrapper>

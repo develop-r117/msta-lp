@@ -50,6 +50,8 @@ export async function fetchCases(opts?: { limit?: number }): Promise<CaseEntry[]
         activeFeatures: [...(raw.activeFeatures ?? [])],
         result: raw.result ?? "",
         customerVoice: raw.customerVoice || undefined,
+        draft: (raw as { draft?: boolean }).draft || undefined,
+        cardOnly: (raw as { cardOnly?: boolean }).cardOnly || undefined,
         body,
       } satisfies CaseEntry;
     }),
