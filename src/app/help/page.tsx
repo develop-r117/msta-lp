@@ -7,6 +7,7 @@ import HelpArticleList from "@/components/sections/HelpArticleList";
 import HelpSearchResults from "@/components/sections/HelpSearchResults";
 import { getAllHelpArticles, getAllHelpCategories } from "@/lib/cms-data";
 import { buildMetadata } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -24,7 +25,7 @@ export default async function HelpHomePage() {
 
   const popular = allArticles.slice(0, 6);
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msta.app";
+  const baseUrl = SITE_URL;
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",

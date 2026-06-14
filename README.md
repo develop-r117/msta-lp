@@ -66,7 +66,7 @@ npm start
 
 | 変数 | 説明 |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | サイトURL (例: `https://msta.app`) |
+| `NEXT_PUBLIC_SITE_URL` | サイトURL (例: `https://msta-app.com`) |
 | `NEXT_PUBLIC_SITE_ENV` | `production` で robots を全開放 |
 | `NEXT_PUBLIC_SIGNUP_URL` | 「2週間無料」CTAのリンク先（※CMS未設定時のフォールバック） |
 | `NEXT_PUBLIC_SPIR_GENERAL_URL` | 一般相談用 Spir URL（※CMS未設定時のフォールバック） |

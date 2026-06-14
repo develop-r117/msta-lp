@@ -8,6 +8,7 @@ import {
   SIGNUP_COMING_SOON_NOTE,
   SIGNUP_OPEN,
 } from "@/lib/sections";
+import { trackSignupClick } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 
 type Variant = "primary" | "secondary" | "tertiary" | "ghost" | "partner";
@@ -23,6 +24,8 @@ type Props = {
   children?: ReactNode;
   /** ヘッダー等の狭い領域向け（1行表示） */
   compact?: boolean;
+  /** GA計測用の設置場所ラベル（例: "header", "hero", "footer"） */
+  analyticsLocation?: string;
 };
 
 const baseClass =
@@ -85,6 +88,7 @@ export function SignupButton({
   fullWidth,
   children = "2週間無料で始める",
   compact,
+  analyticsLocation = "signup_button",
 }: Props) {
   if (!SIGNUP_OPEN) {
     return (
@@ -107,6 +111,8 @@ export function SignupButton({
       icon={icon ?? <ArrowIcon />}
       iconPosition={iconPosition}
       fullWidth={fullWidth}
+      data-ga-skip-outbound
+      onClick={() => trackSignupClick(analyticsLocation, true)}
     >
       {children}
     </Button>
@@ -132,6 +138,8 @@ export function SignupFooterLink({ className }: { className?: string }) {
       rel={
         CTA_LINKS.signup.startsWith("http") ? "noopener noreferrer" : undefined
       }
+      data-ga-skip-outbound
+      onClick={() => trackSignupClick("footer", true)}
       className={cn(
         "inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary-500/20 transition hover:shadow-primary-500/40",
         className,
@@ -170,6 +178,8 @@ export function SignupFloatingTile({ className }: { className?: string }) {
       rel={
         CTA_LINKS.signup.startsWith("http") ? "noopener noreferrer" : undefined
       }
+      data-ga-skip-outbound
+      onClick={() => trackSignupClick("floating_cta", true)}
       className={cn(
         "col-span-2 flex flex-col items-center justify-center rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 px-3 py-2.5 text-center text-white shadow-md shadow-primary-500/30",
         className,

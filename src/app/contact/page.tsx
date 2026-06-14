@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/Button";
 import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS, GENERAL_CALENDAR_EMBED } from "@/lib/sections";
+import { getContactSettings } from "@/lib/cms-data";
 import { buildMetadata } from "@/lib/seo";
+
+export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export const metadata = buildMetadata({
   title: "お問い合わせ",
@@ -19,45 +23,59 @@ export const metadata = buildMetadata({
   path: "/contact",
 });
 
-const categories = [
-  {
-    id: "general",
-    label: "一般のご相談",
-    description: "エムスタの導入・利用方法・機能のご質問はこちらから。",
-    spirUrl: CTA_LINKS.spirGeneral,
-    cta: "一般相談を予約",
-  },
-  {
-    id: "official",
-    label: "オフィシャル制作",
-    description: "公式チームによるアプリ制作代行のお見積り・要件相談。",
-    spirUrl: CTA_LINKS.spirOfficial,
-    cta: "オフィシャル制作に相談",
-  },
-  {
-    id: "three-h",
-    label: "3hパック",
-    description: "ローンチ記念半額の3hパックの予約・事前相談。",
-    spirUrl: CTA_LINKS.spirThreeHour,
-    cta: "3hパックを予約",
-  },
-  {
-    id: "full",
-    label: "エムスタFull",
-    description: "独自要件・既存システムリプレイス・スクラッチ開発のご相談。",
-    spirUrl: CTA_LINKS.spirFull,
-    cta: "エムスタFullに相談",
-  },
-  {
-    id: "partner",
-    label: "パートナー制度",
-    description: "代理店・制作会社・クリエイター向けのパートナー制度のご相談。",
-    spirUrl: CTA_LINKS.spirPartner,
-    cta: "パートナー相談を予約",
-  },
-];
+/** CMS(KV)の値が空ならビルド時の既定値(CTA_LINKS等)にフォールバックする。 */
+function pick(cmsValue: string | undefined, fallback: string): string {
+  const v = cmsValue?.trim();
+  return v ? v : fallback;
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await getContactSettings();
+
+  const generalCalendarEmbed = pick(
+    settings.generalCalendarEmbed,
+    GENERAL_CALENDAR_EMBED,
+  );
+  const generalSpirUrl = pick(settings.spirGeneral, CTA_LINKS.spirGeneral);
+
+  const categories = [
+    {
+      id: "general",
+      label: "一般のご相談",
+      description: "エムスタの導入・利用方法・機能のご質問はこちらから。",
+      spirUrl: generalSpirUrl,
+      cta: "一般相談を予約",
+    },
+    {
+      id: "official",
+      label: "オフィシャル制作",
+      description: "公式チームによるアプリ制作代行のお見積り・要件相談。",
+      spirUrl: pick(settings.spirOfficial, CTA_LINKS.spirOfficial),
+      cta: "オフィシャル制作に相談",
+    },
+    {
+      id: "three-h",
+      label: "3hパック",
+      description: "ローンチ記念半額の3hパックの予約・事前相談。",
+      spirUrl: pick(settings.spirThreeHour, CTA_LINKS.spirThreeHour),
+      cta: "3hパックを予約",
+    },
+    {
+      id: "full",
+      label: "エムスタFull",
+      description: "独自要件・既存システムリプレイス・スクラッチ開発のご相談。",
+      spirUrl: pick(settings.spirFull, CTA_LINKS.spirFull),
+      cta: "エムスタFullに相談",
+    },
+    {
+      id: "partner",
+      label: "パートナー制度",
+      description: "代理店・制作会社・クリエイター向けのパートナー制度のご相談。",
+      spirUrl: pick(settings.spirPartner, CTA_LINKS.spirPartner),
+      cta: "パートナー相談を予約",
+    },
+  ];
+
   return (
     <SiteShell
       breadcrumbs={buildBreadcrumb([{ href: "/contact" }])}
@@ -133,11 +151,9 @@ export default function ContactPage() {
           </p>
           <div className="mt-8">
             <SpirEmbed
-              embedCode={GENERAL_CALENDAR_EMBED}
+              embedCode={generalCalendarEmbed}
               url={
-                CTA_LINKS.spirGeneral.startsWith("http")
-                  ? CTA_LINKS.spirGeneral
-                  : undefined
+                generalSpirUrl.startsWith("http") ? generalSpirUrl : undefined
               }
               title="一般相談カレンダー"
             />

@@ -7,7 +7,8 @@ import Cases from "@/components/sections/Cases";
 import { Button, ChatIcon, ArrowIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
 import { getAllCases } from "@/lib/cms-data";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, buildServiceJsonLd } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -16,6 +17,13 @@ export const metadata = buildMetadata({
   title: "エムスタFull (スクラッチ受託開発)",
   description:
     "エムスタをベースに、独自機能・既存リプレイス・複雑な要件にも対応するスクラッチ受託開発サービス。継続的な運用支援と組み合わせて。",
+  path: "/services/full",
+});
+
+const serviceJsonLd = buildServiceJsonLd({
+  name: "エムスタFull（スクラッチ受託開発）",
+  description:
+    "エムスタをベースに、独自UI・独自機能・既存システムのリプレイスにも対応するスクラッチ寄りの受託開発サービス。",
   path: "/services/full",
 });
 
@@ -118,6 +126,7 @@ export default async function FullPage() {
           </div>
         </section>
       )}
+      <JsonLd data={serviceJsonLd} />
     </SiteShell>
   );
 }

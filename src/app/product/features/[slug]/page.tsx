@@ -14,6 +14,7 @@ import {
   BILLING_LABELS,
 } from "@/lib/features";
 import { buildMetadata } from "@/lib/seo";
+import { SITE_URL, ORGANIZATION } from "@/lib/site";
 
 export const runtime = "edge";
 
@@ -49,7 +50,7 @@ export default async function FeatureDetailPage({
 
   const related = getRelatedFeatures(slug);
   const categoryLabel = getCategoryLabel(feature.category);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msta.app";
+  const baseUrl = SITE_URL;
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -57,7 +58,14 @@ export default async function FeatureDetailPage({
     headline: `${feature.name} | エムスタ`,
     description: feature.summary,
     mainEntityOfPage: `${baseUrl}/product/features/${feature.slug}`,
+    image: `${baseUrl}/api/og?title=${encodeURIComponent(feature.name)}`,
     about: feature.name,
+    author: { "@type": "Organization", name: ORGANIZATION.name },
+    publisher: {
+      "@type": "Organization",
+      name: ORGANIZATION.name,
+      logo: { "@type": "ImageObject", url: ORGANIZATION.logo },
+    },
     keywords: feature.keyCapabilities.join(", "),
   };
 

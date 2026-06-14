@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ROUTE_LABELS } from "@/lib/navigation";
+import { SITE_URL } from "@/lib/site";
 
 export type BreadcrumbItem = {
   href?: string;
@@ -14,7 +15,7 @@ type Props = {
 export default function Breadcrumb({ items, className }: Props) {
   if (items.length === 0) return null;
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msta.app";
+  const siteUrl = SITE_URL;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

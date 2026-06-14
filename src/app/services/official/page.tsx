@@ -5,13 +5,22 @@ import Flow from "@/components/sections/Flow";
 import { Button, ArrowIcon, ChatIcon } from "@/components/ui/Button";
 import { SignupButton } from "@/components/ui/SignupButton";
 import { CTA_LINKS } from "@/lib/sections";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, buildServiceJsonLd } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 
 export const metadata = buildMetadata({
   title: "オフィシャル制作",
   description:
     "公式チームがアプリ制作を代行。エムスタの標準機能を活用し、スピードと品質の両方を担保。¥100,000〜から、企画相談・公開・運用支援まで対応。",
   path: "/services/official",
+});
+
+const serviceJsonLd = buildServiceJsonLd({
+  name: "エムスタ オフィシャル制作",
+  description:
+    "公式チームがアプリ制作を代行。企画相談から制作・公開・運用までを支援するサービス。",
+  path: "/services/official",
+  price: "100000",
 });
 
 export default function OfficialPage() {
@@ -120,6 +129,7 @@ export default function OfficialPage() {
       </section>
 
       <Flow />
+      <JsonLd data={serviceJsonLd} />
     </SiteShell>
   );
 }

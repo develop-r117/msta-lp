@@ -3,13 +3,22 @@ import { buildBreadcrumb } from "@/components/layout/Breadcrumb";
 import PageHero from "@/components/sections/PageHero";
 import { Button, ChatIcon, ArrowIcon } from "@/components/ui/Button";
 import { CTA_LINKS } from "@/lib/sections";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, buildServiceJsonLd } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 
 export const metadata = buildMetadata({
   title: "3hパック (ローンチ記念半額)",
   description:
     "事前ヒアリングをもとに、当日オンラインで3時間リアルタイム制作。最短で当日にアプリが完成。ローンチ記念半額の¥35,000で公式チームにご依頼いただけます。",
   path: "/services/3h-pack",
+});
+
+const serviceJsonLd = buildServiceJsonLd({
+  name: "エムスタ 3hパック",
+  description:
+    "事前ヒアリングをもとに、当日オンラインで3時間リアルタイム制作。最短その日にアプリが完成するスピード制作サービス。",
+  path: "/services/3h-pack",
+  price: "35000",
 });
 
 export default function ThreeHPackPage() {
@@ -128,6 +137,7 @@ export default function ThreeHPackPage() {
           </div>
         </div>
       </section>
+      <JsonLd data={serviceJsonLd} />
     </SiteShell>
   );
 }

@@ -8,6 +8,7 @@ import {
   getHelpArticlesByCategory,
 } from "@/lib/cms-data";
 import { buildMetadata } from "@/lib/seo";
+import { SITE_URL, ORGANIZATION } from "@/lib/site";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -30,6 +31,7 @@ export async function generateMetadata({
     title: `${article.title} | ヘルプセンター`,
     description: article.summary,
     path: `/help/articles/${article.slug}`,
+    type: "article",
   });
 }
 
@@ -56,20 +58,21 @@ export default async function HelpArticlePage({
       : sameCategory.filter((a) => a.slug !== article.slug)
   ).slice(0, 4);
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msta.app";
+  const baseUrl = SITE_URL;
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: `${article.title} | エムスタ ヘルプセンター`,
     description: article.summary,
     mainEntityOfPage: `${baseUrl}/help/articles/${article.slug}`,
+    image: `${baseUrl}/api/og?title=${encodeURIComponent(article.title)}`,
     datePublished: article.publishedAt,
     dateModified: article.updatedAt ?? article.publishedAt,
-    author: { "@type": "Organization", name: "エムスタ" },
+    author: { "@type": "Organization", name: ORGANIZATION.name },
     publisher: {
       "@type": "Organization",
-      name: "エムスタ",
-      logo: { "@type": "ImageObject", url: `${baseUrl}/logo.svg` },
+      name: ORGANIZATION.name,
+      logo: { "@type": "ImageObject", url: ORGANIZATION.logo },
     },
     articleSection: categoryTitle,
     keywords: (article.tags ?? []).join(", "),

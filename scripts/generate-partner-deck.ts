@@ -1602,7 +1602,7 @@ function slide22(pptx: PptxGenJS) {
 
   // URL導線
   s.addShape(RRECT, { x: 4.2, y: 6.5, w: 5.0, h: 0.5, fill: { color: C.navyCard }, rectRadius: 0.1, line: { color: C.navyLine, width: 0.5 } });
-  s.addText("https://msta.app/partners", {
+  s.addText("https://msta-app.com/partners", {
     x: 4.2, y: 6.5, w: 5.0, h: 0.5,
     fontSize: 12, fontFace: FONT, bold: true, color: C.cyanLight, align: "center", valign: "middle",
   });

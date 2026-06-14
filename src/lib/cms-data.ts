@@ -16,6 +16,7 @@ import {
   type HelpCategory,
   type HelpArticle,
   type FAQCategory,
+  type ContactSettings,
 } from "./content-types";
 
 export type CmsData = {
@@ -25,6 +26,18 @@ export type CmsData = {
   helpCategories: HelpCategory[];
   helpArticles: HelpArticle[];
   faqCategories: FAQCategory[];
+  contact?: ContactSettings;
+};
+
+/** お問い合わせ設定の既定値 (未設定項目は空文字 → 利用側で env / 既定値にフォールバック)。 */
+export const DEFAULT_CONTACT: ContactSettings = {
+  signupUrl: "",
+  spirGeneral: "",
+  spirOfficial: "",
+  spirThreeHour: "",
+  spirFull: "",
+  spirPartner: "",
+  generalCalendarEmbed: "",
 };
 
 export const CMS_KV_KEY = "cms:data";
@@ -161,4 +174,10 @@ export async function searchHelpArticles(q: string): Promise<HelpArticle[]> {
 /* ===== FAQ ===== */
 export async function getAllFAQCategories(): Promise<FAQCategory[]> {
   return publishedOnly((await getCmsData()).faqCategories);
+}
+
+/* ===== お問い合わせ / 予約リンク設定 ===== */
+export async function getContactSettings(): Promise<ContactSettings> {
+  const data = await getCmsData();
+  return { ...DEFAULT_CONTACT, ...(data.contact ?? {}) };
 }

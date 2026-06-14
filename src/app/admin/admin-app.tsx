@@ -15,6 +15,7 @@ import type {
   HelpArticle,
   FAQCategory,
   FAQItem,
+  ContactSettings,
 } from "@/lib/content-types";
 
 type CmsData = {
@@ -24,6 +25,7 @@ type CmsData = {
   helpCategories: HelpCategory[];
   helpArticles: HelpArticle[];
   faqCategories: FAQCategory[];
+  contact?: ContactSettings;
 };
 
 type Collection =
@@ -40,6 +42,16 @@ const TABS: { key: Collection; label: string }[] = [
   { key: "helpArticles", label: "ヘルプ記事" },
   { key: "faqCategories", label: "FAQ" },
 ];
+
+const EMPTY_CONTACT: ContactSettings = {
+  signupUrl: "",
+  spirGeneral: "",
+  spirOfficial: "",
+  spirThreeHour: "",
+  spirFull: "",
+  spirPartner: "",
+  generalCalendarEmbed: "",
+};
 
 /* ===== フォーム状態 (フラット化したレコード / FAQ項目は別Stateで管理) ===== */
 type FormState = Record<string, string>;
@@ -670,6 +682,7 @@ export default function AdminApp() {
   const [password, setPassword] = useState("");
   const [data, setData] = useState<CmsData | null>(null);
   const [tab, setTab] = useState<Collection>("cases");
+  const [panel, setPanel] = useState<"collection" | "contact">("collection");
   const [form, setForm] = useState<FormState | null>(null);
   const [faqItems, setFaqItems] = useState<FAQItem[]>([]);
   const [editingExisting, setEditingExisting] = useState(false);
@@ -918,9 +931,12 @@ export default function AdminApp() {
           {TABS.map((t) => (
             <button
               key={t.key}
-              onClick={() => setTab(t.key)}
+              onClick={() => {
+                setPanel("collection");
+                setTab(t.key);
+              }}
               className={`whitespace-nowrap rounded-t-lg px-4 py-2.5 text-sm font-bold transition ${
-                tab === t.key
+                panel === "collection" && tab === t.key
                   ? "border-b-2 border-neutral-900 text-neutral-900"
                   : "text-neutral-400 hover:text-neutral-700"
               }`}
@@ -928,6 +944,19 @@ export default function AdminApp() {
               {t.label}
             </button>
           ))}
+          <button
+            onClick={() => {
+              setPanel("contact");
+              setError("");
+            }}
+            className={`whitespace-nowrap rounded-t-lg px-4 py-2.5 text-sm font-bold transition ${
+              panel === "contact"
+                ? "border-b-2 border-neutral-900 text-neutral-900"
+                : "text-neutral-400 hover:text-neutral-700"
+            }`}
+          >
+            お問い合わせ / 予約リンク
+          </button>
         </nav>
       </header>
 
@@ -943,21 +972,33 @@ export default function AdminApp() {
           </p>
         ) : null}
 
-        <div className="mb-4 flex justify-end">
-          <button
-            onClick={() => {
-              setForm(itemToForm(tab, null));
-              setFaqItems([]);
-              setEditingExisting(false);
-              setError("");
+        {panel === "contact" ? (
+          <ContactSettingsPanel
+            initial={data?.contact ?? EMPTY_CONTACT}
+            onSaved={(d, msg) => {
+              setData(d);
+              setNotice(msg);
+              setTimeout(() => setNotice(""), 4000);
             }}
-            className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-neutral-700"
-          >
-            + 新規作成
-          </button>
-        </div>
+            onError={setError}
+          />
+        ) : (
+          <>
+            <div className="mb-4 flex justify-end">
+              <button
+                onClick={() => {
+                  setForm(itemToForm(tab, null));
+                  setFaqItems([]);
+                  setEditingExisting(false);
+                  setError("");
+                }}
+                className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-neutral-700"
+              >
+                + 新規作成
+              </button>
+            </div>
 
-        <ul className="divide-y divide-neutral-200 overflow-hidden rounded-2xl border border-neutral-200 bg-white">
+            <ul className="divide-y divide-neutral-200 overflow-hidden rounded-2xl border border-neutral-200 bg-white">
           {items.map((item) => (
             <li
               key={String(item.id)}
@@ -1013,13 +1054,159 @@ export default function AdminApp() {
               </div>
             </li>
           ))}
-          {items.length === 0 ? (
-            <li className="px-5 py-10 text-center text-sm text-neutral-400">
-              まだコンテンツがありません。
-            </li>
-          ) : null}
-        </ul>
+              {items.length === 0 ? (
+                <li className="px-5 py-10 text-center text-sm text-neutral-400">
+                  まだコンテンツがありません。
+                </li>
+              ) : null}
+            </ul>
+          </>
+        )}
       </main>
+    </div>
+  );
+}
+
+/* ===== お問い合わせ / 予約リンク設定パネル ===== */
+function ContactSettingsPanel({
+  initial,
+  onSaved,
+  onError,
+}: {
+  initial: ContactSettings;
+  onSaved: (data: CmsData, message: string) => void;
+  onError: (msg: string) => void;
+}) {
+  const [c, setC] = useState<ContactSettings>(initial);
+  const [busy, setBusy] = useState(false);
+
+  const set =
+    (key: keyof ContactSettings) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setC((prev) => ({ ...prev, [key]: e.target.value }));
+
+  const save = async () => {
+    setBusy(true);
+    onError("");
+    try {
+      const res = await fetch("/api/admin/cms", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "saveContact", contact: c }),
+      });
+      const j = (await res.json().catch(() => null)) as {
+        error?: string;
+        data?: CmsData;
+      } | null;
+      if (!res.ok) {
+        onError(j?.error ?? "保存に失敗しました。");
+        return;
+      }
+      if (j?.data) {
+        if (j.data.contact) setC(j.data.contact);
+        onSaved(j.data, "保存しました。公開ページに即時反映されます。");
+      }
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const card = "space-y-4 rounded-2xl border border-neutral-200 bg-white p-6";
+  const linkFields: {
+    key: keyof ContactSettings;
+    label: string;
+    hint: string;
+    placeholder: string;
+  }[] = [
+    {
+      key: "signupUrl",
+      label: "2週間無料トライアル リンク先URL",
+      hint: "「2週間無料」系ボタンの遷移先。https〜 のURLは自動で別タブで開きます。",
+      placeholder: "https://dashboard.msta-app.com/",
+    },
+    {
+      key: "spirGeneral",
+      label: "一般のご相談 予約リンクURL",
+      hint: "「オンラインで相談」など一般相談ボタンの遷移先。",
+      placeholder: "https://spir.app/...",
+    },
+    {
+      key: "spirOfficial",
+      label: "オフィシャル制作 予約リンクURL",
+      hint: "オフィシャル制作相談ボタンの遷移先。",
+      placeholder: "https://spir.app/...",
+    },
+    {
+      key: "spirThreeHour",
+      label: "3hパック 予約リンクURL",
+      hint: "3hパック予約・相談ボタンの遷移先。",
+      placeholder: "https://spir.app/...",
+    },
+    {
+      key: "spirFull",
+      label: "エムスタFull 予約リンクURL",
+      hint: "エムスタFull相談ボタンの遷移先。",
+      placeholder: "https://spir.app/...",
+    },
+    {
+      key: "spirPartner",
+      label: "パートナー制度 予約リンクURL",
+      hint: "パートナー相談ボタンの遷移先。",
+      placeholder: "https://spir.app/...",
+    },
+  ];
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <p className="text-xs text-neutral-500">
+          各ボタンの遷移先URLは、空欄の場合はビルド時の既定値が使われます。保存すると公開ページへ即時反映されます。
+        </p>
+        <button
+          onClick={save}
+          disabled={busy}
+          className="shrink-0 rounded-lg bg-neutral-900 px-5 py-2 text-sm font-bold text-white transition hover:bg-neutral-700 disabled:opacity-40"
+        >
+          {busy ? "保存中…" : "保存して公開"}
+        </button>
+      </div>
+
+      <div className={card}>
+        {linkFields.map((f) => (
+          <Field key={f.key} label={f.label} hint={f.hint}>
+            <input
+              className={inputCls}
+              value={c[f.key] ?? ""}
+              onChange={set(f.key)}
+              placeholder={f.placeholder}
+              inputMode="url"
+            />
+          </Field>
+        ))}
+      </div>
+
+      <div className={card}>
+        <Field
+          label="一般相談カレンダー Spir埋込コード"
+          hint="Spirで発行した埋め込みコード（<iframe ...></iframe> 形式）をそのまま貼り付けてください。空欄の場合は「一般のご相談 予約リンクURL」からの簡易表示にフォールバックします。"
+        >
+          <textarea
+            className={`${inputCls} min-h-[140px] font-mono text-[13px] leading-relaxed`}
+            value={c.generalCalendarEmbed ?? ""}
+            onChange={set("generalCalendarEmbed")}
+            placeholder='<iframe src="https://app.spir.so/embed/..." ...></iframe>'
+          />
+        </Field>
+        {c.generalCalendarEmbed?.trim() ? (
+          <div>
+            <p className="mb-2 text-xs font-bold text-neutral-700">プレビュー</p>
+            <div
+              className="overflow-hidden rounded-lg border border-neutral-200 [&_iframe]:block [&_iframe]:h-[480px] [&_iframe]:w-full"
+              dangerouslySetInnerHTML={{ __html: c.generalCalendarEmbed }}
+            />
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }

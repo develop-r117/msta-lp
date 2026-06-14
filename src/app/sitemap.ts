@@ -7,8 +7,9 @@ import {
   getAllHelpCategories,
   getAllHelpArticles,
 } from "@/lib/cms-data";
+import { SITE_URL } from "@/lib/site";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msta.app";
+const baseUrl = SITE_URL;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();

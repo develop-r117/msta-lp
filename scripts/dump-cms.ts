@@ -231,6 +231,7 @@ function main() {
     helpCategories,
     helpArticles,
     faqCategories,
+    contact,
   };
 
   const outPath = "src/data/cms.generated.json";

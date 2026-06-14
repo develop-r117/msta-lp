@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button, ArrowIcon, DownloadIcon } from "@/components/ui/Button";
+import { trackLeadSubmit } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 
 export const partnerFormSchema = z.object({
@@ -75,6 +76,10 @@ export default function PartnerForm() {
         throw new Error(json.error ?? `送信に失敗しました (${res.status})`);
       }
       setStatus("success");
+      trackLeadSubmit({
+        interest_count: values.interests.length,
+        wants_consult: values.consult === "yes",
+      });
     } catch (e) {
       setStatus("error");
       setServerError(e instanceof Error ? e.message : "送信に失敗しました");
