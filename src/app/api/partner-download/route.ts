@@ -22,7 +22,7 @@ const DEFAULT_DOC_URL =
 const DEFAULT_ADMIN_EMAIL = "info@r117.co.jp";
 
 // 送信元。SendGridで認証済み(Sender Authentication)のアドレスを SENDGRID_FROM に設定すること。
-const DEFAULT_FROM = "エムスタ <noreply@msta.app>";
+const DEFAULT_FROM = "エムスタ <noreply@msta-app.com>";
 
 export async function POST(req: Request) {
   let json: unknown;

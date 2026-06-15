@@ -43,6 +43,14 @@ jobs:
 
       - name: Build (next-on-pages)
         run: npm run build:cf
+        env:
+          # NEXT_PUBLIC_* はビルド時にバンドルへインライン化される（実行時の
+          # Cloudflare 環境変数では上書きできない）。このビルドは GitHub Actions
+          # 上で実行されるため、ブランチに応じてここで本番/プレビューを切り替える。
+          #   main    -> production（robots.txt でクロール許可・本番URL）
+          #   staging -> preview   （robots.txt で全ページ disallow = noindex）
+          NEXT_PUBLIC_SITE_ENV: ${{ github.ref_name == 'main' && 'production' || 'preview' }}
+          NEXT_PUBLIC_SITE_URL: ${{ github.ref_name == 'main' && 'https://msta-app.com' || '' }}
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v4

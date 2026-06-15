@@ -58,7 +58,7 @@ export async function sendEmail(params: SendEmailParams): Promise<SendEmailResul
   }
 }
 
-/** "エムスタ <noreply@msta.app>" を { name, email } に分解する */
+/** "エムスタ <noreply@msta-app.com>" を { name, email } に分解する */
 function parseAddress(input: string): { email: string; name?: string } {
   const match = input.match(/^\s*(.*?)\s*<([^>]+)>\s*$/);
   if (match) {
