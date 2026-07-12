@@ -202,6 +202,7 @@ export const FOOTER_SITEMAP: FooterColumn[] = [
       { href: "https://r117.co.jp/", label: "運営会社", external: true },
       { href: "/privacy", label: "プライバシーポリシー" },
       { href: "/commercial", label: "特定商取引法に基づく表記" },
+      { href: "/terms", label: "利用規約" },
     ],
   },
 ];
@@ -235,6 +236,7 @@ export const ROUTE_LABELS: Record<string, string> = {
   "/contact": "お問い合わせ",
   "/privacy": "プライバシーポリシー",
   "/commercial": "特定商取引法に基づく表記",
+  "/terms": "利用規約",
 };
 
 /**
@@ -265,4 +267,5 @@ export const STATIC_ROUTES: string[] = [
   "/contact",
   "/privacy",
   "/commercial",
+  "/terms",
 ];
