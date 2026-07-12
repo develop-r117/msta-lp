@@ -156,7 +156,7 @@ export const CTA_LINKS = {
     ? resolveLink(
         cmsContact.signupUrl,
         process.env.NEXT_PUBLIC_SIGNUP_URL,
-        "https://cms.msta-app-com",
+        "https://cms.msta-app.com",
       )
     : "",
   spirGeneral: resolveLink(
