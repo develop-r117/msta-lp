@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, type HTMLMotionProps } from "framer-motion";
 import { type ReactNode, forwardRef } from "react";
 import { cn } from "@/lib/cn";
+import { trackCtaClick } from "@/lib/analytics";
 
 const MotionLink = motion.create(Link);
 
@@ -36,6 +38,12 @@ type CommonProps = {
   iconPosition?: "left" | "right";
   fullWidth?: boolean;
   children: ReactNode;
+  /** GA計測用ラベル。未指定時はボタンテキスト（string時）→ href の順で自動補完 */
+  analyticsLabel?: string;
+  /** GA計測用の設置場所ラベル。未指定時は現在のパスを使用 */
+  analyticsLocation?: string;
+  /** 個別計測済みボタン（SignupButton等）で cta_click の自動送信をスキップ */
+  "data-ga-skip-cta"?: boolean;
 };
 
 type AnchorProps = CommonProps &
@@ -64,8 +72,30 @@ export const Button = forwardRef<HTMLElement, Props>(
       iconPosition = "right",
       fullWidth,
       children,
+      analyticsLabel,
+      analyticsLocation,
+      "data-ga-skip-cta": skipCtaTracking,
+      onClick,
       ...rest
-    } = props as CommonProps & Record<string, unknown>;
+    } = props as CommonProps & {
+      onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+    } & Record<string, unknown>;
+
+    const pathname = usePathname();
+
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+      if (!skipCtaTracking) {
+        const href =
+          "href" in props && props.href ? String(props.href) : undefined;
+        const label =
+          analyticsLabel ??
+          (typeof children === "string" ? children : undefined) ??
+          href ??
+          "button";
+        trackCtaClick(label, analyticsLocation ?? pathname ?? "unknown");
+      }
+      onClick?.(event);
+    };
 
     const composed = cn(
       baseClass,
@@ -94,7 +124,9 @@ export const Button = forwardRef<HTMLElement, Props>(
         AnchorProps,
         keyof CommonProps
       >;
-      if (external || /^https?:/.test(href)) {
+      const openInNewTab =
+        external === true || (external !== false && /^https?:/.test(href));
+      if (openInNewTab) {
         return (
           <motion.a
             ref={ref as React.Ref<HTMLAnchorElement>}
@@ -104,6 +136,7 @@ export const Button = forwardRef<HTMLElement, Props>(
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className={composed}
+            onClick={handleClick}
             {...anchorRest}
           >
             {content}
@@ -117,6 +150,7 @@ export const Button = forwardRef<HTMLElement, Props>(
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           className={composed}
+          onClick={handleClick}
           {...anchorRest}
         >
           {content}
@@ -131,6 +165,7 @@ export const Button = forwardRef<HTMLElement, Props>(
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         className={composed}
+        onClick={handleClick}
         {...buttonRest}
       >
         {content}

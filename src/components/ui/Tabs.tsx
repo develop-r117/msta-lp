@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useId, useState, type ReactNode, type KeyboardEvent } from "react";
 import { cn } from "@/lib/cn";
+import { trackTabChange } from "@/lib/analytics";
 
 export type TabItem<T extends string = string> = {
   id: T;
@@ -18,6 +19,8 @@ type Props<T extends string> = {
   panelClassName?: string;
   ariaLabel?: string;
   tone?: "light" | "dark";
+  /** GA計測用のタブグループ識別子。未指定時は ariaLabel を使用 */
+  analyticsId?: string;
 };
 
 export default function Tabs<T extends string>({
@@ -28,10 +31,16 @@ export default function Tabs<T extends string>({
   panelClassName,
   ariaLabel,
   tone = "light",
+  analyticsId,
 }: Props<T>) {
   const isDark = tone === "dark";
   const baseId = useId();
   const [active, setActive] = useState<T>(defaultId ?? items[0].id);
+
+  const selectTab = (id: T) => {
+    setActive(id);
+    trackTabChange(analyticsId ?? ariaLabel ?? "tabs", id);
+  };
 
   const onKey = (e: KeyboardEvent<HTMLButtonElement>, idx: number) => {
     if (
@@ -47,7 +56,7 @@ export default function Tabs<T extends string>({
     if (e.key === "ArrowLeft") next = (idx - 1 + items.length) % items.length;
     if (e.key === "Home") next = 0;
     if (e.key === "End") next = items.length - 1;
-    setActive(items[next].id);
+    selectTab(items[next].id);
     const target = document.getElementById(`${baseId}-tab-${items[next].id}`);
     target?.focus();
   };
@@ -77,7 +86,7 @@ export default function Tabs<T extends string>({
               aria-controls={`${baseId}-panel-${item.id}`}
               tabIndex={selected ? 0 : -1}
               onKeyDown={(e) => onKey(e, idx)}
-              onClick={() => setActive(item.id)}
+              onClick={() => selectTab(item.id)}
               className={cn(
                 "relative shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition-colors md:px-5 md:py-2.5 md:text-[0.95rem]",
                 selected

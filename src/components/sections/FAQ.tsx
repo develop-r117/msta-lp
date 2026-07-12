@@ -57,7 +57,7 @@ export default function FAQ() {
         />
 
         <div className="mt-12">
-          <Accordion items={items} />
+          <Accordion items={items} analyticsCategory="faq_home" />
         </div>
       </div>
     </section>

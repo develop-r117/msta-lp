@@ -128,7 +128,7 @@ export const NAV_SECTIONS: NavSection[] = SECTIONS.filter(
  * クローズ公開中は false。dashboard への導線を Coming soon 表示に切り替える。
  * リリース時に true に戻す。
  */
-export const SIGNUP_OPEN = false;
+export const SIGNUP_OPEN = true;
 
 export const SIGNUP_COMING_SOON_LABEL = "Coming soon";
 export const SIGNUP_COMING_SOON_NOTE = "6月末頃リリース予定";
@@ -156,7 +156,7 @@ export const CTA_LINKS = {
     ? resolveLink(
         cmsContact.signupUrl,
         process.env.NEXT_PUBLIC_SIGNUP_URL,
-        "https://dashboard.msta-app.com/",
+        "https://cms.msta-app-com",
       )
     : "",
   spirGeneral: resolveLink(

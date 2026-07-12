@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Accordion from "@/components/ui/Accordion";
 import type { FAQCategory } from "@/lib/content-types";
 import { cn } from "@/lib/cn";
+import { trackEvent, trackSearch } from "@/lib/analytics";
 
 type Props = {
   categories: FAQCategory[];
@@ -28,6 +29,16 @@ export default function FAQGroups({ categories, enableSearch = true }: Props) {
         it.answer.toLowerCase().includes(q),
     );
   }, [categories, activeId, query]);
+
+  // 検索語の計測。キー入力毎の過剰送信を防ぐためデバウンスして送る。
+  useEffect(() => {
+    const term = query.trim();
+    if (!term) return;
+    const timer = setTimeout(() => {
+      trackSearch(term, filtered.length, "faq");
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [query, filtered.length]);
 
   return (
     <section className="section-padding bg-neutral-50">
@@ -74,7 +85,10 @@ export default function FAQGroups({ categories, enableSearch = true }: Props) {
               <button
                 key={c.id}
                 type="button"
-                onClick={() => setActiveId(c.id)}
+                onClick={() => {
+                  setActiveId(c.id);
+                  trackEvent("faq_category_select", { category_id: c.id });
+                }}
                 className={cn(
                   "rounded-full border px-3.5 py-1.5 text-xs font-bold transition-colors",
                   activeId === c.id
@@ -90,7 +104,10 @@ export default function FAQGroups({ categories, enableSearch = true }: Props) {
 
         <div className="rounded-3xl border border-neutral-200 bg-white p-2 shadow-sm md:p-4">
           {filtered.length > 0 ? (
-            <Accordion items={filtered} />
+            <Accordion
+              items={filtered}
+              analyticsCategory={query.trim() ? "faq_search" : activeId}
+            />
           ) : (
             <p className="px-4 py-12 text-center text-sm text-neutral-500">
               該当する質問が見つかりませんでした。お問い合わせフォームよりお気軽にご相談ください。

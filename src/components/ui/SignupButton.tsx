@@ -86,7 +86,7 @@ export function SignupButton({
   icon,
   iconPosition = "right",
   fullWidth,
-  children = "2週間無料で始める",
+  children = "2週間トライアルではじめる",
   compact,
   analyticsLocation = "signup_button",
 }: Props) {
@@ -104,7 +104,7 @@ export function SignupButton({
   return (
     <Button
       href={CTA_LINKS.signup}
-      external={CTA_LINKS.signup.startsWith("http")}
+      external={false}
       variant={variant}
       size={size}
       className={className}
@@ -112,6 +112,7 @@ export function SignupButton({
       iconPosition={iconPosition}
       fullWidth={fullWidth}
       data-ga-skip-outbound
+      data-ga-skip-cta
       onClick={() => trackSignupClick(analyticsLocation, true)}
     >
       {children}
@@ -134,10 +135,6 @@ export function SignupFooterLink({ className }: { className?: string }) {
   return (
     <a
       href={CTA_LINKS.signup}
-      target={CTA_LINKS.signup.startsWith("http") ? "_blank" : undefined}
-      rel={
-        CTA_LINKS.signup.startsWith("http") ? "noopener noreferrer" : undefined
-      }
       data-ga-skip-outbound
       onClick={() => trackSignupClick("footer", true)}
       className={cn(
@@ -145,7 +142,7 @@ export function SignupFooterLink({ className }: { className?: string }) {
         className,
       )}
     >
-      2週間無料で始める
+      2週間トライアルではじめる
     </a>
   );
 }
@@ -174,19 +171,14 @@ export function SignupFloatingTile({ className }: { className?: string }) {
   return (
     <a
       href={CTA_LINKS.signup}
-      target={CTA_LINKS.signup.startsWith("http") ? "_blank" : undefined}
-      rel={
-        CTA_LINKS.signup.startsWith("http") ? "noopener noreferrer" : undefined
-      }
       data-ga-skip-outbound
       onClick={() => trackSignupClick("floating_cta", true)}
       className={cn(
-        "col-span-2 flex flex-col items-center justify-center rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 px-3 py-2.5 text-center text-white shadow-md shadow-primary-500/30",
+        "col-span-2 flex items-center justify-center rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 px-3 py-2.5 text-center text-sm font-bold text-white shadow-md shadow-primary-500/30",
         className,
       )}
     >
-      <span className="text-[10px] font-medium opacity-90">2週間無料</span>
-      <span className="text-sm font-bold leading-none">いますぐ始める</span>
+      2週間トライアルではじめる
     </a>
   );
 }

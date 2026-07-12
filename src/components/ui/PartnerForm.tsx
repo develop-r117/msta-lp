@@ -4,7 +4,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, ArrowIcon, DownloadIcon } from "@/components/ui/Button";
-import { trackLeadSubmit } from "@/lib/analytics";
+import {
+  trackFormError,
+  trackFormStart,
+  trackLeadSubmit,
+} from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import {
   partnerFormSchema,
@@ -45,6 +49,7 @@ export default function PartnerForm() {
   const onSubmit = async (values: PartnerFormValues) => {
     setStatus("submitting");
     setServerError(null);
+    trackFormStart("partner_document");
     try {
       const res = await fetch("/api/partner-download", {
         method: "POST",
@@ -62,7 +67,9 @@ export default function PartnerForm() {
       });
     } catch (e) {
       setStatus("error");
-      setServerError(e instanceof Error ? e.message : "送信に失敗しました");
+      const message = e instanceof Error ? e.message : "送信に失敗しました";
+      setServerError(message);
+      trackFormError("partner_document", message);
     }
   };
 

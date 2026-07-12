@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { trackFaqToggle } from "@/lib/analytics";
 
 export type AccordionItem = {
   id: string;
@@ -14,10 +15,22 @@ type Props = {
   items: AccordionItem[];
   className?: string;
   initialOpenId?: string;
+  /** GA計測用のカテゴリラベル（例: "faq", "help"） */
+  analyticsCategory?: string;
 };
 
-export default function Accordion({ items, className, initialOpenId }: Props) {
+export default function Accordion({
+  items,
+  className,
+  initialOpenId,
+  analyticsCategory,
+}: Props) {
   const [openId, setOpenId] = useState<string | null>(initialOpenId ?? null);
+
+  const toggle = (item: AccordionItem, open: boolean) => {
+    setOpenId(open ? null : item.id);
+    trackFaqToggle(item.id, open ? "close" : "open", analyticsCategory);
+  };
 
   return (
     <div className={cn("flex flex-col gap-3", className)}>
@@ -34,7 +47,7 @@ export default function Accordion({ items, className, initialOpenId }: Props) {
             <button
               type="button"
               aria-expanded={open}
-              onClick={() => setOpenId(open ? null : item.id)}
+              onClick={() => toggle(item, open)}
               className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left transition-colors hover:bg-neutral-50/60 md:px-6"
             >
               <span className="flex items-center gap-3 text-sm font-semibold text-neutral-900 md:text-base">

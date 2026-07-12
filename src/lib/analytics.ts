@@ -96,3 +96,87 @@ export function trackCtaClick(label: string, location: string): void {
     cta_location: location,
   });
 }
+
+/** フォームの送信試行（送信ボタン押下でバリデーション通過後）。 */
+export function trackFormStart(formId: string): void {
+  trackEvent("form_start", {
+    form_id: formId,
+  });
+}
+
+/** フォーム送信の失敗。エラー要因の把握に使う。 */
+export function trackFormError(formId: string, message?: string): void {
+  trackEvent("form_submit_error", {
+    form_id: formId,
+    error_message: message?.slice(0, 100),
+  });
+}
+
+/** アコーディオン（FAQ等）の開閉。 */
+export function trackFaqToggle(
+  questionId: string,
+  action: "open" | "close",
+  category?: string,
+): void {
+  trackEvent("faq_toggle", {
+    question_id: questionId,
+    toggle_action: action,
+    faq_category: category,
+  });
+}
+
+/** タブUIの切替。 */
+export function trackTabChange(tabGroup: string, tabId: string): void {
+  trackEvent("tab_change", {
+    tab_group: tabGroup,
+    tab_id: tabId,
+  });
+}
+
+/** カルーセルのスライド移動（矢印・ドット・スワイプ共通）。 */
+export function trackCarouselNavigate(carouselId: string, index: number): void {
+  trackEvent("carousel_navigate", {
+    carousel_id: carouselId,
+    slide_index: index,
+  });
+}
+
+/** サイト内検索（ヘルプ・FAQ）。GA4推奨の search イベント。 */
+export function trackSearch(
+  searchTerm: string,
+  resultCount: number,
+  source: string,
+): void {
+  trackEvent("search", {
+    search_term: searchTerm.slice(0, 100),
+    result_count: resultCount,
+    search_source: source,
+  });
+}
+
+/** ページ内セクションへの到達（スクロール到達計測）。 */
+export function trackSectionView(sectionId: string): void {
+  trackEvent("section_view", {
+    section_id: sectionId,
+    page_path: typeof window !== "undefined" ? window.location.pathname : "",
+  });
+}
+
+/** ページのスクロール到達率（25/50/75/90/100%）。 */
+export function trackScrollDepth(percent: number): void {
+  trackEvent("scroll_depth", {
+    percent_scrolled: percent,
+    page_path: typeof window !== "undefined" ? window.location.pathname : "",
+  });
+}
+
+/** ページ単位の滞在時間（ミリ秒）。SPA遷移・タブ非表示・離脱時に送信。 */
+export function trackPageEngagement(
+  path: string,
+  engagementTimeMsec: number,
+): void {
+  trackEvent("page_engagement", {
+    page_path: path,
+    engagement_time_msec: Math.round(engagementTimeMsec),
+  });
+}

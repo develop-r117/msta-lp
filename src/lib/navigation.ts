@@ -129,8 +129,11 @@ export const PRIMARY_NAV: NavGroup[] = [
     label: "サポート",
     audience: "both",
     children: [
-      // ヘルプセンターは一旦非公開化のためコメントアウト
-      // { href: "/help", label: "ヘルプセンター", description: "使い方・運用・トラブル対応" },
+      {
+        href: "/help",
+        label: "ヘルプセンター",
+        description: "使い方・運用・トラブル対応",
+      },
       {
         href: "/faq",
         label: "よくある質問",
@@ -188,8 +191,7 @@ export const FOOTER_SITEMAP: FooterColumn[] = [
   {
     title: "サポート",
     links: [
-      // ヘルプセンターは一旦非公開化のためコメントアウト
-      // { href: "/help", label: "ヘルプセンター" },
+      { href: "/help", label: "ヘルプセンター" },
       { href: "/pricing", label: "料金" },
       { href: "/flow", label: "導入までの流れ" },
       { href: "/faq", label: "よくある質問" },

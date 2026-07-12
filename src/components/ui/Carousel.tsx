@@ -1,8 +1,15 @@
 "use client";
 
 import useEmblaCarousel from "embla-carousel-react";
-import { type ReactNode, useCallback, useEffect, useState } from "react";
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { cn } from "@/lib/cn";
+import { trackCarouselNavigate } from "@/lib/analytics";
 
 type Props = {
   children: ReactNode[];
@@ -11,6 +18,8 @@ type Props = {
   ariaLabel?: string;
   showArrows?: boolean;
   showDots?: boolean;
+  /** GA計測用のカルーセル識別子。未指定時は ariaLabel を使用 */
+  analyticsId?: string;
 };
 
 export default function Carousel({
@@ -20,6 +29,7 @@ export default function Carousel({
   ariaLabel,
   showArrows = true,
   showDots = true,
+  analyticsId,
 }: Props) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
@@ -28,11 +38,18 @@ export default function Carousel({
   });
   const [selected, setSelected] = useState(0);
   const [snaps, setSnaps] = useState<number[]>([]);
+  const lastTrackedIndex = useRef<number | null>(null);
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
-    setSelected(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
+    const index = emblaApi.selectedScrollSnap();
+    setSelected(index);
+    // 初期表示（index 0）は計測せず、矢印・ドット・スワイプによる移動のみ送信する
+    if (lastTrackedIndex.current !== null && lastTrackedIndex.current !== index) {
+      trackCarouselNavigate(analyticsId ?? ariaLabel ?? "carousel", index);
+    }
+    lastTrackedIndex.current = index;
+  }, [emblaApi, analyticsId, ariaLabel]);
 
   useEffect(() => {
     if (!emblaApi) return;

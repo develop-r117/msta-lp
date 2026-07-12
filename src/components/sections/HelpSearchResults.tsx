@@ -1,9 +1,10 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import HelpArticleList from "./HelpArticleList";
 import type { HelpArticle } from "@/lib/content-types";
+import { trackSearch } from "@/lib/analytics";
 
 type Props = {
   allArticles: HelpArticle[];
@@ -23,6 +24,10 @@ export default function HelpSearchResults({ allArticles }: Props) {
         (a.tags ?? []).some((t) => t.toLowerCase().includes(ql)),
     );
   }, [allArticles, q]);
+
+  useEffect(() => {
+    if (q) trackSearch(q, searchHits.length, "help");
+  }, [q, searchHits.length]);
 
   if (!q) return null;
 

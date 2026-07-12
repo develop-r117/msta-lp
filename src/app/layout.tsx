@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import {
   SITE_URL,
   SITE_NAME,
@@ -175,6 +176,7 @@ export default function RootLayout({
   return (
     <html lang="ja" className={notoSansJP.variable}>
       <body className={`${notoSansJP.className} antialiased`}>
+        <GoogleAnalytics />
         {children}
         <script
           type="application/ld+json"
