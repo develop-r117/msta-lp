@@ -1,7 +1,7 @@
 {
   "slug": "build",
   "title": "アプリの作り方",
-  "description": "導線エディタ、モバイルUI設定、AI制作機能の使い方。",
+  "description": "導線エディタ、自由ページ、UI設定、機能設定、アプリ公開の使い方。",
   "iconKey": "build",
   "order": 3
 }
