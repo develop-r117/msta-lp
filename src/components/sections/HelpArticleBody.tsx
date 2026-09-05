@@ -14,13 +14,12 @@ type Props = {
 type TocItem = { id: string; text: string };
 
 /**
- * H2 見出しから目次データを生成。
- * 見出しタグに ID を付与する。
+ * H2 見出しから目次データを生成し、表を横スクロール用にラップする。
  */
-function buildToc(html: string): { html: string; items: TocItem[] } {
+function enhanceArticleHtml(html: string): { html: string; items: TocItem[] } {
   const items: TocItem[] = [];
   let counter = 0;
-  const replaced = html.replace(
+  const withIds = html.replace(
     /<h2(?:\s[^>]*)?>([\s\S]*?)<\/h2>/g,
     (_match, inner: string) => {
       const text = inner.replace(/<[^>]+>/g, "").trim();
@@ -30,14 +29,18 @@ function buildToc(html: string): { html: string; items: TocItem[] } {
       return `<h2 id="${id}">${inner}</h2>`;
     },
   );
-  return { html: replaced, items };
+  const withTables = withIds.replace(
+    /<table[\s\S]*?<\/table>/g,
+    (table) => `<div class="help-table-wrap">${table}</div>`,
+  );
+  return { html: withTables, items };
 }
 
 export default function HelpArticleBody({ article, related }: Props) {
   const [helpful, setHelpful] = useState<"yes" | "no" | null>(null);
 
   const { html, items } = useMemo(
-    () => buildToc(article.body ?? ""),
+    () => enhanceArticleHtml(article.body ?? ""),
     [article.body],
   );
 
@@ -51,18 +54,21 @@ export default function HelpArticleBody({ article, related }: Props) {
         <div className="grid gap-8 lg:grid-cols-12">
           {items.length > 0 ? (
             <aside className="lg:col-span-3">
-              <div className="sticky top-24 rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">
+              <div className="sticky top-24 rounded-2xl border border-neutral-200 bg-neutral-50/80 p-5">
+                <p className="text-[11px] font-bold tracking-[0.16em] text-neutral-500">
                   目次
                 </p>
-                <ol className="mt-3 space-y-2 text-sm text-neutral-700">
+                <ol className="mt-4 space-y-2.5 text-[13px] leading-relaxed text-neutral-600">
                   {items.map((it, i) => (
                     <li key={it.id}>
                       <a
                         href={`#${it.id}`}
-                        className="line-clamp-2 hover:text-primary-700"
+                        className="line-clamp-2 transition-colors hover:text-primary-700"
                       >
-                        {i + 1}. {it.text}
+                        <span className="mr-1.5 font-semibold text-neutral-400">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        {it.text}
                       </a>
                     </li>
                   ))}
@@ -77,13 +83,13 @@ export default function HelpArticleBody({ article, related }: Props) {
               items.length > 0 ? "lg:col-span-9" : "lg:col-span-12",
             )}
           >
-            <p className="text-[11px] font-bold uppercase tracking-widest text-primary-700">
+            <p className="text-[11px] font-bold tracking-[0.18em] text-primary-700">
               {getHelpCategoryTitle(article)}
             </p>
-            <h1 className="mt-2 text-3xl font-bold leading-tight text-neutral-900 md:text-4xl">
+            <h1 className="mt-3 text-[1.75rem] font-bold leading-snug tracking-tight text-neutral-900 md:text-[2rem]">
               {article.title}
             </h1>
-            <p className="mt-3 text-sm leading-relaxed text-neutral-600 md:text-base">
+            <p className="mt-4 text-[0.975rem] leading-[1.85] tracking-[0.02em] text-neutral-600 md:text-base">
               {article.summary}
             </p>
             {article.tags?.length ? (
@@ -100,7 +106,7 @@ export default function HelpArticleBody({ article, related }: Props) {
             ) : null}
 
             <div
-              className="prose prose-neutral mt-8 max-w-none text-neutral-800 [&_h2]:scroll-mt-24 [&_h2]:mt-10 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-neutral-900 [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:pl-5 [&_li]:my-1"
+              className="help-article mt-10 max-w-none border-t border-neutral-100 pt-8"
               dangerouslySetInnerHTML={{ __html: html }}
             />
 
